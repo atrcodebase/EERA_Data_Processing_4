@@ -12,7 +12,7 @@ lc_tool_data_entry <- rbind(
       Related_value = ""
     ) |> 
     select(
-      all_of(meta_cols),
+      any_of(meta_cols),
       Question,
       Old_value,
       Related_question,
@@ -31,7 +31,7 @@ lc_tool_data_entry <- rbind(
       Related_value = ""
     ) |> 
     select(
-      all_of(meta_cols),
+      any_of(meta_cols),
       Question,
       Old_value,
       Related_question,
@@ -50,7 +50,7 @@ lc_tool_data_entry <- rbind(
       Related_value = ""
     ) |> 
     select(
-      all_of(meta_cols),
+      any_of(meta_cols),
       Question,
       Old_value,
       Related_question,
@@ -69,7 +69,7 @@ lc_tool_data_entry <- rbind(
       Related_value = ""
     ) |> 
     select(
-      all_of(meta_cols),
+      any_of(meta_cols),
       Question,
       Old_value,
       Related_question,
@@ -88,7 +88,7 @@ lc_tool_data_entry <- rbind(
       Related_value = ""
     ) |> 
     select(
-      all_of(meta_cols),
+      any_of(meta_cols),
       Question,
       Old_value,
       Related_question,
@@ -107,7 +107,7 @@ lc_tool_data_entry <- rbind(
       Related_value = ""
     ) |> 
     select(
-      all_of(meta_cols),
+      any_of(meta_cols),
       Question,
       Old_value,
       Related_question,
@@ -126,7 +126,7 @@ lc_tool_data_entry <- rbind(
       Related_value = ""
     ) |> 
     select(
-      all_of(meta_cols),
+      any_of(meta_cols),
       Question,
       Old_value,
       Related_question,
@@ -145,7 +145,7 @@ lc_tool_data_entry <- rbind(
       Related_value = ""
     ) |> 
     select(
-      all_of(meta_cols),
+      any_of(meta_cols),
       Question,
       Old_value,
       Related_question,
@@ -164,7 +164,7 @@ lc_tool_data_entry <- rbind(
       Related_value = ""
     ) |> 
     select(
-      all_of(meta_cols),
+      any_of(meta_cols),
       Question,
       Old_value,
       Related_question,
@@ -183,7 +183,7 @@ lc_tool_data_entry <- rbind(
       Related_value = ""
     ) |> 
     select(
-      all_of(meta_cols),
+      any_of(meta_cols),
       Question,
       Old_value,
       Related_question,
@@ -202,7 +202,7 @@ lc_tool_data_entry <- rbind(
       Related_value = ""
     ) |> 
     select(
-      all_of(meta_cols),
+      any_of(meta_cols),
       Question,
       Old_value,
       Related_question,
@@ -221,7 +221,7 @@ lc_tool_data_entry <- rbind(
       Related_value = ""
     ) |> 
     select(
-      all_of(meta_cols),
+      any_of(meta_cols),
       Question,
       Old_value,
       Related_question,
