@@ -1,6 +1,235 @@
 ## Data Entry Logic Checks ------------------------------------------------------
 ## main sheet ---------------------------------------------------------
 lc_tool_data_entry <- rbind(
+  # Flagging for BLANK Meta columns
+  clean_data.tool0$data |>
+    filter(is.na(SubmissionDate)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "SubmissionDate",
+      Old_value = as.character(SubmissionDate),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool0$data |>
+    filter(is.na(starttime)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "starttime",
+      Old_value = as.character(starttime),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool0$data |>
+    filter(is.na(endtime)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "endtime",
+      Old_value = as.character(endtime),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool0$data |>
+    filter(is.na(Site_Visit_ID)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "Site_Visit_ID",
+      Old_value = as.character(Site_Visit_ID),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool0$data |>
+    filter(is.na(Province)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "Province",
+      Old_value = as.character(Province),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool0$data |>
+    filter(is.na(District)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "District",
+      Old_value = as.character(District),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool0$data |>
+    filter(is.na(Region)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "Region",
+      Old_value = as.character(Region),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool0$data |>
+    filter(is.na(Area_Type)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "Area_Type",
+      Old_value = as.character(Area_Type),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool0$data |>
+    filter(is.na(School_CBE_Name)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "School_CBE_Name",
+      Old_value = as.character(School_CBE_Name),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool0$data |>
+    filter(is.na(EMIS_School_ID_CBE_KEY)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "EMIS_School_ID_CBE_KEY",
+      Old_value = as.character(EMIS_School_ID_CBE_KEY),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool0$data |>
+    filter(is.na(Type_Of_School_CBE_Based_On_The_Sample)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "Type_Of_School_CBE_Based_On_The_Sample",
+      Old_value = as.character(Type_Of_School_CBE_Based_On_The_Sample),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool0$data |>
+    filter(is.na(School_CBE_Gender_Based_On_The_Sample)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "School_CBE_Gender_Based_On_The_Sample",
+      Old_value = as.character(School_CBE_Gender_Based_On_The_Sample),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+
   # Flagging duplicated site visit ID - Tool 1
   clean_data.tool0$data |>
     filter(Tool == "Tool 1EERA School Indepth VisitPrincipal Interview") |>
@@ -488,7 +717,7 @@ lc_DE_tool3.grades_repeat <- rbind(
     ),
   
   #Flagging if sum of permanent absent male and female is not equal to total
-  clean_data.tool0$Tool3_Grades_Repeat|>
+  clean_data.tool0$Tool3_Grades_Repeat |>
     mutate(
       absent_m_f_total = rowSums(across(c("Tool3_N_Students_Class_Male_Permanently_Absent","Tool3_N_Students_Class_Female_Permanently_Absent")), na.rm = T)
     ) |>
@@ -864,7 +1093,6 @@ lc_tool1.timetable_year <- rbind(
   mutate(
     tool = "Data Entry" , sheet = "Tool1_Timetable_Year"
   )
-
 
 ## Data Entry Final Output -----------------------------------------------------
 logic_check_data_entry_final <- plyr::rbind.fill(
