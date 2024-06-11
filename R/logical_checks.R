@@ -2117,7 +2117,7 @@ lc_tool3 <- plyr::rbind.fill(
       Related_value = ""
     ) |> 
     select(
-      all_of(meta_cols),
+      any_of(meta_cols),
       Question,
       Old_value,
       Related_question,
@@ -2136,7 +2136,7 @@ lc_tool3 <- plyr::rbind.fill(
       Related_value = ""
     ) |> 
     select(
-      all_of(meta_cols),
+      any_of(meta_cols),
       Question,
       Old_value,
       Related_question,
@@ -2155,7 +2155,7 @@ lc_tool3 <- plyr::rbind.fill(
       Related_value = ""
     ) |> 
     select(
-      all_of(meta_cols),
+      any_of(meta_cols),
       Question,
       Old_value,
       Related_question,
@@ -2174,7 +2174,7 @@ lc_tool3 <- plyr::rbind.fill(
       Related_value = ""
     ) |> 
     select(
-      all_of(meta_cols),
+      any_of(meta_cols),
       Question,
       Old_value,
       Related_question,
@@ -2193,7 +2193,7 @@ lc_tool3 <- plyr::rbind.fill(
       Related_value = ""
     ) |> 
     select(
-      all_of(meta_cols),
+      any_of(meta_cols),
       Question,
       Old_value,
       Related_question,
@@ -2212,7 +2212,7 @@ lc_tool3 <- plyr::rbind.fill(
       Related_value = ""
     ) |> 
     select(
-      all_of(meta_cols),
+      any_of(meta_cols),
       Question,
       Old_value,
       Related_question,
@@ -2231,7 +2231,7 @@ lc_tool3 <- plyr::rbind.fill(
       Related_value = ""
     ) |> 
     select(
-      all_of(meta_cols),
+      any_of(meta_cols),
       Question,
       Old_value,
       Related_question,
@@ -2250,7 +2250,7 @@ lc_tool3 <- plyr::rbind.fill(
       Related_value = ""
     ) |> 
     select(
-      all_of(meta_cols),
+      any_of(meta_cols),
       Question,
       Old_value,
       Related_question,
@@ -2269,7 +2269,7 @@ lc_tool3 <- plyr::rbind.fill(
       Related_value = ""
     ) |> 
     select(
-      all_of(meta_cols),
+      any_of(meta_cols),
       Question,
       Old_value,
       Related_question,
@@ -2288,7 +2288,7 @@ lc_tool3 <- plyr::rbind.fill(
       Related_value = ""
     ) |> 
     select(
-      all_of(meta_cols),
+      any_of(meta_cols),
       Question,
       Old_value,
       Related_question,
@@ -2307,7 +2307,7 @@ lc_tool3 <- plyr::rbind.fill(
       Related_value = ""
     ) |> 
     select(
-      all_of(meta_cols),
+      any_of(meta_cols),
       Question,
       Old_value,
       Related_question,
@@ -2326,7 +2326,7 @@ lc_tool3 <- plyr::rbind.fill(
       Related_value = ""
     ) |> 
     select(
-      all_of(meta_cols),
+      any_of(meta_cols),
       Question,
       Old_value,
       Related_question,
@@ -2346,7 +2346,7 @@ lc_tool3 <- plyr::rbind.fill(
       Related_value = ""
     ) |> 
     select(
-      all_of(meta_cols),
+      any_of(meta_cols),
       Question,
       Old_value,
       Related_question,
@@ -2365,7 +2365,7 @@ lc_tool3 <- plyr::rbind.fill(
       Related_value = ""
     ) |> 
     select(
-      all_of(meta_cols),
+      any_of(meta_cols),
       Question,
       Old_value,
       Related_question,
@@ -3719,26 +3719,6 @@ lc_tool6 <- plyr::rbind.fill(
       Issue
     ),
   
-  
-  clean_data.tool6$data |>
-    filter(is.na(Academic_Year)) |>
-    mutate(
-      Issue = "Blank value!",
-      Question = "Academic_Year",
-      Old_value = as.character(Academic_Year),
-      Related_question = "",
-      Related_value = ""
-    ) |> 
-    select(
-      any_of(meta_cols),
-      Question,
-      Old_value,
-      Related_question,
-      Related_value,
-      KEY,
-      Issue
-    ),
-  
   clean_data.tool6$data |>
     filter(is.na(Visit_Type)) |>
     mutate(
@@ -4135,7 +4115,7 @@ lc_tool6 <- plyr::rbind.fill(
       Related_value = paste0(C4, " | ", C5)
     ) |>
     select(
-      all_of(meta_cols),
+      any_of(meta_cols),
       Question,
       Old_value,
       Related_question,
@@ -4154,7 +4134,7 @@ lc_tool6 <- plyr::rbind.fill(
       Related_value = paste0(C2, " | ", C3)
     ) |>
     select(
-      all_of(meta_cols),
+      any_of(meta_cols),
       Question,
       Old_value,
       Related_question,
@@ -4404,26 +4384,6 @@ lc_tool7 <- plyr::rbind.fill(
       Issue = "Blank value!",
       Question = "School_CBE_Gender_Based_On_The_Sample",
       Old_value = as.character(School_CBE_Gender_Based_On_The_Sample),
-      Related_question = "",
-      Related_value = ""
-    ) |> 
-    select(
-      any_of(meta_cols),
-      Question,
-      Old_value,
-      Related_question,
-      Related_value,
-      KEY,
-      Issue
-    ),
-  
-  
-  clean_data.tool7$data |>
-    filter(is.na(Academic_Year)) |>
-    mutate(
-      Issue = "Blank value!",
-      Question = "Academic_Year",
-      Old_value = as.character(Academic_Year),
       Related_question = "",
       Related_value = ""
     ) |> 
@@ -4942,25 +4902,6 @@ lc_tool8 <- plyr::rbind.fill(
     ),
   
   clean_data.tool8$data |>
-    filter(is.na(Visit_Type)) |>
-    mutate(
-      Issue = "Blank value!",
-      Question = "Visit_Type",
-      Old_value = as.character(Visit_Type),
-      Related_question = "",
-      Related_value = ""
-    ) |> 
-    select(
-      any_of(meta_cols),
-      Question,
-      Old_value,
-      Related_question,
-      Related_value,
-      KEY,
-      Issue
-    ),
-  
-  clean_data.tool8$data |>
     filter(is.na(IP_Name)) |>
     mutate(
       Issue = "Blank value!",
@@ -5444,7 +5385,7 @@ lc_tool9 <- plyr::rbind.fill(
       Related_value = ""
     ) |> 
     select(
-      all_of(meta_cols),
+      any_of(meta_cols),
       Question,
       Old_value,
       Related_question,
@@ -5463,7 +5404,7 @@ lc_tool9 <- plyr::rbind.fill(
       Related_value = ""
     ) |> 
     select(
-      all_of(meta_cols),
+      any_of(meta_cols),
       Question,
       Old_value,
       Related_question,
@@ -5482,7 +5423,7 @@ lc_tool9 <- plyr::rbind.fill(
       Related_value = ""
     ) |> 
     select(
-      all_of(meta_cols),
+      any_of(meta_cols),
       Question,
       Old_value,
       Related_question,
@@ -5501,7 +5442,7 @@ lc_tool9 <- plyr::rbind.fill(
       Related_value = ""
     ) |> 
     select(
-      all_of(meta_cols),
+      any_of(meta_cols),
       Question,
       Old_value,
       Related_question,
@@ -5520,7 +5461,7 @@ lc_tool9 <- plyr::rbind.fill(
       Related_value = ""
     ) |> 
     select(
-      all_of(meta_cols),
+      any_of(meta_cols),
       Question,
       Old_value,
       Related_question,
@@ -5539,7 +5480,7 @@ lc_tool9 <- plyr::rbind.fill(
       Related_value = ""
     ) |> 
     select(
-      all_of(meta_cols),
+      any_of(meta_cols),
       Question,
       Old_value,
       Related_question,
@@ -5558,7 +5499,7 @@ lc_tool9 <- plyr::rbind.fill(
       Related_value = ""
     ) |> 
     select(
-      all_of(meta_cols),
+      any_of(meta_cols),
       Question,
       Old_value,
       Related_question,
@@ -5577,7 +5518,7 @@ lc_tool9 <- plyr::rbind.fill(
       Related_value = ""
     ) |> 
     select(
-      all_of(meta_cols),
+      any_of(meta_cols),
       Question,
       Old_value,
       Related_question,
@@ -5585,84 +5526,7 @@ lc_tool9 <- plyr::rbind.fill(
       KEY,
       Issue
     ),
-  
-  clean_data.tool9$data |>
-    filter(is.na(School_CBE_Name)) |>
-    mutate(
-      Issue = "Blank value!",
-      Question = "School_CBE_Name",
-      Old_value = as.character(School_CBE_Name),
-      Related_question = "",
-      Related_value = ""
-    ) |> 
-    select(
-      all_of(meta_cols),
-      Question,
-      Old_value,
-      Related_question,
-      Related_value,
-      KEY,
-      Issue
-    ),
-  
-  clean_data.tool9$data |>
-    filter(is.na(EMIS_School_ID_CBE_KEY)) |>
-    mutate(
-      Issue = "Blank value!",
-      Question = "EMIS_School_ID_CBE_KEY",
-      Old_value = as.character(EMIS_School_ID_CBE_KEY),
-      Related_question = "",
-      Related_value = ""
-    ) |> 
-    select(
-      all_of(meta_cols),
-      Question,
-      Old_value,
-      Related_question,
-      Related_value,
-      KEY,
-      Issue
-    ),
-  
-  clean_data.tool9$data |>
-    filter(is.na(Type_Of_School_CBE_Based_On_The_Sample)) |>
-    mutate(
-      Issue = "Blank value!",
-      Question = "Type_Of_School_CBE_Based_On_The_Sample",
-      Old_value = as.character(Type_Of_School_CBE_Based_On_The_Sample),
-      Related_question = "",
-      Related_value = ""
-    ) |> 
-    select(
-      all_of(meta_cols),
-      Question,
-      Old_value,
-      Related_question,
-      Related_value,
-      KEY,
-      Issue
-    ),
-  
-  clean_data.tool9$data |>
-    filter(is.na(School_CBE_Gender_Based_On_The_Sample)) |>
-    mutate(
-      Issue = "Blank value!",
-      Question = "School_CBE_Gender_Based_On_The_Sample",
-      Old_value = as.character(School_CBE_Gender_Based_On_The_Sample),
-      Related_question = "",
-      Related_value = ""
-    ) |> 
-    select(
-      all_of(meta_cols),
-      Question,
-      Old_value,
-      Related_question,
-      Related_value,
-      KEY,
-      Issue
-    ),
-  
-  
+
   clean_data.tool9$data |>
     filter(is.na(Academic_Year)) |>
     mutate(
@@ -5673,26 +5537,7 @@ lc_tool9 <- plyr::rbind.fill(
       Related_value = ""
     ) |> 
     select(
-      all_of(meta_cols),
-      Question,
-      Old_value,
-      Related_question,
-      Related_value,
-      KEY,
-      Issue
-    ),
-  
-  clean_data.tool9$data |>
-    filter(is.na(Visit_Type)) |>
-    mutate(
-      Issue = "Blank value!",
-      Question = "Visit_Type",
-      Old_value = as.character(Visit_Type),
-      Related_question = "",
-      Related_value = ""
-    ) |> 
-    select(
-      all_of(meta_cols),
+      any_of(meta_cols),
       Question,
       Old_value,
       Related_question,
@@ -5711,26 +5556,7 @@ lc_tool9 <- plyr::rbind.fill(
       Related_value = ""
     ) |> 
     select(
-      all_of(meta_cols),
-      Question,
-      Old_value,
-      Related_question,
-      Related_value,
-      KEY,
-      Issue
-    ),
-  
-  clean_data.tool9$data |>
-    filter(is.na(Type_of_CBE)) |>
-    mutate(
-      Issue = "Blank value!",
-      Question = "Type_of_CBE",
-      Old_value = as.character(Type_of_CBE),
-      Related_question = "",
-      Related_value = ""
-    ) |> 
-    select(
-      all_of(meta_cols),
+      any_of(meta_cols),
       Question,
       Old_value,
       Related_question,
@@ -5749,7 +5575,7 @@ lc_tool9 <- plyr::rbind.fill(
       Related_value = ""
     ) |> 
     select(
-      all_of(meta_cols),
+      any_of(meta_cols),
       Question,
       Old_value,
       Related_question,
