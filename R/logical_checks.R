@@ -3,6 +3,278 @@ library(glue)
 
 # Logging issues in Tool 1 ------------------------------------------------
 lc_tool1 <- plyr::rbind.fill(
+  # Flagging for BLANK Meta columns
+  clean_data.tool1$data |>
+    filter(is.na(SubmissionDate)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "SubmissionDate",
+      Old_value = as.character(SubmissionDate),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool1$data |>
+    filter(is.na(starttime)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "starttime",
+      Old_value = as.character(starttime),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool1$data |>
+    filter(is.na(endtime)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "endtime",
+      Old_value = as.character(endtime),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool1$data |>
+    filter(is.na(Site_Visit_ID)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "Site_Visit_ID",
+      Old_value = as.character(Site_Visit_ID),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool1$data |>
+    filter(is.na(Province)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "Province",
+      Old_value = as.character(Province),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool1$data |>
+    filter(is.na(District)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "District",
+      Old_value = as.character(District),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool1$data |>
+    filter(is.na(Region)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "Region",
+      Old_value = as.character(Region),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+
+  clean_data.tool1$data |>
+    filter(is.na(Area_Type)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "Area_Type",
+      Old_value = as.character(Area_Type),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool1$data |>
+    filter(is.na(School_CBE_Name)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "School_CBE_Name",
+      Old_value = as.character(School_CBE_Name),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool1$data |>
+    filter(is.na(EMIS_School_ID_CBE_KEY)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "EMIS_School_ID_CBE_KEY",
+      Old_value = as.character(EMIS_School_ID_CBE_KEY),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool1$data |>
+    filter(is.na(Type_Of_School_CBE_Based_On_The_Sample)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "Type_Of_School_CBE_Based_On_The_Sample",
+      Old_value = as.character(Type_Of_School_CBE_Based_On_The_Sample),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool1$data |>
+    filter(is.na(School_CBE_Gender_Based_On_The_Sample)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "School_CBE_Gender_Based_On_The_Sample",
+      Old_value = as.character(School_CBE_Gender_Based_On_The_Sample),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  
+  clean_data.tool1$data |>
+    filter(is.na(Academic_Year)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "Academic_Year",
+      Old_value = as.character(Academic_Year),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool1$data |>
+    filter(is.na(Visit_Type)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "Visit_Type",
+      Old_value = as.character(Visit_Type),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  # End
+  
+  
+  
   # Flagging interview conducted before the first day of data collection
   clean_data.tool1$data |>
     filter(starttime < janitor::convert_to_date(data_collection_start_date_ps)) |> 
@@ -274,6 +546,274 @@ lc_tool1 <- plyr::rbind.fill(
 
 # Logging issues in Tool 2 ------------------------------------------------
 lc_tool2 <- plyr::rbind.fill(
+  # Flagging for BLANK Meta columns
+  clean_data.tool2$data |>
+    filter(is.na(SubmissionDate)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "SubmissionDate",
+      Old_value = as.character(SubmissionDate),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool2$data |>
+    filter(is.na(starttime)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "starttime",
+      Old_value = as.character(starttime),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool2$data |>
+    filter(is.na(endtime)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "endtime",
+      Old_value = as.character(endtime),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool2$data |>
+    filter(is.na(Site_Visit_ID)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "Site_Visit_ID",
+      Old_value = as.character(Site_Visit_ID),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool2$data |>
+    filter(is.na(Province)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "Province",
+      Old_value = as.character(Province),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool2$data |>
+    filter(is.na(District)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "District",
+      Old_value = as.character(District),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool2$data |>
+    filter(is.na(Region)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "Region",
+      Old_value = as.character(Region),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool2$data |>
+    filter(is.na(Area_Type)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "Area_Type",
+      Old_value = as.character(Area_Type),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool2$data |>
+    filter(is.na(School_CBE_Name)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "School_CBE_Name",
+      Old_value = as.character(School_CBE_Name),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool2$data |>
+    filter(is.na(EMIS_School_ID_CBE_KEY)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "EMIS_School_ID_CBE_KEY",
+      Old_value = as.character(EMIS_School_ID_CBE_KEY),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool2$data |>
+    filter(is.na(Type_Of_School_CBE_Based_On_The_Sample)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "Type_Of_School_CBE_Based_On_The_Sample",
+      Old_value = as.character(Type_Of_School_CBE_Based_On_The_Sample),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool2$data |>
+    filter(is.na(School_CBE_Gender_Based_On_The_Sample)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "School_CBE_Gender_Based_On_The_Sample",
+      Old_value = as.character(School_CBE_Gender_Based_On_The_Sample),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  
+  clean_data.tool2$data |>
+    filter(is.na(Academic_Year)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "Academic_Year",
+      Old_value = as.character(Academic_Year),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool2$data |>
+    filter(is.na(Visit_Type)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "Visit_Type",
+      Old_value = as.character(Visit_Type),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  # End
   # Flagging interview conducted before the first day of data collection
   clean_data.tool2$data |>
     filter(starttime < janitor::convert_to_date(data_collection_start_date_ps)) |> 
@@ -674,8 +1214,68 @@ lc_tool2 <- plyr::rbind.fill(
       Related_value,
       KEY,
       Issue
-    )
+    ),
   
+  clean_data.tool2$data |>
+    filter(D1 == "Single" & C15A > 2) |>
+    mutate(
+      Issue = "Can you please confirm the number of headmasters in this school - This flag is only for school with Single shift",
+      Question = "C15A",
+      Old_value = C15A,
+      Related_question = "D1",
+      Related_value = D1
+    ) |>
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  # Headmasters
+  clean_data.tool2$data |>
+    filter(D1 == "Multiple" & C15A == 1) |>
+    mutate(
+      Issue = "Can you please confirm the number of headmasters in this school - This flag is only for school with Multiple shift",
+      Question = "C15A",
+      Old_value = C15A,
+      Related_question = "D1",
+      Related_value = D1
+    ) |>
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool2$data |>
+    filter(D2 %in% c("The school has a deputy teaching manager and headmaster(s) but not a principal",
+                     "The school has a principal and headmaster(s) but not a deputy teaching manager",
+                     "The school has a principal, deputy teaching manager, and headmaster(s)",
+                     "The school has only headmaster(s)") & C15A == 0) |>
+    mutate(
+      Issue = "In question D2 it is reported that school has headmaster but the number of headmaster/s for this school is reported 0 in question C15A",
+      Question = "C15A",
+      Old_value = C15A,
+      Related_question = "D2",
+      Related_value = D2
+    ) |>
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    )
 ) |> 
   mutate(tool = "Tool 2 - Light", sheet = "data", Old_value = as.character(Old_value))
 
@@ -1506,6 +2106,274 @@ lc_tool2.headmaster_operationality_and_other <- plyr::rbind.fill(
 
 # Logging issues in Tool 3 ------------------------------------------------
 lc_tool3 <- plyr::rbind.fill(
+  # Flagging for BLANK Meta columns
+  clean_data.tool3$data |>
+    filter(is.na(SubmissionDate)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "SubmissionDate",
+      Old_value = as.character(SubmissionDate),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool3$data |>
+    filter(is.na(starttime)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "starttime",
+      Old_value = as.character(starttime),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool3$data |>
+    filter(is.na(endtime)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "endtime",
+      Old_value = as.character(endtime),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool3$data |>
+    filter(is.na(Site_Visit_ID)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "Site_Visit_ID",
+      Old_value = as.character(Site_Visit_ID),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool3$data |>
+    filter(is.na(Province)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "Province",
+      Old_value = as.character(Province),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool3$data |>
+    filter(is.na(District)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "District",
+      Old_value = as.character(District),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool3$data |>
+    filter(is.na(Region)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "Region",
+      Old_value = as.character(Region),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool3$data |>
+    filter(is.na(Area_Type)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "Area_Type",
+      Old_value = as.character(Area_Type),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool3$data |>
+    filter(is.na(School_CBE_Name)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "School_CBE_Name",
+      Old_value = as.character(School_CBE_Name),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool3$data |>
+    filter(is.na(EMIS_School_ID_CBE_KEY)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "EMIS_School_ID_CBE_KEY",
+      Old_value = as.character(EMIS_School_ID_CBE_KEY),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool3$data |>
+    filter(is.na(Type_Of_School_CBE_Based_On_The_Sample)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "Type_Of_School_CBE_Based_On_The_Sample",
+      Old_value = as.character(Type_Of_School_CBE_Based_On_The_Sample),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool3$data |>
+    filter(is.na(School_CBE_Gender_Based_On_The_Sample)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "School_CBE_Gender_Based_On_The_Sample",
+      Old_value = as.character(School_CBE_Gender_Based_On_The_Sample),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  
+  clean_data.tool3$data |>
+    filter(is.na(Academic_Year)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "Academic_Year",
+      Old_value = as.character(Academic_Year),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool3$data |>
+    filter(is.na(Visit_Type)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "Visit_Type",
+      Old_value = as.character(Visit_Type),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  # End
   # Flagging interview conducted before the first day of data collection
   clean_data.tool3$data |>
     filter(starttime < janitor::convert_to_date(data_collection_start_date_ps)) |> 
@@ -1698,13 +2566,394 @@ lc_tool3 <- plyr::rbind.fill(
       KEY,
       Issue,
       sheet
+    ),
+  
+  clean_data.tool3$Tool3_Grades_Repeat |>
+    bind_rows(clean_data.tool0$Tool3_Grades_Repeat) |>
+    select(-Tool3_Grades_Field_Label) |>
+    left_join(kobo_tool.tool3$choices |>
+                filter(list_name == "grades") |>
+                rename(Tool3_Grades_Field_Label = label) |>
+                mutate(value = as.integer(value)), by = c("Tool3_Grades_Field_Value" = "value")) |>
+    mutate(
+      key_for_dup = paste0(EMIS_School_ID_CBE_KEY, Tool3_Grades_Field_Label),
+      duplicated_grades = case_when(
+        duplicated(key_for_dup , fromLast = T) | duplicated(key_for_dup, fromLast = F) ~ "Duplicated",
+        TRUE ~ "Okay"
+      )
+    ) |>
+    filter(duplicated_grades == "Duplicated") |>
+    mutate(
+      Issue = "Same grade is reported more than once for same school (in both tools 3 and DE).",
+      Question = "Tool3_Grades_Field_Label",
+      Old_value = Tool3_Grades_Field_Label,
+      Related_question = "EMIS_School_ID_CBE_KEY",
+      Related_value = EMIS_School_ID_CBE_KEY, 
+      sheet = "Tool3_Grades_Repeat"
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue,
+      sheet
+    ) |>
+    arrange(EMIS_School_ID_CBE_KEY, Old_value) |>
+    select(EMIS_School_ID_CBE_KEY, Old_value),
+  
+  # NEW: ARTF comments
+  # Flagging if headcounts do not match with Data Entry Tool
+  clean_data.tool3$Student_Headcount |>
+    mutate(key_join = paste0(EMIS_School_ID_CBE_KEY, E1_Field_Label)) |>
+    left_join(clean_data.tool0$Tool3_T2_Classes_VD |> mutate( key_join = paste0(EMIS_School_ID_CBE_KEY, Tool3_Class_Name_VD)) |>
+                select(Tool3_Headcount_Conducted_Class, Tool3_Headcount_Male, Tool3_Headcount_Female, Tool3_Class_Name_VD, key_join),
+              by = "key_join") |> 
+  filter(is.na(Tool3_Headcount_Male) | is.na(Tool3_Headcount_Female) ) |>
+    mutate(
+      Issue = "The school/class is missing in Data Entry VD sheet",
+      Question = "E3A1",
+      Old_value = E3A1,
+      Related_question = "Tool3_Headcount_Male + Tool3_Headcount_Female (Data Entry)",
+      Related_value = paste0(Tool3_Headcount_Male, " + ", Tool3_Headcount_Female), 
+      sheet = "Student_Headcount"
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue,
+      sheet
+    ),
+  
+  clean_data.tool3$Student_Headcount |>
+    mutate(key_join = paste0(EMIS_School_ID_CBE_KEY, E1_Field_Label)) |>
+    left_join(clean_data.tool0$Tool3_T2_Classes_VD |> mutate( key_join = paste0(EMIS_School_ID_CBE_KEY, Tool3_Class_Name_VD)) |>
+                select(Tool3_Headcount_Conducted_Class, Tool3_Headcount_Male, Tool3_Headcount_Female, key_join),
+              by = "key_join") |> 
+    filter(!is.na(as.numeric(Tool3_Headcount_Female)) & as.numeric(E3A2) != as.numeric(Tool3_Headcount_Female)) |>
+    mutate(
+      Issue = "The number of headcount for female students are different in tool3 and data entry tool",
+      Question = "E3A2",
+      Old_value = E3A2,
+      Related_question = "Tool3_Headcount_Female (Data Entry)",
+      Related_value = Tool3_Headcount_Female, 
+      sheet = "Student_Headcount"
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue,
+      sheet
+    ),
+  
+  clean_data.tool3$Student_Headcount |>
+    mutate(key_join = paste0(EMIS_School_ID_CBE_KEY, E1_Field_Label)) |>
+    left_join(clean_data.tool0$Tool3_T2_Classes_VD |> mutate( key_join = paste0(EMIS_School_ID_CBE_KEY, Tool3_Class_Name_VD)) |>
+                select(Tool3_Headcount_Conducted_Class, Tool3_Headcount_Male, Tool3_Headcount_Female, key_join),
+              by = "key_join") |> 
+    filter(!is.na(as.numeric(Tool3_Headcount_Male)) & as.numeric(E3A1) != as.numeric(Tool3_Headcount_Male)) |>
+    mutate(
+      Issue = "The number of headcount for male students are different in tool3 and data entry tool",
+      Question = "E3A1",
+      Old_value = E3A1,
+      Related_question = "Tool3_Headcount_Male (Data Entry)",
+      Related_value = Tool3_Headcount_Male, 
+      sheet = "Student_Headcount"
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue,
+      sheet
     )
-  ) |> 
+) |>
   mutate(tool = "Tool 3 - Headcount", Old_value = as.character(Old_value))
 
 
 # Logging issues in Tool 4 ------------------------------------------------
 lc_tool4 <- plyr::rbind.fill(
+  # Flagging for BLANK Meta columns
+  clean_data.tool4$data |>
+    filter(is.na(SubmissionDate)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "SubmissionDate",
+      Old_value = as.character(SubmissionDate),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool4$data |>
+    filter(is.na(starttime)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "starttime",
+      Old_value = as.character(starttime),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool4$data |>
+    filter(is.na(endtime)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "endtime",
+      Old_value = as.character(endtime),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool4$data |>
+    filter(is.na(Site_Visit_ID)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "Site_Visit_ID",
+      Old_value = as.character(Site_Visit_ID),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool4$data |>
+    filter(is.na(Province)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "Province",
+      Old_value = as.character(Province),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool4$data |>
+    filter(is.na(District)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "District",
+      Old_value = as.character(District),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool4$data |>
+    filter(is.na(Region)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "Region",
+      Old_value = as.character(Region),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool4$data |>
+    filter(is.na(Area_Type)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "Area_Type",
+      Old_value = as.character(Area_Type),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool4$data |>
+    filter(is.na(School_CBE_Name)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "School_CBE_Name",
+      Old_value = as.character(School_CBE_Name),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool4$data |>
+    filter(is.na(EMIS_School_ID_CBE_KEY)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "EMIS_School_ID_CBE_KEY",
+      Old_value = as.character(EMIS_School_ID_CBE_KEY),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool4$data |>
+    filter(is.na(Type_Of_School_CBE_Based_On_The_Sample)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "Type_Of_School_CBE_Based_On_The_Sample",
+      Old_value = as.character(Type_Of_School_CBE_Based_On_The_Sample),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool4$data |>
+    filter(is.na(School_CBE_Gender_Based_On_The_Sample)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "School_CBE_Gender_Based_On_The_Sample",
+      Old_value = as.character(School_CBE_Gender_Based_On_The_Sample),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  
+  clean_data.tool4$data |>
+    filter(is.na(Academic_Year)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "Academic_Year",
+      Old_value = as.character(Academic_Year),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool4$data |>
+    filter(is.na(Visit_Type)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "Visit_Type",
+      Old_value = as.character(Visit_Type),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  # End
   # Flagging interview conducted before the first day of data collection
   clean_data.tool4$data |>
     filter(starttime < janitor::convert_to_date(data_collection_start_date_ps)) |> 
@@ -1759,13 +3008,363 @@ lc_tool4 <- plyr::rbind.fill(
       Related_value,
       KEY,
       Issue
+    ),
+  
+  clean_data.tool4$data |>
+    filter(F12_Subjects_Not_Being_Taught_1 == 1) |>
+    mutate(
+      Issue = "Please confirm that 'Islamic Studies' subject is not being taught!",
+      Question = "F12_Subjects_Not_Being_Taught_1",
+      Old_value = F12_Subjects_Not_Being_Taught_1,
+      Related_question = "",
+      Related_value = ""
+    ) |>
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool4$data |>
+    filter(G4_Minutes >= 120) |>
+    mutate(
+      Issue = "Please confirm the duration it takes to get to school!",
+      Question = "G4_Minutes",
+      Old_value = G4_Minutes,
+      Related_question = "",
+      Related_value = ""
+    ) |>
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool4$data |>
+    filter(F2_N >= 6) |>
+    mutate(
+      Issue = "Please confirm the number of additional subjects being taught at present!",
+      Question = "F2_N",
+      Old_value = F2_N,
+      Related_question = "",
+      Related_value = ""
+    ) |>
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
     )
 ) |> 
   mutate(tool = "Tool 4 - Teacher", sheet = "data", Old_value = as.character(Old_value))
 
+lc_tool4.add_subj <- plyr::rbind.fill(
+  clean_data.tool4$Additional_Subjects |>
+    mutate(
+      key_for_dup = paste0(EMIS_School_ID_CBE_KEY, F2_Subject_Name)
+    ) |>
+    filter(duplicated(key_for_dup, fromLast = T) | duplicated(key_for_dup, fromLast = F)) |>
+    mutate(
+      Issue = "The subject name is reported more than once for same school!",
+      Question = "F2_Subject_Name",
+      Old_value = F2_Subject_Name,
+      Related_question = "EMIS_School_ID_CBE_KEY",
+      Related_value = EMIS_School_ID_CBE_KEY
+    ) |>
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    )
+) |> 
+  mutate(tool = "Tool 4 - Teacher", sheet = "Additional_Subjects", Old_value = as.character(Old_value))
+
 
 # Logging issues in Tool 5 ------------------------------------------------
 lc_tool5 <- plyr::rbind.fill(
+  # Flagging for BLANK Meta columns
+  clean_data.tool5$data |>
+    filter(is.na(SubmissionDate)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "SubmissionDate",
+      Old_value = as.character(SubmissionDate),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool5$data |>
+    filter(is.na(starttime)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "starttime",
+      Old_value = as.character(starttime),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool5$data |>
+    filter(is.na(endtime)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "endtime",
+      Old_value = as.character(endtime),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool5$data |>
+    filter(is.na(Site_Visit_ID)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "Site_Visit_ID",
+      Old_value = as.character(Site_Visit_ID),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool5$data |>
+    filter(is.na(Province)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "Province",
+      Old_value = as.character(Province),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool5$data |>
+    filter(is.na(District)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "District",
+      Old_value = as.character(District),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool5$data |>
+    filter(is.na(Region)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "Region",
+      Old_value = as.character(Region),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool5$data |>
+    filter(is.na(Area_Type)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "Area_Type",
+      Old_value = as.character(Area_Type),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool5$data |>
+    filter(is.na(School_CBE_Name)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "School_CBE_Name",
+      Old_value = as.character(School_CBE_Name),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool5$data |>
+    filter(is.na(EMIS_School_ID_CBE_KEY)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "EMIS_School_ID_CBE_KEY",
+      Old_value = as.character(EMIS_School_ID_CBE_KEY),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool5$data |>
+    filter(is.na(Type_Of_School_CBE_Based_On_The_Sample)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "Type_Of_School_CBE_Based_On_The_Sample",
+      Old_value = as.character(Type_Of_School_CBE_Based_On_The_Sample),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool5$data |>
+    filter(is.na(School_CBE_Gender_Based_On_The_Sample)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "School_CBE_Gender_Based_On_The_Sample",
+      Old_value = as.character(School_CBE_Gender_Based_On_The_Sample),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  
+  clean_data.tool5$data |>
+    filter(is.na(Academic_Year)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "Academic_Year",
+      Old_value = as.character(Academic_Year),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool5$data |>
+    filter(is.na(Visit_Type)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "Visit_Type",
+      Old_value = as.character(Visit_Type),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  # End
   # Flagging interview conducted before the first day of data collection
   clean_data.tool5$data |>
     filter(starttime < janitor::convert_to_date(data_collection_start_date_cbe)) |> 
@@ -1845,12 +3444,320 @@ lc_tool5 <- plyr::rbind.fill(
       Related_value,
       KEY,
       Issue
+    ),
+  
+  clean_data.tool5$data |>
+    filter(C9_3 == 0) |> 
+    mutate(
+      Issue = "Please confirm the overall number of Unisex latrines.",
+      Question = "C9_3",
+      Old_value = as.character(C9_3),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
     )
+  
+  
 ) |> 
   mutate(tool = "Tool 5 - WASH", sheet = "data", Old_value = as.character(Old_value))
 
 # Logging issues in Tool 6 ------------------------------------------------
 lc_tool6 <- plyr::rbind.fill(
+  # Flagging for BLANK Meta columns
+  clean_data.tool6$data |>
+    filter(is.na(Sample_Type)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "Sample_Type",
+      Old_value = as.character(Sample_Type),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool6$data |>
+    filter(is.na(SubmissionDate)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "SubmissionDate",
+      Old_value = as.character(SubmissionDate),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool6$data |>
+    filter(is.na(starttime)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "starttime",
+      Old_value = as.character(starttime),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool6$data |>
+    filter(is.na(endtime)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "endtime",
+      Old_value = as.character(endtime),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool6$data |>
+    filter(is.na(Site_Visit_ID)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "Site_Visit_ID",
+      Old_value = as.character(Site_Visit_ID),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool6$data |>
+    filter(is.na(Province)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "Province",
+      Old_value = as.character(Province),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool6$data |>
+    filter(is.na(District)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "District",
+      Old_value = as.character(District),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool6$data |>
+    filter(is.na(Region)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "Region",
+      Old_value = as.character(Region),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool6$data |>
+    filter(is.na(Area_Type)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "Area_Type",
+      Old_value = as.character(Area_Type),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool6$data |>
+    filter(is.na(School_CBE_Name)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "School_CBE_Name",
+      Old_value = as.character(School_CBE_Name),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool6$data |>
+    filter(is.na(EMIS_School_ID_CBE_KEY)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "EMIS_School_ID_CBE_KEY",
+      Old_value = as.character(EMIS_School_ID_CBE_KEY),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool6$data |>
+    filter(is.na(Type_Of_School_CBE_Based_On_The_Sample)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "Type_Of_School_CBE_Based_On_The_Sample",
+      Old_value = as.character(Type_Of_School_CBE_Based_On_The_Sample),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool6$data |>
+    filter(is.na(School_CBE_Gender_Based_On_The_Sample)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "School_CBE_Gender_Based_On_The_Sample",
+      Old_value = as.character(School_CBE_Gender_Based_On_The_Sample),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  
+  clean_data.tool6$data |>
+    filter(is.na(Academic_Year)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "Academic_Year",
+      Old_value = as.character(Academic_Year),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool6$data |>
+    filter(is.na(Visit_Type)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "Visit_Type",
+      Old_value = as.character(Visit_Type),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  # End
   # Flagging interview conducted before the first day of data collection - Public School
   clean_data.tool6$data |>
     filter(Sample_Type == "Public School" & starttime < janitor::convert_to_date(data_collection_start_date_ps)) |> 
@@ -1944,6 +3851,25 @@ lc_tool6 <- plyr::rbind.fill(
     filter(B3 <= 1 | is.na(B3)) |>
     mutate(
       Issue = "The Household size is reported less than or equal to 1!",
+      Question = "B3",
+      Old_value = B3,
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool6$data |>
+    filter(B3 >= 40) |>
+    mutate(
+      Issue = "The Household size is reported a bit large - please confirm the value!",
       Question = "B3",
       Old_value = B3,
       Related_question = "",
@@ -2117,7 +4043,7 @@ lc_tool6 <- plyr::rbind.fill(
       Related_value,
       KEY,
       Issue
-    )
+    ),
   
   # Flagging if reported that it is Safer to traveling to/from school, but also reported his/her girl is extremely vulnerable to traveling to/from school
   # clean_data.tool6$data |>
@@ -2199,13 +4125,338 @@ lc_tool6 <- plyr::rbind.fill(
   #     KEY,
   #     Issue
   #   )
+  clean_data.tool6$data |>
+    filter(C9 == "Increased" & (C4 %in% c("Few", "None") | C5 %in% c("Few", "None"))) |>
+    mutate(
+      Issue = "It is reported that the attendance of female students has increased but also reported None/Few as the estimation of girls attendance in the community in questions C4 Or C5",
+      Question = "C9",
+      Old_value = C9,
+      Related_question = "C4 | C5",
+      Related_value = paste0(C4, " | ", C5)
+    ) |>
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool6$data |>
+    filter(C6 == "Increased" & (C2 %in% c("Few", "None") | C3 %in% c("Few", "None"))) |>
+    mutate(
+      Issue = "It is reported that the attendance of male students has increased but also reported None/Few as the estimation of boys attendance in the community in questions C2 Or C3",
+      Question = "C6",
+      Old_value = C6,
+      Related_question = "C2 | C3",
+      Related_value = paste0(C2, " | ", C3)
+    ) |>
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    )
+  
 ) |> 
   mutate(tool = "Tool 6 - Parent", sheet = "data", Old_value = as.character(Old_value))
 
 
 # Logging issues in Tool 7 ------------------------------------------------
-# Flagging interview conducted before the first day of data collection - Public School
 lc_tool7 <- plyr::rbind.fill(
+  # Flagging for BLANK Meta columns
+  clean_data.tool7$data |>
+    filter(is.na(Sample_Type)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "Sample_Type",
+      Old_value = as.character(Sample_Type),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool7$data |>
+    filter(is.na(SubmissionDate)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "SubmissionDate",
+      Old_value = as.character(SubmissionDate),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool7$data |>
+    filter(is.na(starttime)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "starttime",
+      Old_value = as.character(starttime),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool7$data |>
+    filter(is.na(endtime)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "endtime",
+      Old_value = as.character(endtime),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool7$data |>
+    filter(is.na(Site_Visit_ID)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "Site_Visit_ID",
+      Old_value = as.character(Site_Visit_ID),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool7$data |>
+    filter(is.na(Province)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "Province",
+      Old_value = as.character(Province),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool7$data |>
+    filter(is.na(District)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "District",
+      Old_value = as.character(District),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool7$data |>
+    filter(is.na(Region)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "Region",
+      Old_value = as.character(Region),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool7$data |>
+    filter(is.na(Area_Type)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "Area_Type",
+      Old_value = as.character(Area_Type),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool7$data |>
+    filter(is.na(School_CBE_Name)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "School_CBE_Name",
+      Old_value = as.character(School_CBE_Name),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool7$data |>
+    filter(is.na(EMIS_School_ID_CBE_KEY)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "EMIS_School_ID_CBE_KEY",
+      Old_value = as.character(EMIS_School_ID_CBE_KEY),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool7$data |>
+    filter(is.na(Type_Of_School_CBE_Based_On_The_Sample)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "Type_Of_School_CBE_Based_On_The_Sample",
+      Old_value = as.character(Type_Of_School_CBE_Based_On_The_Sample),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool7$data |>
+    filter(is.na(School_CBE_Gender_Based_On_The_Sample)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "School_CBE_Gender_Based_On_The_Sample",
+      Old_value = as.character(School_CBE_Gender_Based_On_The_Sample),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  
+  clean_data.tool7$data |>
+    filter(is.na(Academic_Year)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "Academic_Year",
+      Old_value = as.character(Academic_Year),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool7$data |>
+    filter(is.na(Visit_Type)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "Visit_Type",
+      Old_value = as.character(Visit_Type),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  # End
+  # Flagging interview conducted before the first day of data collection - Public School
   clean_data.tool7$data |>
     filter(Sample_Type == "Public School" & starttime < janitor::convert_to_date(data_collection_start_date_ps)) |> 
     mutate(
@@ -2391,6 +4642,25 @@ lc_tool7 <- plyr::rbind.fill(
       Related_value,
       KEY,
       Issue
+    ),
+  
+  clean_data.tool7$data |>
+    filter(E7 == "Using none of the same books") |>
+    mutate(
+      Issue = "Please confirm the value 'Using none of the same books'",
+      Question = "E7",
+      Old_value = as.character(E7),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
     )
 ) |> 
   mutate(tool = "Tool 7 - Shura", sheet = "data", Old_value = as.character(Old_value))
@@ -2421,8 +4691,333 @@ lc_tool7.list_members <- plyr::rbind.fill(
 
 
 # Logging issues in Tool 8 ------------------------------------------------
-
 lc_tool8 <- plyr::rbind.fill(
+  # Flagging for BLANK Meta columns
+  clean_data.tool8$data |>
+    filter(is.na(SubmissionDate)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "SubmissionDate",
+      Old_value = as.character(SubmissionDate),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool8$data |>
+    filter(is.na(starttime)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "starttime",
+      Old_value = as.character(starttime),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool8$data |>
+    filter(is.na(endtime)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "endtime",
+      Old_value = as.character(endtime),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool8$data |>
+    filter(is.na(Site_Visit_ID)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "Site_Visit_ID",
+      Old_value = as.character(Site_Visit_ID),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool8$data |>
+    filter(is.na(Province)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "Province",
+      Old_value = as.character(Province),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool8$data |>
+    filter(is.na(District)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "District",
+      Old_value = as.character(District),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool8$data |>
+    filter(is.na(Region)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "Region",
+      Old_value = as.character(Region),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool8$data |>
+    filter(is.na(Area_Type)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "Area_Type",
+      Old_value = as.character(Area_Type),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool8$data |>
+    filter(is.na(School_CBE_Name)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "School_CBE_Name",
+      Old_value = as.character(School_CBE_Name),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool8$data |>
+    filter(is.na(EMIS_School_ID_CBE_KEY)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "EMIS_School_ID_CBE_KEY",
+      Old_value = as.character(EMIS_School_ID_CBE_KEY),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool8$data |>
+    filter(is.na(Type_Of_School_CBE_Based_On_The_Sample)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "Type_Of_School_CBE_Based_On_The_Sample",
+      Old_value = as.character(Type_Of_School_CBE_Based_On_The_Sample),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool8$data |>
+    filter(is.na(School_CBE_Gender_Based_On_The_Sample)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "School_CBE_Gender_Based_On_The_Sample",
+      Old_value = as.character(School_CBE_Gender_Based_On_The_Sample),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  
+  clean_data.tool8$data |>
+    filter(is.na(Academic_Year)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "Academic_Year",
+      Old_value = as.character(Academic_Year),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool8$data |>
+    filter(is.na(Visit_Type)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "Visit_Type",
+      Old_value = as.character(Visit_Type),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool8$data |>
+    filter(is.na(IP_Name)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "IP_Name",
+      Old_value = as.character(IP_Name),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool8$data |>
+    filter(is.na(Type_of_CBE)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "Type_of_CBE",
+      Old_value = as.character(Type_of_CBE),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool8$data |>
+    filter(is.na(Entity_Type)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "Entity_Type",
+      Old_value = as.character(Entity_Type),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  # End
+  
   # Flagging interview conducted before the first day of data collection
   clean_data.tool8$data |>
     filter(starttime < janitor::convert_to_date(data_collection_start_date_cbe)) |> 
@@ -2670,6 +5265,63 @@ lc_tool8 <- plyr::rbind.fill(
       Related_value,
       KEY,
       Issue
+    ),
+  
+  clean_data.tool8$data|>
+    filter(V16 %in% c("No", "I don’t know")) |>
+    mutate(
+      Issue = "Please confirm the value",
+      Question = "V16",
+      Old_value = as.character(V16),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool8$data|>
+    filter(V11 %in% c("No")) |>
+    mutate(
+      Issue = "Please confirm the value",
+      Question = "V11",
+      Old_value = as.character(V11),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool8$data|>
+    filter(V1 %in% c("No")) |>
+    mutate(
+      Issue = "Please confirm the value",
+      Question = "V1",
+      Old_value = as.character(V1),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
     )
 ) |> 
   mutate(tool = "Tool 8 - Class", sheet = "data", Old_value = as.character(Old_value))
@@ -2781,6 +5433,331 @@ lc_tool8.v_list_member <- plyr::rbind.fill(
 
 # Logging issues in Tool 9 ------------------------------------------------
 lc_tool9 <- plyr::rbind.fill(
+  # Flagging for BLANK Meta columns
+  clean_data.tool9$data |>
+    filter(is.na(SubmissionDate)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "SubmissionDate",
+      Old_value = as.character(SubmissionDate),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool9$data |>
+    filter(is.na(starttime)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "starttime",
+      Old_value = as.character(starttime),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool9$data |>
+    filter(is.na(endtime)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "endtime",
+      Old_value = as.character(endtime),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool9$data |>
+    filter(is.na(Site_Visit_ID)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "Site_Visit_ID",
+      Old_value = as.character(Site_Visit_ID),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool9$data |>
+    filter(is.na(Province)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "Province",
+      Old_value = as.character(Province),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool9$data |>
+    filter(is.na(District)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "District",
+      Old_value = as.character(District),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool9$data |>
+    filter(is.na(Region)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "Region",
+      Old_value = as.character(Region),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool9$data |>
+    filter(is.na(Area_Type)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "Area_Type",
+      Old_value = as.character(Area_Type),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool9$data |>
+    filter(is.na(School_CBE_Name)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "School_CBE_Name",
+      Old_value = as.character(School_CBE_Name),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool9$data |>
+    filter(is.na(EMIS_School_ID_CBE_KEY)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "EMIS_School_ID_CBE_KEY",
+      Old_value = as.character(EMIS_School_ID_CBE_KEY),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool9$data |>
+    filter(is.na(Type_Of_School_CBE_Based_On_The_Sample)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "Type_Of_School_CBE_Based_On_The_Sample",
+      Old_value = as.character(Type_Of_School_CBE_Based_On_The_Sample),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool9$data |>
+    filter(is.na(School_CBE_Gender_Based_On_The_Sample)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "School_CBE_Gender_Based_On_The_Sample",
+      Old_value = as.character(School_CBE_Gender_Based_On_The_Sample),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  
+  clean_data.tool9$data |>
+    filter(is.na(Academic_Year)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "Academic_Year",
+      Old_value = as.character(Academic_Year),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool9$data |>
+    filter(is.na(Visit_Type)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "Visit_Type",
+      Old_value = as.character(Visit_Type),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool9$data |>
+    filter(is.na(IP_Name)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "IP_Name",
+      Old_value = as.character(IP_Name),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool9$data |>
+    filter(is.na(Type_of_CBE)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "Type_of_CBE",
+      Old_value = as.character(Type_of_CBE),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool9$data |>
+    filter(is.na(Entity_Type)) |>
+    mutate(
+      Issue = "Blank value!",
+      Question = "Entity_Type",
+      Old_value = as.character(Entity_Type),
+      Related_question = "",
+      Related_value = ""
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  # End
   # Flagging interview conducted before the first day of data collection
   clean_data.tool9$data |>
     filter(starttime < janitor::convert_to_date(data_collection_start_date_cbe)) |> 
@@ -2880,6 +5857,7 @@ Logic_check_result <- plyr::rbind.fill(
   lc_tool2,
   lc_tool3,
   lc_tool4,
+  lc_tool4.add_subj,
   lc_tool5,
   lc_tool6,
   lc_tool7,
