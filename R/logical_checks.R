@@ -2601,8 +2601,7 @@ lc_tool3 <- plyr::rbind.fill(
       Issue,
       sheet
     ) |>
-    arrange(EMIS_School_ID_CBE_KEY, Old_value) |>
-    select(EMIS_School_ID_CBE_KEY, Old_value),
+    arrange(EMIS_School_ID_CBE_KEY, Old_value),
   
   # NEW: ARTF comments
   # Flagging if headcounts do not match with Data Entry Tool
