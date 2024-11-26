@@ -249,11 +249,12 @@ correction_log_cbe <- correction_log_cbe %>%
 # Detailed Check log ------------------------------------------------------
 detailed_check_log <- read_sheet(qa_sheet_url_ps, sheet = "Detailed_Check")
 
-photo_status <- detailed_check_log %>% 
-  filter(Check_Type == "image" & `QA Status` == "Approved" & !is.na(Check_Status))
+photo_status_ps <- detailed_check_log %>% 
+  filter(Check_Type == "image" & `QA Status` == "Approved" & !is.na(Check_Status) & Sample_Type == "Public School")
 
-# table(detailed_check_log$`QA Status`, useNA = "always")
-# table(photo_status$, useNA = "always")
+photo_status_cbe <- detailed_check_log %>% 
+  filter(Check_Type == "image" & `QA Status` == "Approved" & !is.na(Check_Status) & Sample_Type == "CBE")
+
 
 # convert numeric dates to date and time formats -------------------------- DONE
 source("R/convert_numbers_to_date_time.R")
@@ -264,10 +265,10 @@ if(nrow(correction_log_ps) > 0 | nrow(correction_log_cbe) > 0) { source("R/apply
 
 
 # Apply Photo status log -------------------------------------------------- Done
-if(nrow(photo_status) > 0){ file.edit("R/update_photo_status.R") }
+if(nrow(photo_status_ps) > 0 | nrow(photo_status_cbe) > 0){ source("R/update_photo_status.R") }
 
 
-# Remove the rejected and pilot interviews -------------------------------- must be relocated
+# Remove the rejected and pilot interviews -------------------------------- Done
 source("R/remove_rejected_interviews.R")
 
 
