@@ -285,11 +285,11 @@ source("R/fix_select_multiple_questions.R")
 
 
 # Check repeat sheet count ------------------------------------------------ DONE
-source("R/check_repeat_sheet_counts.R")
+# source("R/check_repeat_sheet_counts.R")
 
 
 # missing translations (for QA)-------------------------------------------- DONE
-source("R/create_translation_log.R")
+# source("R/create_translation_log.R")
 
 
 # missing qa (for QA)------------------------------------------------------ S
@@ -297,11 +297,11 @@ source("R/create_translation_log.R")
 
 
 # Check select multiple variables ----------------------------------------- DONE
-source("R/check_select_multiple_questions.R")
+# source("R/check_select_multiple_questions.R")
 
 
 # re-calculate the calculated variables and compare any changes not applied - NOT
-source("R/calculate_cols_check.R") 
+# source("R/calculate_cols_check.R") 
 
 
 # Outlier Check ----------------------------------------------------------- NOT
@@ -313,7 +313,7 @@ source("R/check_relevancies.R")
 
 
 # Check the responses with the tool --------------------------------------- DONE - must be checked
-source("R/compare_df_values_with_tool.R")
+# source("R/compare_df_values_with_tool.R")
 
 
 # attach value labels  ---------------------------------------------------------
@@ -321,7 +321,7 @@ source("R/attach_labels.R")
 
 
 # Logical inconsistencies ------------------------------------------------- NOT
-source("R/logical_checks.R")
+# source("R/logical_checks.R")
 
 
 # remove extra columns  -------------------------------------------- Value Remaining
@@ -329,11 +329,11 @@ source("R/remove_extra_columns.R")
 
 
 # attach labels to calculates cols ---------------------------------------- DONE
-source("R/attach_calculate_label.R")
+# source("R/attach_calculate_label.R")
 
 
 # change 7777, 8888, 9999 to Labels  -------------------------------------- NOT
-source("R/recode_to_na.R")
+# source("R/recode_to_na.R")
 
 
 # export data sets and issues --------------------------------------------- DONE
