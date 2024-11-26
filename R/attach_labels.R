@@ -25,14 +25,14 @@ tool8_path = "./input/tools/Tool 8.EERA CBE - Class Level Tool - R4.xlsx"
 tool9_path = "./input/tools/Tool 9.EERA CBE - IP Level Tool - R4.xlsx"
 
 # Tool 0 ------------------------------------------------------------------
-for(sheet in names(clean_data.tool0)){
-  clean_data.tool0[[sheet]] <- labeler(
-    data = clean_data.tool0[[sheet]],
-    tool = tool0_path,
-    survey_label = "label",
-    choice_lable = "label"
-  )
-}
+# for(sheet in names(clean_data.tool0)){
+#   clean_data.tool0[[sheet]] <- labeler(
+#     data = clean_data.tool0[[sheet]],
+#     tool = tool0_path,
+#     survey_label = "label",
+#     choice_lable = "label"
+#   )
+# }
 
 # Tool 1 ------------------------------------------------------------------
 for(sheet in names(clean_data.tool1)){
