@@ -35,8 +35,6 @@ form_names_cbe <- unique(correction_log_cbe$tool) |> na.omit()
 # Reviewing the correction log ------------------------------------------------- Public School
 # Identify correction log's issue
 correction_log_issues_ps <- correction_log_ps |>
-  # Remove the filter for the last runs
-  # filter(!is.na(KEY) & !is.na(question)) |>
   mutate(
     issue = case_when(
       # general checks
@@ -52,7 +50,7 @@ correction_log_issues_ps <- correction_log_ps |>
       tool == "Tool 5 - WASH" & !Tab_Name %in% names(raw_data.tool5) ~ "Wrong Tab/Sheet name, please provide the correct Tab name",
       tool == "Tool 6 - Parent" & !Tab_Name %in% names(raw_data.tool6) ~ "Wrong Tab/Sheet name, please provide the correct Tab name",
       tool == "Tool 7 - Shura" & !Tab_Name %in% names(raw_data.tool7) ~ "Wrong Tab/Sheet name, please provide the correct Tab name",
-      # tool == "Tool 0 - Data Entry" & !Tab_Name %in% names(raw_data.tool0) ~ "Wrong Tab/Sheet name, please provide the correct Tab name",
+      tool == "Tool 0 - Data Entry" & !Tab_Name %in% names(raw_data.tool0) ~ "Wrong Tab/Sheet name, please provide the correct Tab name",
       duplicated(paste0(KEY, question), fromLast = T) | duplicated(paste0(KEY, question), fromLast = F) ~ "Duplicate log records, please solve the duplication.",
       TRUE ~ NA_character_
     ),
@@ -65,7 +63,7 @@ correction_log_issues_ps <- correction_log_ps |>
   select(KEY, question, old_value, new_value, issue, tool, Tab_Name, Sample_Type)
 
 # Log incorrect sheet name and UUIDs
-# correction_log_issues_ps <- correction_log_issues_ps |> check_logs_for_df(df = raw_data.tool0, tool_name = "Tool 0 - Data Entry", deleted_keys = deleted_keys_ps)
+correction_log_issues_ps <- correction_log_issues_ps |> check_logs_for_df(df = raw_data.tool0, tool_name = "Tool 0 - Data Entry", deleted_keys = deleted_keys_ps)
 correction_log_issues_ps <- correction_log_issues_ps |> check_logs_for_df(df = raw_data.tool1, tool_name = "Tool 1 - Headmaster", deleted_keys = deleted_keys_ps)
 correction_log_issues_ps <- correction_log_issues_ps |> check_logs_for_df(df = raw_data.tool2, tool_name = "Tool 2 - Light", deleted_keys = deleted_keys_ps)
 correction_log_issues_ps <- correction_log_issues_ps |> check_logs_for_df(df = raw_data.tool3, tool_name = "Tool 3 - Headcount", deleted_keys = deleted_keys_ps)
@@ -86,8 +84,6 @@ correction_log_issues_ps <- correction_log_issues_ps |>
 # Reviewing the correction log ------------------------------------------------- CBE
 # Identify correction log's issue
 correction_log_issues_cbe <- correction_log_cbe |>
-  # Remove the filter for the last runs
-  # filter(!is.na(KEY) & !is.na(question)) |>
   mutate(
     issue = case_when(
       # general checks
@@ -128,7 +124,7 @@ correction_log_issues_cbe <- correction_log_issues_cbe |>
 
 
 # Clone Sheets for log apply verification -------------------------------------
-# clean_data.tool0 <- raw_data.tool0
+clean_data.tool0 <- raw_data.tool0
 clean_data.tool1 <- raw_data.tool1
 clean_data.tool2 <- raw_data.tool2
 clean_data.tool3 <- raw_data.tool3
@@ -141,10 +137,10 @@ clean_data.tool9 <- raw_data.tool9
 
 # Apply logs -------------------------------------------------------------------
 # Tool 0
-# for(sheet in names(clean_data.tool0)){
-#   # Apply Log
-#   clean_data.tool0[[sheet]] <- apply_log(data=clean_data.tool0[[sheet]], log = filter(correction_log_ready_ps, tool == "Tool 0 - Data Entry" & Tab_Name == sheet))
-# }
+for(sheet in names(clean_data.tool0)){
+  # Apply Log
+  clean_data.tool0[[sheet]] <- apply_log(data=clean_data.tool0[[sheet]], log = filter(correction_log_ready_ps, tool == "Tool 0 - Data Entry" & Tab_Name == sheet))
+}
 
 # Tool 1
 tool_name <- "Tool 1 - Headmaster"
@@ -252,14 +248,14 @@ message("Verifying Correction log, please wait!")
 correction_log_discrep <- data.frame()
 
 # Tool 0
-# for(sheet in names(clean_data.tool0)){
-#   # Compare
-#   correction_log_discrep <- rbind(
-#     correction_log_discrep,
-#     compare_dt(clean_data.tool0[[sheet]], raw_data.tool0[[sheet]]) |>
-#       mutate(tool="Tool 0 - Data Entry", Tab_Name = sheet, KEY_join = paste0(KEY, question, old_value, tool, Tab_Name))
-#   )
-# }
+for(sheet in names(clean_data.tool0)){
+  # Compare
+  correction_log_discrep <- rbind(
+    correction_log_discrep,
+    compare_dt(clean_data.tool0[[sheet]], raw_data.tool0[[sheet]]) |>
+      mutate(tool="Tool 0 - Data Entry", Tab_Name = sheet, KEY_join = paste0(KEY, question, old_value, tool, Tab_Name))
+  )
+}
 
 # Tool 1
 for(sheet in names(clean_data.tool1)){

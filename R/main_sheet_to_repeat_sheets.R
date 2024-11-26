@@ -1,23 +1,23 @@
 ### merge information from main sheet to child-sheets  --------------------------------------------------------------------
 ## Tool 0: -----
-# clean_data.tool0$data <- clean_data.tool0$data |>
-#   left_join(qa_sheet_ps |> select(KEY, qa_log_status = qa_status), by = "KEY")
-# 
-# 
-# # sheet = "Tool3_Classes"
-# for (sheet in names(clean_data.tool0)[c(2, 3, 4, 9)]) {
-#   clean_data.tool0[[sheet]] <- clean_data.tool0[[sheet]] |>
-#     mutate(PARENT_KEY = as.character(PARENT_KEY)) |>
-#     left_join(select(clean_data.tool0$data, any_of(meta_cols), KEY, qa_log_status), by = c("PARENT_KEY" = "KEY")) |>
-#     select(any_of(meta_cols), everything())
-# }
-# 
-# for (sheet in names(clean_data.tool0)[c(5, 6, 7, 8)]) {
-#   clean_data.tool0[[sheet]] <- clean_data.tool0[[sheet]] |>
-#     mutate(PARENT_KEY = as.character(PARENT_KEY)) |>
-#     left_join(select(clean_data.tool0$Tool1_Timetable_Year, any_of(c(meta_cols, "qa_log_status")), KEY, ), by = c("PARENT_KEY" = "KEY")) |>
-#     select(any_of(meta_cols), everything())
-# }
+clean_data.tool0$data <- clean_data.tool0$data |>
+  left_join(qa_sheet_ps |> select(KEY, qa_log_status = qa_status), by = "KEY")
+
+
+# sheet = "Tool3_Classes"
+for (sheet in names(clean_data.tool0)[c(2, 3, 4, 9)]) {
+  clean_data.tool0[[sheet]] <- clean_data.tool0[[sheet]] |>
+    mutate(PARENT_KEY = as.character(PARENT_KEY)) |>
+    left_join(select(clean_data.tool0$data, any_of(meta_cols), KEY, qa_log_status), by = c("PARENT_KEY" = "KEY")) |>
+    select(any_of(meta_cols), everything())
+}
+
+for (sheet in names(clean_data.tool0)[c(5, 6, 7, 8)]) {
+  clean_data.tool0[[sheet]] <- clean_data.tool0[[sheet]] |>
+    mutate(PARENT_KEY = as.character(PARENT_KEY)) |>
+    left_join(select(clean_data.tool0$Tool1_Timetable_Year, any_of(c(meta_cols, "qa_log_status")), KEY, ), by = c("PARENT_KEY" = "KEY")) |>
+    select(any_of(meta_cols), everything())
+}
 
 ## Tool 1: -----
 clean_data.tool1$data <- clean_data.tool1$data |>

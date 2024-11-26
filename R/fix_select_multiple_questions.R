@@ -1,9 +1,9 @@
 # Tool 0 ----------------------------------------------------------------------
-# for (sheet in names(clean_data.tool0)) {
-#   clean_data.tool0[[sheet]] <- update_series_cols(data = clean_data.tool0[[sheet]],
-#                                                   tool = kobo_tool.tool0$survey,
-#                                                   question_separator = "_")
-# }
+for (sheet in names(clean_data.tool0)) {
+  clean_data.tool0[[sheet]] <- update_series_cols(data = clean_data.tool0[[sheet]],
+                                                  tool = kobo_tool.tool0$survey,
+                                                  question_separator = "_")
+}
 
 
 # Tool 1 ----------------------------------------------------------------------

@@ -7,7 +7,7 @@ join_dfs <- function(df1, df2){
 } 
 
 # Cloning df
-# clean_data.tool0_joined <- clean_data.tool0
+clean_data.tool0_joined <- clean_data.tool0
 clean_data.tool1_joined <- clean_data.tool1
 clean_data.tool2_joined <- clean_data.tool2
 clean_data.tool3_joined <- clean_data.tool3
@@ -21,15 +21,15 @@ clean_data.tool9_joined <- clean_data.tool9
 # joining DFs to be able to check the relevancy failure in child s -------------
 # Tool 0
 
-# for(sheet in names(clean_data.tool0_joined)[c(2, 3, 4, 9)]){
-#   # Join
-#   clean_data.tool0_joined[[sheet]] <- join_dfs(clean_data.tool0_joined[[sheet]], clean_data.tool0$data |> select(!any_of(meta_cols)))
-# }
-# 
-# for(sheet in names(clean_data.tool0_joined)[c(5, 6, 7, 8)]){
-#   # Join
-#   clean_data.tool0_joined[[sheet]] <- join_dfs(clean_data.tool0_joined[[sheet]], clean_data.tool0$data |> select(!any_of(meta_cols)))
-# }
+for(sheet in names(clean_data.tool0_joined)[c(2, 3, 4, 9)]){
+  # Join
+  clean_data.tool0_joined[[sheet]] <- join_dfs(clean_data.tool0_joined[[sheet]], clean_data.tool0$data |> select(!any_of(meta_cols)))
+}
+
+for(sheet in names(clean_data.tool0_joined)[c(5, 6, 7, 8)]){
+  # Join
+  clean_data.tool0_joined[[sheet]] <- join_dfs(clean_data.tool0_joined[[sheet]], clean_data.tool0$data |> select(!any_of(meta_cols)))
+}
 
 # Tool 1
 for(sheet in names(clean_data.tool1_joined)[-1]){
@@ -84,7 +84,7 @@ clean_data.tool9_joined$Relevant_photos <- join_dfs(clean_data.tool9$Relevant_ph
 
 
 # listing the required questions -----------------------------------------------
-# tool0.notrequired_questions <- kobo_tool.tool0$survey %>% filter((required %in% c("False", "FALSE", "") | is.na(required)) & !is.na(name)) %>% pull(name)
+tool0.notrequired_questions <- kobo_tool.tool0$survey %>% filter((required %in% c("False", "FALSE", "") | is.na(required)) & !is.na(name)) %>% pull(name)
 tool1.notrequired_questions <- kobo_tool.tool1$survey %>% filter((required %in% c("False", "FALSE", "") | is.na(required)) & !is.na(name)) %>% pull(name)
 tool2.notrequired_questions <- kobo_tool.tool2$survey %>% filter((required %in% c("False", "FALSE", "") | is.na(required)) & !is.na(name)) %>% pull(name)
 tool3.notrequired_questions <- kobo_tool.tool3$survey %>% filter((required %in% c("False", "FALSE", "") | is.na(required)) & !is.na(name)) %>% pull(name)
@@ -101,17 +101,17 @@ relevancy_issues <- data.frame(question = vector())
 
 # Tool 0
 # sheet = "data"
-# for (sheet in names(clean_data.tool0_joined)) {
-#   relevancy_issues <- plyr::rbind.fill(
-#     relevancy_issues, 
-#     check_relevancy_rules(data = clean_data.tool0_joined[[sheet]],  
-#                           tool_relevancy = relevancy_file.tool0, 
-#                           sheet_name = sheet)
-#   ) |> 
-#     mutate(tool = "Tool - Data Entry", Sample_Type = "Public School") |>
-#     filter(!question %in% tool0.notrequired_questions)
-# }
-#   
+for (sheet in names(clean_data.tool0_joined)) {
+  relevancy_issues <- plyr::rbind.fill(
+    relevancy_issues,
+    check_relevancy_rules(data = clean_data.tool0_joined[[sheet]],
+                          tool_relevancy = relevancy_file.tool0,
+                          sheet_name = sheet)
+  ) |>
+    mutate(tool = "Tool - Data Entry", Sample_Type = "Public School") |>
+    filter(!question %in% tool0.notrequired_questions)
+}
+
 # Tool 1
 for (sheet in names(clean_data.tool1_joined)) {
   
