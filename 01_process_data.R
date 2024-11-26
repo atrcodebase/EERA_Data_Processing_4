@@ -36,7 +36,7 @@ meta_cols.qa_sheet <- c(Visit_ID = "Site_Visit_ID", "School Code", "Sample_Type"
 
 # Read inputs --------------------------------------------------------------
 # Data sets
-# raw_data.tool0 = read_xlsx_sheets(raw_data_path$tool0)
+raw_data.tool0 = read_xlsx_sheets(raw_data_path$tool0)
 raw_data.tool1 = read_xlsx_sheets(raw_data_path$tool1)
 raw_data.tool2 = read_xlsx_sheets(raw_data_path$tool2)
 raw_data.tool3 = read_xlsx_sheets(raw_data_path$tool3)
@@ -325,7 +325,7 @@ source("R/attach_labels.R")
 
 
 # remove extra columns  -------------------------------------------- Value Remaining
-source("R/remove_extra_columns.R")
+# source("R/remove_extra_columns.R")
 
 
 # attach labels to calculates cols ---------------------------------------- DONE
