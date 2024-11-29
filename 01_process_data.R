@@ -14,6 +14,7 @@ if(!require(readxl)) install.packages("janitor")
 if(!require(remotes)) install.packages("remotes")
 if(!require(atRfunctions)) remotes::install_github("atrcodebase/atRfunctions")
 `%notin%` <- Negate(`%in%`)
+Coalesce = function(var) ifelse(is.na(var), 0, var)
 
 # Declaring Global Variables ---------------------------------------------------
 data_collection_start_date_ps = as.Date("23.11.2024", format("%d.%m.%Y")) # Confirm with QAT
@@ -280,31 +281,27 @@ source("R/main_sheet_to_repeat_sheets.R")
 source("R/fix_select_multiple_questions.R") 
 
 
-# Data for Weekly Report -------------------------------------------------------
-# source("R/data_for_weekly_report.R")
-
-
 # Check repeat sheet count ------------------------------------------------ DONE
-# source("R/check_repeat_sheet_counts.R")
+source("R/check_repeat_sheet_counts.R")
 
 
 # missing translations (for QA)-------------------------------------------- DONE
-# source("R/create_translation_log.R")
+source("R/create_translation_log.R")
 
 
-# missing qa (for QA)------------------------------------------------------ S
+# missing qa (for QA)------------------------------------------------------ PENDING
 # source("R/missing_qa.R")
 
 
 # Check select multiple variables ----------------------------------------- DONE
-# source("R/check_select_multiple_questions.R")
+source("R/check_select_multiple_questions.R")
 
 
-# re-calculate the calculated variables and compare any changes not applied - NOT
-# source("R/calculate_cols_check.R") 
+# re-calculate the calculated variables and compare any changes not applied PENDING
+# source("R/calculate_cols_check.R")
 
 
-# Outlier Check ----------------------------------------------------------- NOT
+# Outlier Check ----------------------------------------------------------- PENDING - RUN FOR FINAL TURN
 # source("R/check_outliers.R") 
 
 
@@ -313,23 +310,23 @@ source("R/check_relevancies.R")
 
 
 # Check the responses with the tool --------------------------------------- DONE - must be checked
-# source("R/compare_df_values_with_tool.R")
+source("R/compare_df_values_with_tool.R")
 
 
 # attach value labels  ---------------------------------------------------------
 source("R/attach_labels.R")
 
 
-# Logical inconsistencies ------------------------------------------------- NOT
-# source("R/logical_checks.R")
+# Logical inconsistencies ------------------------------------------------- Done
+source("R/logical_checks.R")
 
 
-# remove extra columns  -------------------------------------------- Value Remaining
-# source("R/remove_extra_columns.R")
+# remove extra columns  --------------------------------------------------- Done - double check output
+source("R/remove_extra_columns.R")
 
 
-# attach labels to calculates cols ---------------------------------------- DONE
-# source("R/attach_calculate_label.R")
+# attach labels to calculates cols ---------------------------------------- DONE - Double check output
+source("R/attach_calculate_label.R")
 
 
 # change 7777, 8888, 9999 to Labels  -------------------------------------- NOT

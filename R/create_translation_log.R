@@ -19,8 +19,6 @@ missing_translations <- plyr::rbind.fill(
   plyr::rbind.fill(
     missing_translation_func(clean_data.tool1$data) |> mutate(Tab_Name = "data"),
     missing_translation_func(clean_data.tool1$Support_Respondents) |> mutate(Tab_Name = "Support_Respondents"),
-    missing_translation_func(clean_data.tool1$Weekly_Schedule_Old) |> mutate(Tab_Name = "Weekly_Schedule_Old"),
-    missing_translation_func(clean_data.tool1$Weekly_Schedule_New) |> mutate(Tab_Name = "Weekly_Schedule_New"),
     missing_translation_func(clean_data.tool1$Subjects_Detail) |> mutate(Tab_Name = "Subjects_Detail"),
     missing_translation_func(clean_data.tool1$Additional_Subjects) |> mutate(Tab_Name = "Additional_Subjects"),
     missing_translation_func(clean_data.tool1$Education_Quality) |> mutate(Tab_Name = "Education_Quality"),
@@ -136,13 +134,13 @@ missing_translations <- plyr::rbind.fill(
 )
 
 ## Tool 0
-for(sheet in names(clean_data.tool0)){
-  missing_translations <- plyr::rbind.fill(
-    missing_translations,
-    missing_translation_func(clean_data.tool0[[sheet]]) %>% 
-      mutate(Tab_Name = sheet, tool = "Data Entry Tool", Sample_Type = "Public School", .before = question_name)
-  )
-}
+# for(sheet in names(clean_data.tool0)){
+#   missing_translations <- plyr::rbind.fill(
+#     missing_translations,
+#     missing_translation_func(clean_data.tool0[[sheet]]) %>% 
+#       mutate(Tab_Name = sheet, tool = "Data Entry Tool", Sample_Type = "Public School", .before = question_name)
+#   )
+# }
 
 need_translation <- c(
   # Tool 0

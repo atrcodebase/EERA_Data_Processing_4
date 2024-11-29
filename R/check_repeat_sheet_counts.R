@@ -85,26 +85,9 @@ repeat_sheet_issues <- rbind(
       child_sheet_name = "Support_Respondents"
     ) |> mutate(Row_count_from_tab = "data", Row_count_column_name = "C11"),
     
-    # 2
-    compare_row_counts(
-      supposed_count_df = select(clean_data.tool1$data |> filter(F1_1 == 1 | F1_2 == 1 | F1_3 == 1) |> mutate(F1_value_count = case_when(
-        is.na(F1) | str_trim(F1) == "" ~ 0,
-        TRUE ~ (str_count(F1," ")+1))
-      ), supposed_row_count = F1_value_count, KEY),
-      child_df = clean_data.tool1$Weekly_Schedule_Old,
-      child_sheet_name = "Weekly_Schedule_Old"
-    ) |> mutate(Row_count_from_tab = "data", Row_count_column_name = "F1"),
-    
-    # 3
-    compare_row_counts(
-      supposed_count_df = select(clean_data.tool1$data |> filter(F3_1 == 1 | F3_2 == 1) |> mutate(F3_value_count = case_when(
-        is.na(F3) | str_trim(F3) == "" ~ 0,
-        TRUE ~ (str_count(F3," ")+1))
-      ), supposed_row_count = F3_value_count, KEY),
-      child_df = clean_data.tool1$Weekly_Schedule_New,
-      child_sheet_name = "Weekly_Schedule_New"
-    ) |> mutate(Row_count_from_tab = "data", Row_count_column_name = "F3"),
-    
+    # 2 Weekly_Schedule_Old omitted in R4
+    # 3 Weekly_Schedule_New omitted in R4
+  
     # 4
     compare_row_counts(
       supposed_count_df = select(clean_data.tool1$data |> mutate(subject_detail_counter = 29), supposed_row_count = subject_detail_counter, KEY),
@@ -519,7 +502,7 @@ repeat_sheet_issues <- rbind(
     
     # 10
     compare_row_counts(
-      supposed_count_df = select(clean_data.tool8$data |> filter(V1 == 3) |> mutate(V4_value_count = case_when(
+      supposed_count_df = select(clean_data.tool8$data |> filter(V1 == 3 & V4 != 8888) |> mutate(V4_value_count = case_when(
         is.na(V4) | str_trim(V4) == "" ~ 0,
         TRUE ~ (str_count(V4, " ")+1)
       )), KEY, supposed_row_count = V4_value_count),
@@ -534,8 +517,13 @@ repeat_sheet_issues <- rbind(
       child_sheet_name = "Subjects_Added"
     ) |> mutate(Row_count_from_tab = "data", Row_count_column_name = "Y4_N")
   ) |>
-    mutate(tool = "Tool 8 - Class", Sample_Type = "CBE")
+    mutate(tool = "Tool 8 - Class", Sample_Type = "CBE"),
   # Tool 9
+    compare_row_counts(
+      supposed_count_df = select(clean_data.tool9$data, KEY, supposed_row_count = n_cbes),
+      child_df = clean_data.tool9$Questions_Repeat,
+      child_sheet_name =  "Questions_Repeat"
+    ) %>% mutate(Row_count_from_tab = "data", Row_count_column_name = "n_cbes")
 )
 
 

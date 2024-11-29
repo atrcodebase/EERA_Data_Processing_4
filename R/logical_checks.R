@@ -539,7 +539,335 @@ lc_tool1 <- plyr::rbind.fill(
       Related_value,
       KEY,
       Issue
+    ),
+   
+  # New in Round 4
+  clean_data.tool1$data |>
+    filter(I1 == "No Not applicable (school has no male teacher)" & School_Gender_SV %in% c("Male", "Mixed")) |>
+    mutate(
+      Issue = "The gender of school in SV is reported either Male or Mixed, but in question I1 it is reported that school has no male teacher.",
+      Question = "I1",
+      Old_value = I1,
+      Related_question = "School_Gender_SV",
+      Related_value = School_Gender_SV
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool1$data |>
+    filter(I3 == "No Not applicable (school has no female teacher)" & School_Gender_SV %in% c("Female", "Mixed")) |>
+    mutate(
+      Issue = "The gender of school in SV is reported either Female or Mixed, but in question I3 it is reported that school has no female teacher.",
+      Question = "I3",
+      Old_value = I3,
+      Related_question = "School_Gender_SV",
+      Related_value = School_Gender_SV
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool1$data %>% 
+    left_join(clean_data.tool1$Support_Respondents %>% 
+                group_by(KEY = PARENT_KEY) %>% 
+                summarise(
+                  total_sup_resp = n()
+                ), by = "KEY") %>% 
+    filter(L0 == "The interview was conducted without any support respondent" & total_sup_resp > 0) %>% 
+    mutate(
+      Issue = "The interview was conducted with atleast one support respondent, but the L0 response contradicts with it.",
+      Question = "L0",
+      Old_value = L0,
+      Related_question = "total_sup_resp",
+      Related_value = total_sup_resp
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool1$data %>% 
+    left_join(clean_data.tool1$Support_Respondents %>% 
+                group_by(KEY = PARENT_KEY) %>% 
+                summarise(
+                  total_sup_resp = n()
+                ), by = "KEY") %>% 
+    filter(L0 == "The interview was conducted with support respondent" & (total_sup_resp == 0 | is.na(total_sup_resp))) %>% 
+    mutate(
+      Issue = "The interview was conducted without any support respondent, but the L0 response contradicts with it.",
+      Question = "L0",
+      Old_value = L0,
+      Related_question = "total_sup_resp",
+      Related_value = total_sup_resp
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool1$data %>% 
+    filter((
+      (C2 %in% c("The school has a deputy teaching manager and headmaster(s) but not a principal", "The school has only headmaster(s)")) |
+      ((C2 %in% c("The school has a principal, deputy teaching manager, and headmaster(s)", "The school has a principal and headmaster(s) but not a deputy teaching manager") & 
+        C4_1 %in% c("The school principal is not present today and I am officially acting principal in his/her absence",
+                    "The school principal does not want to participate in interview, and I am officially delegated to participate in the interviews in his/her absence")))) &
+           L1 %in% c("Questions in this section were responded by the principal", "Support respondents responded to questions in this section in the presence of the principal")) %>% 
+    mutate(
+      Issue = "The school does not have a principal/the principal was absent or did not want to attend the interview, but in L1 it is reported that the principal was the respondent for the section or he was present at the time of interview.",
+      Question = "C2 _ C4_1",
+      Old_value = paste0(C2, "_", C4_1),
+      Related_question = "L1",
+      Related_value = L1
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool1$data %>% 
+    filter((
+      (C2 %in% c("The school has a deputy teaching manager and headmaster(s) but not a principal", "The school has only headmaster(s)")) |
+        ((C2 %in% c("The school has a principal, deputy teaching manager, and headmaster(s)", "The school has a principal and headmaster(s) but not a deputy teaching manager") & 
+            C4_1 %in% c("The school principal is not present today and I am officially acting principal in his/her absence",
+                        "The school principal does not want to participate in interview, and I am officially delegated to participate in the interviews in his/her absence")))) &
+        L1A1 %in% c("Questions in this section were responded by the principal", "Support respondents responded to questions in this section in the presence of the principal")) %>% 
+    mutate(
+      Issue = "The school does not have a principal/the principal was absent or did not want to attend the interview, but in L1A1 it is reported that the principal was the respondent for the section or he was present at the time of interview.",
+      Question = "C2 _ C4_1",
+      Old_value = paste0(C2, "_", C4_1),
+      Related_question = "L1A1",
+      Related_value = L1A1
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool1$data %>% 
+    filter((
+      (C2 %in% c("The school has a deputy teaching manager and headmaster(s) but not a principal", "The school has only headmaster(s)")) |
+        ((C2 %in% c("The school has a principal, deputy teaching manager, and headmaster(s)", "The school has a principal and headmaster(s) but not a deputy teaching manager") & 
+            C4_1 %in% c("The school principal is not present today and I am officially acting principal in his/her absence",
+                        "The school principal does not want to participate in interview, and I am officially delegated to participate in the interviews in his/her absence")))) &
+        L1A2 %in% c("Questions in this section were responded by the principal", "Support respondents responded to questions in this section in the presence of the principal")) %>% 
+    mutate(
+      Issue = "The school does not have a principal/the principal was absent or did not want to attend the interview, but in L1A2 it is reported that the principal was the respondent for the section or he was present at the time of interview.",
+      Question = "C2 _ C4_1",
+      Old_value = paste0(C2, "_", C4_1),
+      Related_question = "L1A2",
+      Related_value = L1A2
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+    
+  clean_data.tool1$data %>% 
+    filter((
+      (C2 %in% c("The school has a deputy teaching manager and headmaster(s) but not a principal", "The school has only headmaster(s)")) |
+        ((C2 %in% c("The school has a principal, deputy teaching manager, and headmaster(s)", "The school has a principal and headmaster(s) but not a deputy teaching manager") & 
+            C4_1 %in% c("The school principal is not present today and I am officially acting principal in his/her absence",
+                        "The school principal does not want to participate in interview, and I am officially delegated to participate in the interviews in his/her absence")))) &
+        L1A3 %in% c("Questions in this section were responded by the principal", "Support respondents responded to questions in this section in the presence of the principal")) %>% 
+    mutate(
+      Issue = "The school does not have a principal/the principal was absent or did not want to attend the interview, but in L1A3 it is reported that the principal was the respondent for the section or he was present at the time of interview.",
+      Question = "C2 _ C4_1",
+      Old_value = paste0(C2, "_", C4_1),
+      Related_question = "L1A3",
+      Related_value = L1A3
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool1$data %>% 
+    filter((
+      (C2 %in% c("The school has a deputy teaching manager and headmaster(s) but not a principal", "The school has only headmaster(s)")) |
+        ((C2 %in% c("The school has a principal, deputy teaching manager, and headmaster(s)", "The school has a principal and headmaster(s) but not a deputy teaching manager") & 
+            C4_1 %in% c("The school principal is not present today and I am officially acting principal in his/her absence",
+                        "The school principal does not want to participate in interview, and I am officially delegated to participate in the interviews in his/her absence")))) &
+        L1A4 %in% c("Questions in this section were responded by the principal", "Support respondents responded to questions in this section in the presence of the principal")) %>% 
+    mutate(
+      Issue = "The school does not have a principal/the principal was absent or did not want to attend the interview, but in L1A4 it is reported that the principal was the respondent for the section or he was present at the time of interview.",
+      Question = "C2 _ C4_1",
+      Old_value = paste0(C2, "_", C4_1),
+      Related_question = "L1A4",
+      Related_value = L1A4
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool1$data %>% 
+    filter((
+      (C2 %in% c("The school has a deputy teaching manager and headmaster(s) but not a principal", "The school has only headmaster(s)")) |
+        ((C2 %in% c("The school has a principal, deputy teaching manager, and headmaster(s)", "The school has a principal and headmaster(s) but not a deputy teaching manager") & 
+            C4_1 %in% c("The school principal is not present today and I am officially acting principal in his/her absence",
+                        "The school principal does not want to participate in interview, and I am officially delegated to participate in the interviews in his/her absence")))) &
+        L1A6 %in% c("Questions in this section were responded by the principal", "Support respondents responded to questions in this section in the presence of the principal")) %>% 
+    mutate(
+      Issue = "The school does not have a principal/the principal was absent or did not want to attend the interview, but in L1A6 it is reported that the principal was the respondent for the section or he was present at the time of interview.",
+      Question = "C2 _ C4_1",
+      Old_value = paste0(C2, "_", C4_1),
+      Related_question = "L1A6",
+      Related_value = L1A6
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool1$data %>% 
+    filter((
+      (C2 %in% c("The school has a deputy teaching manager and headmaster(s) but not a principal", "The school has only headmaster(s)")) |
+        ((C2 %in% c("The school has a principal, deputy teaching manager, and headmaster(s)", "The school has a principal and headmaster(s) but not a deputy teaching manager") & 
+            C4_1 %in% c("The school principal is not present today and I am officially acting principal in his/her absence",
+                        "The school principal does not want to participate in interview, and I am officially delegated to participate in the interviews in his/her absence")))) &
+        L1A7 %in% c("Questions in this section were responded by the principal", "Support respondents responded to questions in this section in the presence of the principal")) %>% 
+    mutate(
+      Issue = "The school does not have a principal/the principal was absent or did not want to attend the interview, but in L1A7 it is reported that the principal was the respondent for the section or he was present at the time of interview.",
+      Question = "C2 _ C4_1",
+      Old_value = paste0(C2, "_", C4_1),
+      Related_question = "L1A7",
+      Related_value = L1A7
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool1$data %>% 
+    filter((
+      (C2 %in% c("The school has a deputy teaching manager and headmaster(s) but not a principal", "The school has only headmaster(s)")) |
+        ((C2 %in% c("The school has a principal, deputy teaching manager, and headmaster(s)", "The school has a principal and headmaster(s) but not a deputy teaching manager") & 
+            C4_1 %in% c("The school principal is not present today and I am officially acting principal in his/her absence",
+                        "The school principal does not want to participate in interview, and I am officially delegated to participate in the interviews in his/her absence")))) &
+        L1A8 %in% c("Questions in this section were responded by the principal", "Support respondents responded to questions in this section in the presence of the principal")) %>% 
+    mutate(
+      Issue = "The school does not have a principal/the principal was absent or did not want to attend the interview, but in L1A8 it is reported that the principal was the respondent for the section or he was present at the time of interview.",
+      Question = "C2 _ C4_1",
+      Old_value = paste0(C2, "_", C4_1),
+      Related_question = "L1A8",
+      Related_value = L1A8
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool1$data %>% 
+    filter((
+      (C2 %in% c("The school has a deputy teaching manager and headmaster(s) but not a principal", "The school has only headmaster(s)")) |
+        ((C2 %in% c("The school has a principal, deputy teaching manager, and headmaster(s)", "The school has a principal and headmaster(s) but not a deputy teaching manager") & 
+            C4_1 %in% c("The school principal is not present today and I am officially acting principal in his/her absence",
+                        "The school principal does not want to participate in interview, and I am officially delegated to participate in the interviews in his/her absence")))) &
+        L1A9 %in% c("Questions in this section were responded by the principal", "Support respondents responded to questions in this section in the presence of the principal")) %>% 
+    mutate(
+      Issue = "The school does not have a principal/the principal was absent or did not want to attend the interview, but in L1A9 it is reported that the principal was the respondent for the section or he was present at the time of interview.",
+      Question = "C2 _ C4_1",
+      Old_value = paste0(C2, "_", C4_1),
+      Related_question = "L1A9",
+      Related_value = L1A9
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool1$data %>% 
+    filter((
+      (C2 %in% c("The school has a deputy teaching manager and headmaster(s) but not a principal", "The school has only headmaster(s)")) |
+        ((C2 %in% c("The school has a principal, deputy teaching manager, and headmaster(s)", "The school has a principal and headmaster(s) but not a deputy teaching manager") & 
+            C4_1 %in% c("The school principal is not present today and I am officially acting principal in his/her absence",
+                        "The school principal does not want to participate in interview, and I am officially delegated to participate in the interviews in his/her absence")))) &
+        L1A10 %in% c("Questions in this section were responded by the principal", "Support respondents responded to questions in this section in the presence of the principal")) %>% 
+    mutate(
+      Issue = "The school does not have a principal/the principal was absent or did not want to attend the interview, but in L1A10 it is reported that the principal was the respondent for the section or he was present at the time of interview.",
+      Question = "C2 _ C4_1",
+      Old_value = paste0(C2, "_", C4_1),
+      Related_question = "L1A10",
+      Related_value = L1A10
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
     )
+  
   
 ) |> mutate(tool = "Tool 1 - Headmaster", sheet = "data")
 
@@ -1088,12 +1416,12 @@ lc_tool2 <- plyr::rbind.fill(
   # 24 -  Flagging if the school shift in question D1 is reported Single but later in shift details and shift details others reported more than one shift
   clean_data.tool2$data |>
     left_join(
-      clean_data.tool2$Shifts_Detail |> filter(!is.na(Shift_name)) |> select(Site_Visit_ID,Shift_name) |>
+      clean_data.tool2$Shifts_Detail |> select(Site_Visit_ID,Shift_name) |> # Removed  |> filter(!is.na(Shift_name))
         group_by(Site_Visit_ID) |>
         summarise(
           shift_count = n()
         ), by = "Site_Visit_ID") |>
-    filter(D1 == "Single" & shift_count > 1) |>
+    filter(D1 == "Single" & (shift_count == 1 | is.na(shift_count))) |>
     mutate(
       Issue = "The school shift in question D1 is reported Single but later in shift details reported more than one shift",
       Question = "D1",
@@ -1110,14 +1438,15 @@ lc_tool2 <- plyr::rbind.fill(
       KEY,
       Issue
     ),
+  
   clean_data.tool2$data |>
     left_join(
-      clean_data.tool2$Shifts_Detail |> filter(!is.na(Shift_name)) |> select(Site_Visit_ID,Shift_name) |>
+      clean_data.tool2$Shifts_Detail |> select(Site_Visit_ID,Shift_name) |> # Removed  |> filter(!is.na(Shift_name))
         group_by(Site_Visit_ID) |>
         summarise(
           shift_count = n()
         ), by = "Site_Visit_ID") |>
-    filter(D1 == "Multiple" & shift_count == 1) |>
+    filter(D1 == "Multiple" & (shift_count == 1 | is.na(shift_count))) |>
     mutate(
       Issue = "The school shift in question D1 is reported Multiple but later in shift details reported only one shift",
       Question = "D1",
@@ -1135,7 +1464,7 @@ lc_tool2 <- plyr::rbind.fill(
       Issue
     ),
   
-  # 26 - Flagging if The school type does not match with grades reported in school Operationality and Operationality Other sheets
+  # 26 - Flagging  if The school type does not match with grades reported in school Operationality and Operationality Other sheets
   clean_data.tool2$School_Operationality |>
     select(Site_Visit_ID,Grade) |>
     filter(!is.na(Grade)) |>
@@ -1217,9 +1546,9 @@ lc_tool2 <- plyr::rbind.fill(
     ),
   
   clean_data.tool2$data |>
-    filter(D1 == "Single" & C15A > 2) |>
+    filter(D1 == "Single" & C15A > 1) |>
     mutate(
-      Issue = "Can you please confirm the number of headmasters in this school - This flag is only for school with Single shift",
+      Issue = "Can you please confirm the number of headmasters in this school (More than 1 headmasters for single shift) - This flag is only for school with Single shift",
       Question = "C15A",
       Old_value = C15A,
       Related_question = "D1",
@@ -1239,7 +1568,7 @@ lc_tool2 <- plyr::rbind.fill(
   clean_data.tool2$data |>
     filter(D1 == "Multiple" & C15A == 1) |>
     mutate(
-      Issue = "Can you please confirm the number of headmasters in this school - This flag is only for school with Multiple shift",
+      Issue = "Can you please confirm the number of headmasters in this school (One headmaster for multiple shifts) - This flag is only for school with Multiple shift",
       Question = "C15A",
       Old_value = C15A,
       Related_question = "D1",
@@ -1255,6 +1584,7 @@ lc_tool2 <- plyr::rbind.fill(
       Issue
     ),
   
+  # This check will automatically solve the C2 question in tool 1 if the D2 and C2 are equally same across both tools
   clean_data.tool2$data |>
     filter(D2 %in% c("The school has a deputy teaching manager and headmaster(s) but not a principal",
                      "The school has a principal and headmaster(s) but not a deputy teaching manager",
@@ -1275,7 +1605,203 @@ lc_tool2 <- plyr::rbind.fill(
       Related_value,
       KEY,
       Issue
+    ),
+  
+  # New for R4
+  clean_data.tool2$data %>%
+    filter(School_Gender_SV %in% c("Female", "Mixed") & E3_5 == 1) %>%
+    mutate(
+      Issue = "The SV Gender of school is reported Female or Mixed, but in question E3 it is reported 'due to school transformation from female to male, more male teachers were hired",
+      Question = "E3",
+      Old_value = E3,
+      Related_question = "School_Gender_SV",
+      Related_value = School_Gender_SV
+    ) |>
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+
+  clean_data.tool2$data %>%
+    filter(School_Gender_SV %in% c("male", "Mixed") & E7_5 == 1) %>%
+    mutate(
+      Issue = "The SV Gender of school is reported male or Mixed, but in question E7 it is reported 'due to school transformation from male to female, more female teachers were hired",
+      Question = "E7",
+      Old_value = E7,
+      Related_question = "School_Gender_SV",
+      Related_value = School_Gender_SV
+    ) |>
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+
+  clean_data.tool2$data %>%
+    filter(School_Type_SV == "Primary" & E3_6 == 1) %>%
+    mutate(
+      Issue = "The SV Type of school is reported Primary, while in question E3 it is reported 'due to school promotion from primary to Secondary, more teachers were hired",
+      Question = "E3",
+      Old_value = E3,
+      Related_question = "School_Type_SV",
+      Related_value = School_Type_SV
+    ) |>
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+
+  clean_data.tool2$data %>%
+    filter(School_Type_SV == "Primary" & E7_6 == 1) %>%
+    mutate(
+      Issue = "The SV Type of school is reported Primary, while in question E7 it is reported 'due to school promotion from primary to Secondary, more teachers were hired",
+      Question = "E7",
+      Old_value = E7,
+      Related_question = "School_Type_SV",
+      Related_value = School_Type_SV
+    ) |>
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool2$data %>% 
+    filter((
+      (D2 %in% c("The school has a deputy teaching manager and headmaster(s) but not a principal", "The school has only headmaster(s)")) |
+        ((D2 %in% c("The school has a principal, deputy teaching manager, and headmaster(s)", "The school has a principal and headmaster(s) but not a deputy teaching manager") & 
+            D4_1 %in% c("The school principal is not present today and I am officially acting principal in his/her absence",
+                        "The school principal does not want to participate in interview, and I am officially delegated to participate in the interviews in his/her absence")))) &
+        L1 %in% c("Questions in this section were responded by the principal", "Support respondents responded to questions in this section in the presence of the principal")) %>% 
+    mutate(
+      Issue = "The school does not have a principal/the principal was absent or did not want to attend the interview, but in L1 it is reported that the principal was the respondent for the section or he was present at the time of interview.",
+      Question = "D2 _ D4_1",
+      Old_value = paste0(D2, "_", D4_1),
+      Related_question = "L1",
+      Related_value = L1
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool2$data %>% 
+    filter((
+      (D2 %in% c("The school has a deputy teaching manager and headmaster(s) but not a principal", "The school has only headmaster(s)")) |
+        ((D2 %in% c("The school has a principal, deputy teaching manager, and headmaster(s)", "The school has a principal and headmaster(s) but not a deputy teaching manager") & 
+            D4_1 %in% c("The school principal is not present today and I am officially acting principal in his/her absence",
+                        "The school principal does not want to participate in interview, and I am officially delegated to participate in the interviews in his/her absence")))) &
+        L1A1 %in% c("Questions in this section were responded by the principal", "Support respondents responded to questions in this section in the presence of the principal")) %>% 
+    mutate(
+      Issue = "The school does not have a principal/the principal was absent or did not want to attend the interview, but in L1A1 it is reported that the principal was the respondent for the section or he was present at the time of interview.",
+      Question = "D2 _ D4_1",
+      Old_value = paste0(D2, "_", D4_1),
+      Related_question = "L1A1",
+      Related_value = L1A1
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool2$data %>% 
+    filter((
+      (D2 %in% c("The school has a deputy teaching manager and headmaster(s) but not a principal", "The school has only headmaster(s)")) |
+        ((D2 %in% c("The school has a principal, deputy teaching manager, and headmaster(s)", "The school has a principal and headmaster(s) but not a deputy teaching manager") & 
+            D4_1 %in% c("The school principal is not present today and I am officially acting principal in his/her absence",
+                        "The school principal does not want to participate in interview, and I am officially delegated to participate in the interviews in his/her absence")))) &
+        L1A2 %in% c("Questions in this section were responded by the principal", "Support respondents responded to questions in this section in the presence of the principal")) %>% 
+    mutate(
+      Issue = "The school does not have a principal/the principal was absent or did not want to attend the interview, but in L1A2 it is reported that the principal was the respondent for the section or he was present at the time of interview.",
+      Question = "D2 _ D4_1",
+      Old_value = paste0(D2, "_", D4_1),
+      Related_question = "L1A2",
+      Related_value = L1A2
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool2$data %>% 
+    left_join(
+      clean_data.tool1$data %>% select(EMIS_School_ID_CBE_KEY, School_Gender_SV.tool1 = School_Gender_SV) %>% filter(!is.na(School_Gender_SV.tool1)), by = "EMIS_School_ID_CBE_KEY"
+    ) %>% 
+    filter(!is.na(School_Gender_SV.tool1)) %>% 
+    filter(School_Gender_SV != School_Gender_SV.tool1) %>% 
+    mutate(
+      Issue = "The school gender SV is different for the same school across tool 2 and tool 1.",
+      Question = "School_Gender_SV",
+      Old_value = School_Gender_SV,
+      Related_question = "School_Gender_SV.tool1",
+      Related_value = School_Gender_SV.tool1
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool2$data %>% 
+    left_join(
+      clean_data.tool1$data %>% select(EMIS_School_ID_CBE_KEY, School_Type_SV.tool1 = School_Type_SV) %>% filter(!is.na(School_Type_SV.tool1)), by = "EMIS_School_ID_CBE_KEY"
+    ) %>% 
+    filter(!is.na(School_Type_SV.tool1)) %>% 
+    filter(School_Type_SV != School_Type_SV.tool1) %>% 
+    mutate(
+      Issue = "The school type SV is different for the same school across tool 2 and tool 1.",
+      Question = "School_Type_SV",
+      Old_value = School_Type_SV,
+      Related_question = "School_Type_SV.tool1",
+      Related_value = School_Type_SV.tool1
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
     )
+    
 ) |> 
   mutate(tool = "Tool 2 - Light", sheet = "data", Old_value = as.character(Old_value))
 
@@ -1286,7 +1812,7 @@ lc_tool2.school_operationality <- plyr::rbind.fill(
   clean_data.tool2$School_Operationality |>
     filter(is.na(Grade) | Grade == "") |>
     mutate(
-      Issue = "The Grade is reported BLANK for this Site Visit ID!",
+      Issue = "The Grade is reported BLANK for this School!",
       Question = "Grade",
       Old_value = Grade,
       Related_question = "",
@@ -1304,11 +1830,11 @@ lc_tool2.school_operationality <- plyr::rbind.fill(
   # Flagging duplicated Grade ID
   clean_data.tool2$School_Operationality |>
     mutate(
-      Grade_ID = paste0(Site_Visit_ID, Grade)
+      Grade_ID = paste0(EMIS_School_ID_CBE_KEY, Grade)
     ) |>
     filter(duplicated(Grade_ID, fromLast = T) | duplicated(Grade_ID, fromLast = F)) |>
     mutate(
-      Issue = "The Grade ID is duplicated for this Site Visit ID!",
+      Issue = "The Grade ID is duplicated for this School!",
       Question = "Grade",
       Old_value = Grade,
       Related_question = "",
@@ -1331,7 +1857,7 @@ lc_tool2.shift <- plyr::rbind.fill(
   clean_data.tool2$Shifts_Detail |>
     filter(is.na(Shift_indx) | Shift_indx == "") |> 
     mutate(
-      Issue = "The Shift_indx is reported BLANK for this Site Visit ID!",
+      Issue = "The Shift_indx is reported BLANK for this School!",
       Question = "Shift_indx",
       Old_value = Shift_indx,
       Related_question = "",
@@ -1350,11 +1876,11 @@ lc_tool2.shift <- plyr::rbind.fill(
   # Flagging duplicated Grade ID
   clean_data.tool2$Shifts_Detail |>
     mutate(
-      Shift_ID = paste0(Site_Visit_ID, Shift_indx)
+      Shift_ID = paste0(EMIS_School_ID_CBE_KEY, Shift_indx)
     ) |>
     filter(duplicated(Shift_ID, fromLast = T) | duplicated(Shift_ID, fromLast = F)) |> 
     mutate(
-      Issue = "The Shift_indx is duplicated for this Site Visit ID!",
+      Issue = "The Shift_indx is duplicated for this School!",
       Question = "Shift_indx",
       Old_value = Shift_indx,
       Related_question = "",
@@ -1377,13 +1903,11 @@ lc_tool2.shift <- plyr::rbind.fill(
 shifts_and_operationality <- clean_data.tool2$Shifts_Detail |>
   left_join(
     clean_data.tool2$School_Operationality |>
-      select(Site_Visit_ID , Grade_Value = Grade, is_operational = C13A1) |>
-      # mutate(sheet = "School_Operationality", Grade_Value = Grade) |>
+      select(EMIS_School_ID_CBE_KEY , Grade_Value = Grade, is_operational = C13A1) |>
       filter(!is.na(Grade_Value) & Grade_Value != "") |>
-      # arrange(Grade_ID) |>
       pivot_wider(names_from = Grade_Value, values_from = Grade_Value, values_fill = 0, names_prefix = "grade_", values_fn = length) |>
       filter(is_operational == "No")
-    , by = "Site_Visit_ID" )
+    , by = "EMIS_School_ID_CBE_KEY")
 
 lc_tool2.shift_operationality_and_other <- plyr::rbind.fill(
   # Flagging if a not operational grade is reported for the shift
@@ -1618,25 +2142,298 @@ lc_tool2.shift_operationality_and_other <- plyr::rbind.fill(
 )  |> mutate(tool = "Tool 2 - Light", sheet = "Shifts_Detail", Old_value = as.character(Old_value))
 
 
+shift_details_grade_unique <- clean_data.tool2$Shifts_Detail %>% 
+  select(EMIS_School_ID_CBE_KEY, starts_with("C14A2_")) %>% 
+  pivot_longer(cols = C14A2_1:C14A2_12, names_to = "Shifts") %>% 
+  # arrange(EMIS_School_ID_CBE_KEY) %>% 
+  filter(value == 1) %>% 
+  distinct(.keep_all = T) %>% 
+  mutate(
+    Shift_value = gsub("C14A2_", "", Shifts),
+    Shift_value = as.numeric(Shift_value)
+  ) %>%
+  arrange(EMIS_School_ID_CBE_KEY, Shift_value) %>% 
+  select(EMIS_School_ID_CBE_KEY, Shift_value) %>% 
+  pivot_wider(names_from = Shift_value, values_from = Shift_value, values_fill = 0, names_prefix = "shift_grade_", values_fn = length) %>% 
+  left_join(
+    clean_data.tool2$Shifts_Detail %>% 
+      select(any_of(meta_cols), KEY), by = "EMIS_School_ID_CBE_KEY"
+  )
+  
+
+operational_grades_not_reported_in_shifts <- shift_details_grade_unique %>% 
+  left_join(
+    clean_data.tool2$School_Operationality |>
+      select(EMIS_School_ID_CBE_KEY , Grade_Value = Grade, is_operational = C13A1) |>
+      filter(!is.na(Grade_Value) & Grade_Value != "") |>
+      pivot_wider(names_from = Grade_Value, values_from = Grade_Value, values_fill = 0, names_prefix = "grade_", values_fn = length) |>
+      filter(is_operational == "Yes")
+    , by = "EMIS_School_ID_CBE_KEY")
+
+# Flag if an operational grade (in operationality grades sheet) is reported not conducted in any of the shifts for the school
+operational_grades_not_reported_in_shifts_log <- plyr::rbind.fill(
+  # Grade 1
+  operational_grades_not_reported_in_shifts %>% 
+    filter(shift_grade_1 == 0 & grade_1 == 1) |>
+    mutate(
+      Issue = "Grade 1 is reported as an operational grade in Operationality Sheet, while it is reported not conducted in any of the shifts in the school!",
+      Question = "shift_grade_1(C14A2)",
+      Old_value = shift_grade_1,
+      Related_question = "C13A1(School_Operationality)",
+      Related_value = is_operational
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  # Grade 2
+  operational_grades_not_reported_in_shifts %>% 
+    filter(shift_grade_2 == 0 & grade_2 == 1) |>
+    mutate(
+      Issue = "Grade 2 is reported as an operational grade in Operationality Sheet, while it is reported not conducted in any of the shifts in the school!",
+      Question = "shift_grade_2(C14A2)",
+      Old_value = shift_grade_2,
+      Related_question = "C13A1(School_Operationality)",
+      Related_value = is_operational
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  # Grade 3
+  operational_grades_not_reported_in_shifts %>% 
+    filter(shift_grade_3 == 0 & grade_3 == 1) |>
+    mutate(
+      Issue = "Grade 3 is reported as an operational grade in Operationality Sheet, while it is reported not conducted in any of the shifts in the school!",
+      Question = "shift_grade_3(C14A2)",
+      Old_value = shift_grade_3,
+      Related_question = "C13A1(School_Operationality)",
+      Related_value = is_operational
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  # Grade 4
+  operational_grades_not_reported_in_shifts %>% 
+    filter(shift_grade_4 == 0 & grade_4 == 1) |>
+    mutate(
+      Issue = "Grade 4 is reported as an operational grade in Operationality Sheet, while it is reported not conducted in any of the shifts in the school!",
+      Question = "shift_grade_4(C14A2)",
+      Old_value = shift_grade_4,
+      Related_question = "C13A1(School_Operationality)",
+      Related_value = is_operational
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  # Grade 5
+  operational_grades_not_reported_in_shifts %>% 
+    filter(shift_grade_5 == 0 & grade_5 == 1) |>
+    mutate(
+      Issue = "Grade 5 is reported as an operational grade in Operationality Sheet, while it is reported not conducted in any of the shifts in the school!",
+      Question = "shift_grade_5(C14A2)",
+      Old_value = shift_grade_5,
+      Related_question = "C13A1(School_Operationality)",
+      Related_value = is_operational
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  # Grade 6
+  operational_grades_not_reported_in_shifts %>% 
+    filter(shift_grade_6 == 0 & grade_6 == 1) |>
+    mutate(
+      Issue = "Grade 6 is reported as an operational grade in Operationality Sheet, while it is reported not conducted in any of the shifts in the school!",
+      Question = "shift_grade_6(C14A2)",
+      Old_value = shift_grade_6,
+      Related_question = "C13A1(School_Operationality)",
+      Related_value = is_operational
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  # Grade 7
+  operational_grades_not_reported_in_shifts %>% 
+    filter(shift_grade_7 == 0 & grade_7 == 1) |>
+    mutate(
+      Issue = "Grade 7 is reported as an operational grade in Operationality Sheet, while it is reported not conducted in any of the shifts in the school!",
+      Question = "shift_grade_7(C14A2)",
+      Old_value = shift_grade_7,
+      Related_question = "C13A1(School_Operationality)",
+      Related_value = is_operational
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  # Grade 8
+  operational_grades_not_reported_in_shifts %>% 
+    filter(shift_grade_8 == 0 & grade_8 == 1) |>
+    mutate(
+      Issue = "Grade 8 is reported as an operational grade in Operationality Sheet, while it is reported not conducted in any of the shifts in the school!",
+      Question = "shift_grade_8(C14A2)",
+      Old_value = shift_grade_8,
+      Related_question = "C13A1(School_Operationality)",
+      Related_value = is_operational
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  # Grade 9
+  operational_grades_not_reported_in_shifts %>% 
+    filter(shift_grade_9 == 0 & grade_9 == 1) |>
+    mutate(
+      Issue = "Grade 9 is reported as an operational grade in Operationality Sheet, while it is reported not conducted in any of the shifts in the school!",
+      Question = "shift_grade_9(C14A2)",
+      Old_value = shift_grade_9,
+      Related_question = "C13A1(School_Operationality)",
+      Related_value = is_operational
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  # Grade 10
+  operational_grades_not_reported_in_shifts %>% 
+    filter(shift_grade_10 == 0 & grade_10 == 1) |>
+    mutate(
+      Issue = "Grade 10 is reported as an operational grade in Operationality Sheet, while it is reported not conducted in any of the shifts in the school!",
+      Question = "shift_grade_10(C14A2)",
+      Old_value = shift_grade_10,
+      Related_question = "C13A1(School_Operationality)",
+      Related_value = is_operational
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  # Grade 11
+  operational_grades_not_reported_in_shifts %>% 
+    filter(shift_grade_11 == 0 & grade_11 == 1) |>
+    mutate(
+      Issue = "Grade 11 is reported as an operational grade in Operationality Sheet, while it is reported not conducted in any of the shifts in the school!",
+      Question = "shift_grade_11(C14A2)",
+      Old_value = shift_grade_11,
+      Related_question = "C13A1(School_Operationality)",
+      Related_value = is_operational
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  # Grade 12
+  operational_grades_not_reported_in_shifts %>% 
+    filter(shift_grade_12 == 0 & grade_12 == 1) |>
+    mutate(
+      Issue = "Grade 12 is reported as an operational grade in Operationality Sheet, while it is reported not conducted in any of the shifts in the school!",
+      Question = "shift_grade_12(C14A2)",
+      Old_value = shift_grade_12,
+      Related_question = "C13A1(School_Operationality)",
+      Related_value = is_operational
+    ) |> 
+    select(
+      all_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    )
+)  |> mutate(tool = "Tool 2 - Light", sheet = "Shifts_Detail", Old_value = as.character(Old_value))
+
+
 headmaster_and_operationality <- clean_data.tool2$Headmasters |>
   left_join(
     clean_data.tool2$School_Operationality |>
-      select(Site_Visit_ID ,Grade, is_operational = C13A1) |>
-      mutate(sheet = "School_Operationality", Grade_Value = Grade) |>
-      filter(is_operational == "No" & !is.na(Grade_Value) & Grade_Value != "") |>
-      select(Site_Visit_ID, is_operational, Grade_Value) |>
-      pivot_wider(names_from = Grade_Value, values_from = Grade_Value, values_fill = 0, names_prefix = "grade_", values_fn = length)
-    , by = "Site_Visit_ID" )
+      select(EMIS_School_ID_CBE_KEY , Grade_Value = Grade, is_operational = C13A1) |>
+      # mutate(sheet = "School_Operationality", Grade_Value = Grade) |>
+      filter(!is.na(Grade_Value) & Grade_Value != "") |>
+      select(EMIS_School_ID_CBE_KEY, is_operational, Grade_Value) |>
+      pivot_wider(names_from = Grade_Value, values_from = Grade_Value, values_fill = 0, names_prefix = "grade_", values_fn = length) %>% 
+      filter(is_operational == "No")
+    , by = "EMIS_School_ID_CBE_KEY" )
 
 headmaster_not_exist_grades <- clean_data.tool2$Headmasters |>
   left_join(
     clean_data.tool2$School_Operationality |>
-      select(Site_Visit_ID , Grade_Value = Grade) |>
+      select(EMIS_School_ID_CBE_KEY , Grade_Value = Grade) |>
       filter(!is.na(Grade_Value) & Grade_Value != "") |> 
-    arrange(Site_Visit_ID, Grade_Value) |> 
+    arrange(EMIS_School_ID_CBE_KEY, Grade_Value) |> 
     # arrange(Grade_ID) |>
     pivot_wider(names_from = Grade_Value, values_from = Grade_Value, values_fill = 0, names_prefix = "grade_", values_fn = length)
-    , by = "Site_Visit_ID" )
+    , by = "EMIS_School_ID_CBE_KEY" )
 
 
 lc_tool2.headmaster_operationality_and_other <- plyr::rbind.fill(
@@ -2104,6 +2901,9 @@ lc_tool2.headmaster_operationality_and_other <- plyr::rbind.fill(
 ) |> mutate(tool = "Tool 2 - Light", sheet = "Headmasters", Old_value = as.character(Old_value))
 
 
+
+
+
 # Logging issues in Tool 3 ------------------------------------------------
 lc_tool3 <- plyr::rbind.fill(
   # Flagging for BLANK Meta columns
@@ -2450,7 +3250,7 @@ lc_tool3 <- plyr::rbind.fill(
       , by = c("PARENT_KEY" = "KEY")) |>
     filter(D1 == "Yes" & format.Date(D2, "%Y-%m-%d") != format.Date(starttime, "%Y-%m-%d") & D3 == "Yes") |> 
     mutate(
-      Issue = "The date in D2 is not equal to survey date, but in D3(confirmed D2 is equal to the day of interview) 'Yes' is selected!",
+      Issue = "The date in D2 is not equal to survey date(starttimr), but in D3(confirmed D2 is equal to the day of interview) 'Yes' is selected!",
       Question = "D2",
       Old_value = as.character(D2),
       Related_question = "starttime",
@@ -2569,7 +3369,14 @@ lc_tool3 <- plyr::rbind.fill(
     ),
   
   clean_data.tool3$Tool3_Grades_Repeat |>
-    bind_rows(clean_data.tool0$Tool3_Grades_Repeat) |>
+    bind_rows(clean_data.tool0$Tool3_Grades_Repeat %>% 
+                mutate(
+                  EMIS_School_ID_CBE_KEY = as.character(EMIS_School_ID_CBE_KEY),
+                  Tool3_Grades_Field_Label = as.character(Tool3_Grades_Field_Label),
+                  KEY = as.character(KEY),
+                  `SET-OF-Tool3_Grades_Repeat` = as.character(`SET-OF-Tool3_Grades_Repeat`)
+                )
+              ) |>
     select(-Tool3_Grades_Field_Label) |>
     left_join(kobo_tool.tool3$choices |>
                 filter(list_name == "grades") |>
@@ -2605,12 +3412,12 @@ lc_tool3 <- plyr::rbind.fill(
   
   # NEW: ARTF comments
   # Flagging if headcounts do not match with Data Entry Tool
-  clean_data.tool3$Student_Headcount |>
+  dd <- clean_data.tool3$Student_Headcount |>
     mutate(key_join = paste0(EMIS_School_ID_CBE_KEY, E1_Field_Label)) |>
     left_join(clean_data.tool0$Tool3_T2_Classes_VD |> mutate( key_join = paste0(EMIS_School_ID_CBE_KEY, Tool3_Class_Name_VD)) |>
                 select(Tool3_Headcount_Conducted_Class, Tool3_Headcount_Male, Tool3_Headcount_Female, Tool3_Class_Name_VD, key_join),
               by = "key_join") |> 
-  filter(is.na(Tool3_Headcount_Male) | is.na(Tool3_Headcount_Female) ) |>
+  filter(is.na(Tool3_Headcount_Male) | is.na(Tool3_Headcount_Female)) |>
     mutate(
       Issue = "The school/class is missing in Data Entry VD sheet",
       Question = "E3A1",
@@ -4620,6 +5427,53 @@ lc_tool7 <- plyr::rbind.fill(
       Related_value,
       KEY,
       Issue
+    ),
+  
+  # New for R4
+  clean_data.tool7$data %>%
+    filter(Sample_Type == "Public School") %>% 
+    left_join(
+      clean_data.tool1$data %>% select(EMIS_School_ID_CBE_KEY, J1.tool1 =  J1), by = "EMIS_School_ID_CBE_KEY"
+    ) %>% 
+    filter(C1 != J1.tool1) %>% 
+    mutate(
+      Issue = "The response to whether the school has an active shura or not is inconsistent across tool 7(C1) and tool 1(J1)",
+      Question = "C1",
+      Old_value = as.character(C1),
+      Related_question = "J1(Tool1)",
+      Related_value = J1.tool1
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ), 
+  
+  clean_data.tool7$data %>%
+    filter(Sample_Type == "CBE") %>% 
+    left_join(
+      clean_data.tool8$data %>% select(EMIS_School_ID_CBE_KEY, V1.tool8 =  V1) %>% mutate(EMIS_School_ID_CBE_KEY = as.character(EMIS_School_ID_CBE_KEY)), by = "EMIS_School_ID_CBE_KEY"
+    ) %>% 
+    filter((C1 == "Yes" & V1.tool8 %in% c("Yes, but no longer active","No")) | (C1 == "No" & V1.tool8 == "Yes")) %>% 
+    mutate(
+      Issue = "The response to whether the CBE has an active shura or not is inconsistent across tool 7(C1) and tool 8(V1)",
+      Question = "C1",
+      Old_value = as.character(C1),
+      Related_question = "V1(Tool8)",
+      Related_value = V1.tool8
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
     )
 ) |> 
   mutate(tool = "Tool 7 - Shura", sheet = "data", Old_value = as.character(Old_value))
@@ -5001,7 +5855,7 @@ lc_tool8 <- plyr::rbind.fill(
   
   # Flagging if Enumerator observed that CBE is closed temporarily but respondent reported permanent closure. 
   clean_data.tool8$data |>
-    filter(B7 == "No, it is closed temporarily" & C7 == "Permanent [closed since beginning of the academic year]") |>
+    filter(B7 %in% c("No, it is closed temporarily", "No, it is closed for today") & C7 == "Permanent [closed since beginning of the academic year]") |>
     mutate(
       Issue = "Enumerator observed that CBE is closed temporarily but respondent reported permanent closure. ",
       Question = "B7",
@@ -5262,7 +6116,142 @@ lc_tool8 <- plyr::rbind.fill(
       Related_value,
       KEY,
       Issue
+    ),
+  
+  # New for R4
+  clean_data.tool8$data %>% 
+    filter(D12 == "No" & V4 %in% c("Hub school teacher", "Hub school principle")) %>% 
+    mutate(
+      Issue = "The CBE is not linked with any hub school but its officials are part of CBE shura",
+      Question = "D12",
+      Old_value = as.character(D12),
+      Related_question = "V4",
+      Related_value = V4
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool8$data %>% 
+    filter(W3_1 == 1 & W14 == "No") %>% 
+    mutate(
+      Issue = "Hotline Phone number is reported as one of complaint channels being used (W3), while for question W14 (Is there a GRM hotline/phone number visible on site) it is reported No",
+      Question = "W3",
+      Old_value = as.character(W3),
+      Related_question = "W14",
+      Related_value = W14
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool8$data %>% 
+    filter(W3_1 == 0 & W14 == "Yes") %>% 
+    mutate(
+      Issue = "Hotline Phone number isn't reported as one of complaint channels being used (W3), while for question W14 (Is there a GRM hotline/phone number visible on site) it is reported Yes",
+      Question = "W3",
+      Old_value = as.character(W3),
+      Related_question = "W14",
+      Related_value = W14
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool8$data %>% 
+    filter(W5_6 == 1 & W17 == "No") %>% 
+    mutate(
+      Issue = "It is reported that complaints are submitted through Email (W5), while for question W17 (Is there a GRM Email visible on site) it is reported No",
+      Question = "W5",
+      Old_value = as.character(W5),
+      Related_question = "W17",
+      Related_value = W17
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool8$data %>% 
+    filter(W5_6 == 0 & W17 == "Yes") %>% 
+    mutate(
+      Issue = "It isn't reported that complaints are submitted through Email (W5), while for question W17 (Is there a GRM Email visible on site) it is reported Yes",
+      Question = "W5",
+      Old_value = as.character(W5),
+      Related_question = "W17",
+      Related_value = W17
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool8$data %>% 
+    filter(W5_5 == 1 & W20 == "No") %>% 
+    mutate(
+      Issue = "It is reported that complaints are submitted through Complaint Box (W5), while for question W20 (Is there a complaint box (or any receptable for people to make comments on the class)) it is reported No",
+      Question = "W5",
+      Old_value = as.character(W5),
+      Related_question = "W20",
+      Related_value = W20
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
+    ),
+  
+  clean_data.tool8$data %>% 
+    filter(W5_5 == 0 & W20 == "Yes") %>% 
+    mutate(
+      Issue = "It isn't reported that complaints are submitted through Complaint Box (W5), while for question W20 (Is there a complaint box (or any receptable for people to make comments on the class)) it is reported Yes",
+      Question = "W5",
+      Old_value = as.character(W5),
+      Related_question = "W20",
+      Related_value = W20
+    ) |> 
+    select(
+      any_of(meta_cols),
+      Question,
+      Old_value,
+      Related_question,
+      Related_value,
+      KEY,
+      Issue
     )
+  
 ) |> 
   mutate(tool = "Tool 8 - Class", sheet = "data", Old_value = as.character(Old_value))
 
@@ -5381,7 +6370,9 @@ lc_tool9 <- plyr::rbind.fill(
       Question = "SubmissionDate",
       Old_value = as.character(SubmissionDate),
       Related_question = "",
-      Related_value = ""
+      Related_value = "",
+      tool = "Tool 9 - IP",
+      sheet = "data"
     ) |> 
     select(
       any_of(meta_cols),
@@ -5390,7 +6381,9 @@ lc_tool9 <- plyr::rbind.fill(
       Related_question,
       Related_value,
       KEY,
-      Issue
+      Issue,
+      tool,
+      sheet
     ),
   
   clean_data.tool9$data |>
@@ -5400,7 +6393,9 @@ lc_tool9 <- plyr::rbind.fill(
       Question = "starttime",
       Old_value = as.character(starttime),
       Related_question = "",
-      Related_value = ""
+      Related_value = "",
+      tool = "Tool 9 - IP",
+      sheet = "data"
     ) |> 
     select(
       any_of(meta_cols),
@@ -5409,7 +6404,9 @@ lc_tool9 <- plyr::rbind.fill(
       Related_question,
       Related_value,
       KEY,
-      Issue
+      Issue,
+      tool,
+      sheet
     ),
   
   clean_data.tool9$data |>
@@ -5419,7 +6416,9 @@ lc_tool9 <- plyr::rbind.fill(
       Question = "endtime",
       Old_value = as.character(endtime),
       Related_question = "",
-      Related_value = ""
+      Related_value = "",
+      tool = "Tool 9 - IP",
+      sheet = "data"
     ) |> 
     select(
       any_of(meta_cols),
@@ -5428,7 +6427,9 @@ lc_tool9 <- plyr::rbind.fill(
       Related_question,
       Related_value,
       KEY,
-      Issue
+      Issue,
+      tool,
+      sheet
     ),
   
   clean_data.tool9$data |>
@@ -5438,7 +6439,9 @@ lc_tool9 <- plyr::rbind.fill(
       Question = "Site_Visit_ID",
       Old_value = as.character(Site_Visit_ID),
       Related_question = "",
-      Related_value = ""
+      Related_value = "",
+      tool = "Tool 9 - IP",
+      sheet = "data"
     ) |> 
     select(
       any_of(meta_cols),
@@ -5447,7 +6450,9 @@ lc_tool9 <- plyr::rbind.fill(
       Related_question,
       Related_value,
       KEY,
-      Issue
+      Issue,
+      tool,
+      sheet
     ),
   
   clean_data.tool9$data |>
@@ -5457,7 +6462,9 @@ lc_tool9 <- plyr::rbind.fill(
       Question = "Province",
       Old_value = as.character(Province),
       Related_question = "",
-      Related_value = ""
+      Related_value = "",
+      tool = "Tool 9 - IP",
+      sheet = "data"
     ) |> 
     select(
       any_of(meta_cols),
@@ -5466,7 +6473,9 @@ lc_tool9 <- plyr::rbind.fill(
       Related_question,
       Related_value,
       KEY,
-      Issue
+      Issue,
+      tool,
+      sheet
     ),
   
   clean_data.tool9$data |>
@@ -5476,7 +6485,9 @@ lc_tool9 <- plyr::rbind.fill(
       Question = "District",
       Old_value = as.character(District),
       Related_question = "",
-      Related_value = ""
+      Related_value = "",
+      tool = "Tool 9 - IP",
+      sheet = "data"
     ) |> 
     select(
       any_of(meta_cols),
@@ -5485,7 +6496,9 @@ lc_tool9 <- plyr::rbind.fill(
       Related_question,
       Related_value,
       KEY,
-      Issue
+      Issue,
+      tool,
+      sheet
     ),
   
   clean_data.tool9$data |>
@@ -5495,7 +6508,9 @@ lc_tool9 <- plyr::rbind.fill(
       Question = "Region",
       Old_value = as.character(Region),
       Related_question = "",
-      Related_value = ""
+      Related_value = "",
+      tool = "Tool 9 - IP",
+      sheet = "data"
     ) |> 
     select(
       any_of(meta_cols),
@@ -5504,7 +6519,9 @@ lc_tool9 <- plyr::rbind.fill(
       Related_question,
       Related_value,
       KEY,
-      Issue
+      Issue,
+      tool,
+      sheet
     ),
   
   clean_data.tool9$data |>
@@ -5514,7 +6531,9 @@ lc_tool9 <- plyr::rbind.fill(
       Question = "Area_Type",
       Old_value = as.character(Area_Type),
       Related_question = "",
-      Related_value = ""
+      Related_value = "",
+      tool = "Tool 9 - IP",
+      sheet = "data"
     ) |> 
     select(
       any_of(meta_cols),
@@ -5523,7 +6542,9 @@ lc_tool9 <- plyr::rbind.fill(
       Related_question,
       Related_value,
       KEY,
-      Issue
+      Issue,
+      tool,
+      sheet
     ),
 
   clean_data.tool9$data |>
@@ -5533,7 +6554,9 @@ lc_tool9 <- plyr::rbind.fill(
       Question = "Academic_Year",
       Old_value = as.character(Academic_Year),
       Related_question = "",
-      Related_value = ""
+      Related_value = "",
+      tool = "Tool 9 - IP",
+      sheet = "data"
     ) |> 
     select(
       any_of(meta_cols),
@@ -5542,7 +6565,9 @@ lc_tool9 <- plyr::rbind.fill(
       Related_question,
       Related_value,
       KEY,
-      Issue
+      Issue,
+      tool,
+      sheet
     ),
   
   clean_data.tool9$data |>
@@ -5552,7 +6577,9 @@ lc_tool9 <- plyr::rbind.fill(
       Question = "IP_Name",
       Old_value = as.character(IP_Name),
       Related_question = "",
-      Related_value = ""
+      Related_value = "",
+      tool = "Tool 9 - IP",
+      sheet = "data"
     ) |> 
     select(
       any_of(meta_cols),
@@ -5561,7 +6588,9 @@ lc_tool9 <- plyr::rbind.fill(
       Related_question,
       Related_value,
       KEY,
-      Issue
+      Issue,
+      tool,
+      sheet
     ),
   
   clean_data.tool9$data |>
@@ -5571,7 +6600,9 @@ lc_tool9 <- plyr::rbind.fill(
       Question = "Entity_Type",
       Old_value = as.character(Entity_Type),
       Related_question = "",
-      Related_value = ""
+      Related_value = "",
+      tool = "Tool 9 - IP",
+      sheet = "data"
     ) |> 
     select(
       any_of(meta_cols),
@@ -5580,7 +6611,9 @@ lc_tool9 <- plyr::rbind.fill(
       Related_question,
       Related_value,
       KEY,
-      Issue
+      Issue,
+      tool,
+      sheet
     ),
   # End
   # Flagging interview conducted before the first day of data collection
@@ -5591,7 +6624,9 @@ lc_tool9 <- plyr::rbind.fill(
       Question = "starttime",
       Old_value = as.character(starttime),
       Related_question = "data_collection_start_date_cbe",
-      Related_value = as.character(janitor::convert_to_date(data_collection_start_date_cbe))
+      Related_value = as.character(janitor::convert_to_date(data_collection_start_date_cbe)),
+      tool = "Tool 9 - IP",
+      sheet = "data"
     ) |> 
     select(
       any_of(meta_cols),
@@ -5600,7 +6635,9 @@ lc_tool9 <- plyr::rbind.fill(
       Related_question,
       Related_value,
       KEY,
-      Issue
+      Issue,
+      tool,
+      sheet
     ),
   
   # Flagging duplicated site visit ID
@@ -5611,7 +6648,9 @@ lc_tool9 <- plyr::rbind.fill(
       Question = "Site_Visit_ID",
       Old_value = Site_Visit_ID,
       Related_question = "",
-      Related_value = ""
+      Related_value = "",
+      tool = "Tool 9 - IP",
+      sheet = "data"
     ) |> 
     select(
       any_of(meta_cols),
@@ -5620,12 +6659,14 @@ lc_tool9 <- plyr::rbind.fill(
       Related_question,
       Related_value,
       KEY,
-      Issue
+      Issue,
+      tool,
+      sheet
     ) |>
     arrange(Old_value),
   
   # Flagging if Sum of Female and Male of GRC is reported 0
-  clean_data.tool9$data |>
+  clean_data.tool9$Questions_Repeat |>
     mutate(
       a12_m_f_number = rowSums(across(c("A12_Female_Numbers", "A12_Male_Numbers")), na.rm = T)
     ) |>
@@ -5635,7 +6676,9 @@ lc_tool9 <- plyr::rbind.fill(
       Question = "A12_Female_Numbers",
       Old_value = A12_Female_Numbers,
       Related_question = "A12_Male_Numbers",
-      Related_value = A12_Male_Numbers
+      Related_value = A12_Male_Numbers,
+      tool = "Tool 9 - IP",
+      sheet = "Questions_Repeat"
     ) |> 
     select(
       any_of(meta_cols),
@@ -5644,11 +6687,13 @@ lc_tool9 <- plyr::rbind.fill(
       Related_question,
       Related_value,
       KEY,
-      Issue
+      Issue,
+      tool,
+      sheet
     ),
   
   # Flagging if Sum of Female and Male of GRC for women is reported 0
-  clean_data.tool9$data |>
+  clean_data.tool9$Questions_Repeat |>
     mutate(
       a12_m_f_member = rowSums(across(c("A14_Female_Numbers", "A14_Male_Numbers")), na.rm = T)
     ) |>
@@ -5658,7 +6703,9 @@ lc_tool9 <- plyr::rbind.fill(
       Question = "A14_Female_Numbers",
       Old_value = A14_Female_Numbers,
       Related_question = "A14_Male_Numbers",
-      Related_value = A14_Male_Numbers
+      Related_value = A14_Male_Numbers,
+      tool = "Tool 9 - IP",
+      sheet = "Questions_Repeat"
     ) |> 
     select(
       any_of(meta_cols),
@@ -5667,10 +6714,12 @@ lc_tool9 <- plyr::rbind.fill(
       Related_question,
       Related_value,
       KEY,
-      Issue
+      Issue,
+      tool,
+      sheet
     )
 ) |> 
-  mutate(tool = "Tool 9 - IP", sheet = "data", Old_value = as.character(Old_value))
+  mutate(Old_value = as.character(Old_value))
 
 # Combination of all tools logic checks --------------------------------------
 Logic_check_result <- plyr::rbind.fill(
@@ -5678,6 +6727,7 @@ Logic_check_result <- plyr::rbind.fill(
   lc_tool2.headmaster_operationality_and_other,
   lc_tool2.shift_operationality_and_other,
   lc_tool2.shift,
+  operational_grades_not_reported_in_shifts_log,
   lc_tool2.school_operationality,
   lc_tool2,
   lc_tool3,
