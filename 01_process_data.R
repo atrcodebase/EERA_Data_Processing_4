@@ -251,10 +251,10 @@ correction_log_cbe <- correction_log_cbe %>%
 detailed_check_log <- read_sheet(qa_sheet_url_ps, sheet = "Detailed_Check")
 
 photo_status_ps <- detailed_check_log %>% 
-  filter(Check_Type == "image" & `QA Status` == "Approved" & !is.na(Check_Status) & Sample_Type == "Public School")
+  filter(Check_Type == "image" & !is.na(Check_Status) & Sample_Type == "Public School") # `QA Status` == "Approved"
 
 photo_status_cbe <- detailed_check_log %>% 
-  filter(Check_Type == "image" & `QA Status` == "Approved" & !is.na(Check_Status) & Sample_Type == "CBE")
+  filter(Check_Type == "image" & !is.na(Check_Status) & Sample_Type == "CBE") # `QA Status` == "Approved"
 
 
 # convert numeric dates to date and time formats -------------------------- DONE
