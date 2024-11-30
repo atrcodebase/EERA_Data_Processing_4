@@ -71,47 +71,51 @@ for(sheet in names(clean_data.tool5)){
 # Tool 6
 for(sheet in names(clean_data.tool6)){
   sm_check_result <- bind_rows(
-    sm_check_result %>% mutate(KEY = as.character(KEY)),
+    sm_check_result %>% mutate(across(everything(), as.character)),
     check_select_multiple(
       data = clean_data.tool6[[sheet]] %>% mutate(KEY = as.character(KEY)),
       tool = kobo_tool.tool6$survey,
       question_separator = "_"
     ) %>% mutate(Tab_name = sheet, tool = "Tool 6 - Parent", KEY = as.character(KEY)) %>% 
-      left_join(select(clean_data.tool6$data, KEY, Sample_Type) %>% mutate(KEY = as.character(KEY)), by = "KEY")
+      left_join(select(clean_data.tool6$data, KEY, Sample_Type) %>% mutate(KEY = as.character(KEY)), by = "KEY") %>% 
+      mutate(across(everything(), as.character))
   )
 }
 # Tool 7
 for(sheet in names(clean_data.tool7)){
   sm_check_result <- bind_rows(
-    sm_check_result %>% mutate(KEY = as.character(KEY)),
+    sm_check_result %>% mutate(across(everything(), as.character)),
     check_select_multiple(
       data = clean_data.tool7[[sheet]] %>% mutate(KEY = as.character(KEY)),
       tool = kobo_tool.tool7$survey,
       question_separator = "_"
     ) %>% mutate(Tab_name = sheet, tool = "Tool 7 - Shura", KEY = as.character(KEY)) %>% 
-      left_join(select(clean_data.tool7$data, KEY, Sample_Type) %>% mutate(KEY = as.character(KEY)), by = "KEY")
+      left_join(select(clean_data.tool7$data, KEY, Sample_Type) %>% mutate(KEY = as.character(KEY)), by = "KEY") %>% 
+      mutate(across(everything(), as.character))
   )
 }
 # Tool 8
 for(sheet in names(clean_data.tool8)){
   sm_check_result <- bind_rows(
-    sm_check_result,
+    sm_check_result %>% mutate(across(everything(), as.character)),
     check_select_multiple(
       data = clean_data.tool8[[sheet]],
       tool = kobo_tool.tool8$survey,
       question_separator = "_"
-    ) %>% mutate(Tab_name = sheet, tool = "Tool 8 - Class", Sample_Type = "CBE", KEY = as.character(KEY))
+    ) %>% mutate(Tab_name = sheet, tool = "Tool 8 - Class", Sample_Type = "CBE", KEY = as.character(KEY)) %>% 
+      mutate(across(everything(), as.character))
   )
 }
 # Tool 9
 for(sheet in names(clean_data.tool9)){
   sm_check_result <- bind_rows(
-    sm_check_result,
+    sm_check_result %>% mutate(across(everything(), as.character)),
     check_select_multiple(
       data = clean_data.tool9[[sheet]],
       tool = kobo_tool.tool9$survey,
       question_separator = "_"
-    ) %>% mutate(Tab_name = sheet, tool = "Tool 9 - IP", Sample_Type = "CBE", KEY = as.character(KEY))
+    ) %>% mutate(Tab_name = sheet, tool = "Tool 9 - IP", Sample_Type = "CBE", KEY = as.character(KEY)) %>% 
+      mutate(across(everything(), as.character))
   )
 }
 
