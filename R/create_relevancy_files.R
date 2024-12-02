@@ -14,6 +14,7 @@ tool7 <- read_excel("./input/tools/Tool 7.EERA Public School_CBE - Shura Tool - 
 tool8 <- read_excel("./input/tools/Tool 8.EERA CBE - Class Level Tool - R4.xlsx") %>%  mutate(name = trimws(name))
 tool9 <- read_excel("./input/tools/Tool 9.EERA CBE - IP Level Tool - R4.xlsx") %>%  mutate(name = trimws(name))
 tool0 <- read_excel("./input/tools/Tool 0.EERA Public School_CBE - Data Entry Tool - R4.xlsx") %>% mutate(name = trimws(name))
+tool1_kdr <- read_excel("./input/tools/Tool 1_kdr.EERA Public School - Headmaster_Principle Interview - V4.xlsx")
 
 # Create the relevancy Files ---------------------------------------------------
 relevancy_file0 <- create_relevancy_file(tool0, pull(tool0[which(endsWith(tool0$name, "_Translation") | endsWith(tool0$name, "_QA") | endsWith(tool0$name, "_caption") | endsWith(tool0$name, "_Caption") |
@@ -51,8 +52,12 @@ relevancy_file8 <- create_relevancy_file(tool8, pull(tool8[which(endsWith(tool8$
 relevancy_file9 <- create_relevancy_file(tool9, pull(tool9[which(endsWith(tool9$name, "_Translation") | endsWith(tool9$name, "_QA") | endsWith(tool9$name, "_caption") | endsWith(tool9$name, "_Caption") |
                                                                    endsWith(tool9$name, "_Caption")), "name"]))
 
+relevancy_file1_kdr <- create_relevancy_file(tool1_kdr, pull(tool1_kdr[which(endsWith(tool1_kdr$name, "_Translation") | endsWith(tool1_kdr$name, "_QA") | endsWith(tool1_kdr$name, "_caption") | endsWith(tool1_kdr$name, "_Caption") |
+                                                                       endsWith(tool1_kdr$name, "_Caption")), "name"]))
+
 # Export outputs ---------------------------------------------------------------
 write.xlsx(relevancy_file1, "./input/relevancy_files/relevancy_file_tool1.xlsx")
+write.xlsx(relevancy_file1_kdr, "./input/relevancy_files/relevancy_file_tool1_kdr.xlsx")
 write.xlsx(relevancy_file2, "./input/relevancy_files/relevancy_file_tool2.xlsx")
 write.xlsx(relevancy_file3, "./input/relevancy_files/relevancy_file_tool3.xlsx")
 write.xlsx(relevancy_file4, "./input/relevancy_files/relevancy_file_tool4.xlsx")

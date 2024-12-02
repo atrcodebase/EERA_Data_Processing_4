@@ -76,6 +76,91 @@ repeat_sheet_issues <- rbind(
   ) |> 
     mutate(tool = "Tool Data Entry", Sample_Type = "Public School"),
   
+  # Tool 1 KDR
+  rbind(
+    # 1
+    compare_row_counts(
+      supposed_count_df = select(clean_data.tool1_kdr$data, supposed_row_count = C11, KEY),
+      child_df = clean_data.tool1_kdr$Support_Respondents,
+      child_sheet_name = "Support_Respondents"
+    ) |> mutate(Row_count_from_tab = "data", Row_count_column_name = "C11"),
+    
+    # 2
+    compare_row_counts(
+      supposed_count_df = select(clean_data.tool1_kdr$data, supposed_row_count = School_rep, KEY),
+      child_df = clean_data.tool1_kdr$School_Operationality,
+      child_sheet_name = "School_Operationality"
+    ) |> mutate(Row_count_from_tab = "data", Row_count_column_name = "School_rep"),
+    
+    # 3
+    compare_row_counts(
+      supposed_count_df = select(clean_data.tool1_kdr$data |> mutate(C14A1_value_count = case_when(
+        is.na(C14A1) | str_trim(C14A1) == "" ~ 0,
+        TRUE ~ (str_count(C14A1, " ")+1)
+      )), supposed_row_count = C14A1_value_count, KEY),
+      child_df = clean_data.tool1_kdr$Shifts_Detail,
+      child_sheet_name = "Shifts_Detail"
+    ) |> mutate(Row_count_from_tab = "data", Row_count_column_name = "C14A1"),
+    
+    # 4
+    compare_row_counts(
+      supposed_count_df = select(clean_data.tool1_kdr$data, supposed_row_count = C15, KEY),
+      child_df = clean_data.tool1_kdr$Headmasters,
+      child_sheet_name = "Headmasters"
+    ) |> mutate(Row_count_from_tab = "data", Row_count_column_name = "C15"),
+    
+    # 5 
+    clean_data.tool1_kdr$data |>
+      mutate(supposed_row_count = 2) |>
+      filter(F3 == "1") |>
+      left_join(
+        clean_data.tool1_kdr$Weekly_Class_Schedule_New |>
+          group_by(KEY = PARENT_KEY) |>
+          summarise(current_row_count = n()) , by = "KEY") |>
+      filter(current_row_count < supposed_row_count | is.na(current_row_count)) |>
+      mutate(
+        issue = case_when(
+          is.na(current_row_count) ~ "There is at least 2 missing row for the logged KEY in Weekly_Class_Schedule_New sheet",
+          TRUE ~ paste0("There is at least ",supposed_row_count - current_row_count ," missing row for the logged KEY in Weekly_Class_Schedule_New sheet")
+        ),
+        sheet_name = "Weekly_Class_Schedule_New",
+        Row_count_column_name = "",
+        Row_count_from_tab = "data"
+      ) |>
+      select(
+        PARENT_KEY = KEY,
+        issue,
+        supposed_row_count,
+        current_row_count,
+        sheet_name,
+        Row_count_column_name,
+        Row_count_from_tab
+      ),
+    
+    # 6
+    compare_row_counts(
+      supposed_count_df = select(clean_data.tool1_kdr$data |> mutate(subject_detail_counter = 29), supposed_row_count = subject_detail_counter, KEY),
+      child_df = clean_data.tool1_kdr$Subjects_Detail,
+      child_sheet_name = "Subjects_Detail"
+    ) |> mutate(Row_count_from_tab = "data", Row_count_column_name = "subject_detail_counter"),
+    
+    # 7
+    compare_row_counts(
+      supposed_count_df = select(clean_data.tool1_kdr$data |> filter(F7 == 1), supposed_row_count = Number_of_subjects, KEY),
+      child_df = clean_data.tool1_kdr$Additional_Subjects,
+      child_sheet_name = "Additional_Subjects"
+    ) |> mutate(Row_count_from_tab = "data", Row_count_column_name = "Number_of_subjects"),
+    
+    # 8
+    compare_row_counts(
+      supposed_count_df = select(clean_data.tool1_kdr$data |> mutate(education_quality_counter = 9), supposed_row_count = education_quality_counter, KEY),
+      child_df = clean_data.tool1_kdr$Education_Quality,
+      child_sheet_name = "Education_Quality"
+    ) |> mutate(Row_count_from_tab = "data", Row_count_column_name = "education_quality_counter")
+    
+  ) |> 
+    mutate(tool = "Tool 1 - Headmaster - KDR", Sample_Type = "Public School"),
+  
   # Tool 1
   rbind(
     # 1

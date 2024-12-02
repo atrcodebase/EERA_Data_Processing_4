@@ -6721,6 +6721,9 @@ lc_tool9 <- plyr::rbind.fill(
 ) |> 
   mutate(Old_value = as.character(Old_value))
 
+# Logic Check KDR ------------------------------------------------------------
+source("R/logical_checks_kdr.R")
+
 # Combination of all tools logic checks --------------------------------------
 Logic_check_result <- plyr::rbind.fill(
   lc_tool1,
@@ -6742,7 +6745,8 @@ Logic_check_result <- plyr::rbind.fill(
   lc_tool8.attendance_record,
   lc_tool8.headcount,
   lc_tool8.v_list_member,
-  lc_tool9
+  lc_tool9,
+  Logic_check_result_kdr
 )
 
 rm(list = ls(pattern = "lc_tool.*"))

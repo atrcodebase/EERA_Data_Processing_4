@@ -1,6 +1,21 @@
 source("R/functions/missing_translation_function.R")
 
 # Find missing translations to add in the translation log -----------------
+missing_translations_kdr <- ## Tool 1 - KDR
+  plyr::rbind.fill(
+    missing_translation_func(clean_data.tool1_kdr$data) |> mutate(Tab_Name = "data"),
+    missing_translation_func(clean_data.tool1_kdr$Support_Respondents) |> mutate(Tab_Name = "Support_Respondents"),
+    missing_translation_func(clean_data.tool1_kdr$School_Operationality) |> mutate(Tab_Name = "School_Operationality"),
+    missing_translation_func(clean_data.tool1_kdr$Shifts_Detail) |> mutate(Tab_Name = "Shifts_Detail"),
+    missing_translation_func(clean_data.tool1_kdr$Headmasters) |> mutate(Tab_Name = "Headmasters"),
+    missing_translation_func(clean_data.tool1_kdr$Weekly_Class_Schedule_New) |> mutate(Tab_Name = "Weekly_Class_Schedule_New"),
+    missing_translation_func(clean_data.tool1_kdr$Subjects_Detail) |> mutate(Tab_Name = "Subjects_Detail"),
+    missing_translation_func(clean_data.tool1_kdr$Additional_Subjects) |> mutate(Tab_Name = "Additional_Subjects"),
+    missing_translation_func(clean_data.tool1_kdr$Education_Quality) |> mutate(Tab_Name = "Education_Quality"),
+    missing_translation_func(clean_data.tool1_kdr$Relevant_photos) |> mutate(Tab_Name = "Relevant_photos")
+  ) |>
+  mutate(tool = "Tool 1 - Headmaster KDR", Sample_Type = "Public School", .before = question_name)
+
 missing_translations <- plyr::rbind.fill(
   ## Tool 0
   plyr::rbind.fill(
@@ -15,6 +30,7 @@ missing_translations <- plyr::rbind.fill(
     missing_translation_func(clean_data.tool0$Tool3_Grades_Repeat) |> mutate(Tab_name = "Tool3_Grades_Repeat")
   ) |>
     mutate(tool = "Tool 0 - Data Entry", Sample_Type = "Public School", .before = question_name),
+  
   ## Tool 1
   plyr::rbind.fill(
     missing_translation_func(clean_data.tool1$data) |> mutate(Tab_Name = "data"),
@@ -133,15 +149,6 @@ missing_translations <- plyr::rbind.fill(
     mutate(tool = "Tool 9 - IP", Sample_Type = "CBE", .before = question_name)
 )
 
-## Tool 0
-# for(sheet in names(clean_data.tool0)){
-#   missing_translations <- plyr::rbind.fill(
-#     missing_translations,
-#     missing_translation_func(clean_data.tool0[[sheet]]) %>% 
-#       mutate(Tab_Name = sheet, tool = "Data Entry Tool", Sample_Type = "Public School", .before = question_name)
-#   )
-# }
-
 need_translation <- c(
   # Tool 0
   "Tool2_Months_Attendance_Signed_Other",
@@ -208,7 +215,7 @@ need_translation <- c(
   "Tool1_Timetable4_Class2_Wednesday_Other1", "Tool1_Timetable4_Class2_Wednesday_Other2", "Tool1_Timetable4_Class2_Wednesday_Other3", "Tool1_Timetable4_Class2_Wednesday_Other4", "Tool1_Timetable4_Class2_Wednesday_Other5",
   "Tool1_Timetable4_Class2_Thursday_Other1", "Tool1_Timetable4_Class2_Thursday_Other2", "Tool1_Timetable4_Class2_Thursday_Other3", "Tool1_Timetable4_Class2_Thursday_Other4", "Tool1_Timetable4_Class2_Thursday_Other5",
   
-  # Tool 1:
+    # Tool 1:
   "A31_Other", "Interviewee_Respondent_Type_Other", "B6_Other", "B9_Other", "B10_Other", "C2_Other", "C4_Other", "C4_1_Other",
   "C9_Other", "C12A3_Other",
   "E3_Other", "E4_Other", "E7_Other", "E8_Other", "E11_Other", "E12_Other", "E15_Other", "E16_Other", "E19_Other", "E20_Other",
@@ -270,8 +277,22 @@ need_translation <- c(
   "A2_Other", "A3_Other", "A4_Other", "A6_Other", "A8_Other", "B3_Other", 'B9_Other', 'C3_Other', 'C5_Other', "Respondent_Designation_Other"
  )
 
+need_translation_kdr <- c(
+  # Tool 1 KDR:
+  'A28', 'Interviewee_Respondent_Type_Other',  'B6_Other', 'B7_Other', 'B7_1', 'B7_2', 'B9_Other', 'C2_Other',
+  'C4_Other', 'C4_1_Other', 'District_SV', 'C12A3_Other', 'C13A3_Other', 'F3_No_Other', 'F16', 'Additional_Subject', 'H2_Other',
+  'H3_Other', 'I7_Other', 'I8_Other', 'J2_Other', 'J5_Other', 'J7_Other', 'J9_Other', 'J10_Other', 'J13_Other', 'J15_Other', 'J17_Other',
+  'J19_Other', 'J21_Other', 'K3_Other', 'K4_Other', 'Survey_Language_Other'
+  )
+
+
 missing_translations <- missing_translations |>
   filter(question_name %in% need_translation)
+
+missing_translations_kdr <- missing_translations_kdr |>
+  filter(question_name %in% need_translation_kdr)
+
+missing_translations <- bind_rows(missing_translations, missing_translations_kdr)
 
 
 # double check unlogged translations --------------------------------------

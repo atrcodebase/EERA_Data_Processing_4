@@ -16,6 +16,40 @@ check_logs_for_df <- function(cleaning_log, df, tool_name, deleted_keys) {
 form_names_ps <- unique(photo_status_ps$Tool) |> na.omit()
 form_names_cbe <- unique(photo_status_cbe$Tool) |> na.omit()
 
+form_names_ps
+form_names_cbe
+
+
+# Aligning New_Value of text in order to apply along with photo status -------------
+photo_status_ps <- photo_status_ps %>% 
+  mutate(
+    New_Value = case_when(
+      Check_Type == "image" ~ Check_Status,
+      TRUE ~ New_Value
+    ),
+    Question_A = Question,
+    Question = case_when(
+      Check_Type == "image" & !(Question == "C11" & Tool == "WASH Tool") ~ paste0(Question, "_QA"),
+      Check_Type == "image" & Question == "C11" & Tool == "WASH Tool" ~ paste0(Question, "_1_QA"),
+      TRUE ~ Question
+    )
+  )
+
+photo_status_cbe <- photo_status_cbe %>% 
+  mutate(
+    New_Value = case_when(
+      Check_Type == "image" ~ Check_Status,
+      TRUE ~ New_Value
+    ),
+    Question_A = Question,
+    Question = case_when(
+      Check_Type == "image" ~ paste0(Question, "_QA"),
+      TRUE ~ Question
+    )
+  )
+
+
+
 # Reviewing the Photo Status log ------------------------------------------------- PS
 # Identify log's issue
 photo_status_issues_ps <- photo_status_ps |>
@@ -27,31 +61,40 @@ photo_status_issues_ps <- photo_status_ps |>
       is.na(Tool) | Tool == "" ~ "Tool name can't be null, please provide the correct tool name.",
       is.na(Tab_Name) | Tab_Name == "" ~ "Tab/Sheet name can't be null, please provide the correct Tab name.",
       !Tool %in% form_names_ps ~ "Wrong tool name, please provide the correct tool name.", # Not necessary
-      Tool == "Headmaster Interview" & !Tab_Name %in% names(raw_data.tool1) ~ "Wrong Tab/Sheet name, please provide the correct Tab name",
+      Tool == "Headmaster Interview" & Province != "Kandahar" & !Tab_Name %in% names(raw_data.tool1) ~ "Wrong Tab/Sheet name, please provide the correct Tab name",
+      Tool == "Headmaster Interview" & Province == "Kandahar" & !Tab_Name %in% names(raw_data.tool1_kdr) ~ "Wrong Tab/Sheet name, please provide the correct Tab name",
       Tool == "Light Tool" & !Tab_Name %in% names(raw_data.tool2) ~ "Wrong Tab/Sheet name, please provide the correct Tab name",
       Tool == "Student Document & Headcount" & !Tab_Name %in% names(raw_data.tool3) ~ "Wrong Tab/Sheet name, please provide the correct Tab name",
       Tool == "Teacher Tool" & !Tab_Name %in% names(raw_data.tool4) ~ "Wrong Tab/Sheet name, please provide the correct Tab name",
       Tool == "WASH Tool" & !Tab_Name %in% names(raw_data.tool5) ~ "Wrong Tab/Sheet name, please provide the correct Tab name",
       Tool == "Parent Tool" & !Tab_Name %in% names(raw_data.tool6) ~ "Wrong Tab/Sheet name, please provide the correct Tab name",
       Tool == "Shura Tool" & !Tab_Name %in% names(raw_data.tool7) ~ "Wrong Tab/Sheet name, please provide the correct Tab name",
-      # tool == "Tool 0 - Data Entry" & !Tab_Name %in% names(raw_data.tool0) ~ "Wrong Tab/Sheet name, please provide the correct Tab name",
       duplicated(paste0(KEY_Unique, Question), fromLast = T) | duplicated(paste0(KEY_Unique, Question), fromLast = F) ~ "Duplicate log records, please solve the duplication.",
       TRUE ~ NA_character_
     ),
     Sample_Type = "Public School"
   ) |> 
-  select(KEY_Unique, Question, Value, issue, Tool, Tab_Name, Sample_Type)
+  select(KEY_Unique, Question, New_Value, issue, Tool, Tab_Name, Sample_Type, Province)
 
 # Log incorrect sheet name and UUIDs
-# photo_status_issues_ps <- photo_status_issues_ps |> check_logs_for_df(df = raw_data.tool0, tool_name = "Tool 0 - Data Entry", deleted_keys = deleted_keys_ps)
-photo_status_issues_ps <- check_logs_for_df(cleaning_log = photo_status_issues_ps,  df = clean_data.tool1, tool_name = "Headmaster Interview", deleted_keys = deleted_keys_ps)
-photo_status_issues_ps <- photo_status_issues_ps |> check_logs_for_df(df = clean_data.tool2, tool_name = "Light Tool", deleted_keys = deleted_keys_ps)
-photo_status_issues_ps <- photo_status_issues_ps |> check_logs_for_df(df = clean_data.tool3, tool_name = "Student Document & Headcount", deleted_keys = deleted_keys_ps)
-photo_status_issues_ps <- photo_status_issues_ps |> check_logs_for_df(df = clean_data.tool4, tool_name = "Teacher Tool", deleted_keys = deleted_keys_ps)
-photo_status_issues_ps <- photo_status_issues_ps |> check_logs_for_df(df = clean_data.tool5, tool_name = "WASH Tool", deleted_keys = deleted_keys_ps)
-photo_status_issues_ps <- photo_status_issues_ps |> check_logs_for_df(df = clean_data.tool6, tool_name = "Parent Tool", deleted_keys = deleted_keys_ps)
-photo_status_issues_ps <- photo_status_issues_ps |> check_logs_for_df(df = clean_data.tool7, tool_name = "Shura Tool", deleted_keys = deleted_keys_ps)
+photo_status_issues_ps_kdr <- photo_status_issues_ps %>% 
+  filter(Province == "Kandahar" & Tool == "Headmaster Interview")
 
+photo_status_issues_ps <- photo_status_issues_ps %>% 
+  filter(!(Province == "Kandahar" & Tool == "Headmaster Interview"))
+
+photo_status_issues_ps_kdr <- photo_status_issues_ps_kdr |> check_logs_for_df(df = raw_data.tool1_kdr, tool_name = "Headmaster Interview", deleted_keys = deleted_keys_ps)
+
+photo_status_issues_ps <- photo_status_issues_ps |> check_logs_for_df(df = raw_data.tool1, tool_name = "Headmaster Interview", deleted_keys = deleted_keys_ps)
+photo_status_issues_ps <- photo_status_issues_ps |> check_logs_for_df(df = raw_data.tool2, tool_name = "Light Tool", deleted_keys = deleted_keys_ps)
+photo_status_issues_ps <- photo_status_issues_ps |> check_logs_for_df(df = raw_data.tool3, tool_name = "Student Document & Headcount", deleted_keys = deleted_keys_ps)
+photo_status_issues_ps <- photo_status_issues_ps |> check_logs_for_df(df = raw_data.tool4, tool_name = "Teacher Tool", deleted_keys = deleted_keys_ps)
+photo_status_issues_ps <- photo_status_issues_ps |> check_logs_for_df(df = raw_data.tool5, tool_name = "WASH Tool", deleted_keys = deleted_keys_ps)
+photo_status_issues_ps <- photo_status_issues_ps |> check_logs_for_df(df = raw_data.tool6, tool_name = "Parent Tool", deleted_keys = deleted_keys_ps)
+photo_status_issues_ps <- photo_status_issues_ps |> check_logs_for_df(df = raw_data.tool7, tool_name = "Shura Tool", deleted_keys = deleted_keys_ps)
+
+
+photo_status_issues_ps <- bind_rows(photo_status_issues_ps, photo_status_issues_ps_kdr)
 ## Correction Log ready to apply
 photo_status_ready_ps <- photo_status_issues_ps |>
   filter(is.na(issue))
@@ -75,20 +118,20 @@ photo_status_issues_cbe <- photo_status_cbe |>
       !Tool %in% form_names_cbe ~ "Wrong tool name, please provide the correct tool name.", # Not necessary
       Tool == "Parent Tool" & !Tab_Name %in% names(raw_data.tool6) ~ "Wrong Tab/Sheet name, please provide the correct Tab name",
       Tool == "Shura Tool" & !Tab_Name %in% names(raw_data.tool7) ~ "Wrong Tab/Sheet name, please provide the correct Tab name",
-      Tool == "Tool 8 - Class" & !Tab_Name %in% names(raw_data.tool8) ~ "Wrong Tab/Sheet name, please provide the correct Tab name",
-      Tool == "Tool 9 - IP" & !Tab_Name %in% names(raw_data.tool9) ~ "Wrong Tab/Sheet name, please provide the correct Tab name",
+      Tool == "Class Tool" & !Tab_Name %in% names(raw_data.tool8) ~ "Wrong Tab/Sheet name, please provide the correct Tab name",
+      Tool == "IP Tool" & !Tab_Name %in% names(raw_data.tool9) ~ "Wrong Tab/Sheet name, please provide the correct Tab name",
       duplicated(paste0(KEY_Unique, Question), fromLast = T) | duplicated(paste0(KEY_Unique, Question), fromLast = F) ~ "Duplicate log records, please solve the duplication.",
       TRUE ~ NA_character_
     ),
     Sample_Type = "CBE", 
   ) |> 
-  select(KEY_Unique, Question, Value, issue, Tool, Tab_Name, Sample_Type)
+  select(KEY_Unique, Question, New_Value, issue, Tool, Tab_Name, Sample_Type)
 
 # Log incorrect sheet name and UUIDs
 photo_status_issues_cbe <- photo_status_issues_cbe |> check_logs_for_df(df = raw_data.tool6, tool_name = "Parent Tool", deleted_keys = deleted_keys_cbe)
 photo_status_issues_cbe <- photo_status_issues_cbe |> check_logs_for_df(df = raw_data.tool7, tool_name = "Shura Tool", deleted_keys = deleted_keys_cbe)
-photo_status_issues_cbe <- photo_status_issues_cbe |> check_logs_for_df(df = raw_data.tool8, tool_name = "Tool 8 - Class", deleted_keys = deleted_keys_cbe)
-photo_status_issues_cbe <- photo_status_issues_cbe |> check_logs_for_df(df = raw_data.tool9, tool_name = "Tool 9 - IP", deleted_keys = deleted_keys_cbe)
+photo_status_issues_cbe <- photo_status_issues_cbe |> check_logs_for_df(df = raw_data.tool8, tool_name = "Class Tool", deleted_keys = deleted_keys_cbe)
+photo_status_issues_cbe <- photo_status_issues_cbe |> check_logs_for_df(df = raw_data.tool9, tool_name = "IP Tool", deleted_keys = deleted_keys_cbe)
 
 ## Correction Log ready to apply
 photo_status_ready_cbe <- photo_status_issues_cbe |>
@@ -103,88 +146,158 @@ photo_status_issues_cbe <- photo_status_issues_cbe |>
 # Align column names -----------------------------------------------------------
 photo_status_ready_ps <- photo_status_ready_ps %>%
   rename(
-    new_value = Value,
+    new_value = New_Value,
     question = Question,
     KEY = KEY_Unique
   )
 
 photo_status_ready_cbe <- photo_status_ready_cbe %>%
   rename(
-    new_value = Value,
+    new_value = New_Value,
     question = Question,
     KEY = KEY_Unique
   )
 
-
-clean_data.tool1_compare <- clean_data.tool1
-clean_data.tool2_compare <- clean_data.tool2
-clean_data.tool3_compare <- clean_data.tool3
-clean_data.tool4_compare <- clean_data.tool4
-clean_data.tool5_compare <- clean_data.tool5
-clean_data.tool6_compare <- clean_data.tool6
-clean_data.tool7_compare <- clean_data.tool7
-clean_data.tool8_compare <- clean_data.tool8
-clean_data.tool9_compare <- clean_data.tool9
+clean_data.tool1_kdr <- raw_data.tool1_kdr
+clean_data.tool1 <- raw_data.tool1
+clean_data.tool2 <- raw_data.tool2
+clean_data.tool3 <- raw_data.tool3
+clean_data.tool4 <- raw_data.tool4
+clean_data.tool5 <- raw_data.tool5
+clean_data.tool6 <- raw_data.tool6
+clean_data.tool7 <- raw_data.tool7
+clean_data.tool8 <- raw_data.tool8
+clean_data.tool9 <- raw_data.tool9
 
 
 # Apply logs -------------------------------------------------------------------
-# Tool 0
-# for(sheet in names(clean_data.tool0)){
-#   # Apply Log
-#   clean_data.tool0[[sheet]] <- apply_log(data=clean_data.tool0[[sheet]], log = filter(photo_status_ready_ps, Tool == "Tool 0 - Data Entry" & Tab_Name == sheet))
-# }
+# Tool 1 KDR
+tool_name <- "Headmaster Interview"
+for(sheet in names(raw_data.tool1_kdr)){
+  # Apply Log
+  clean_data.tool1_kdr[[sheet]] <- clean_data.tool1_kdr[[sheet]] |>
+    mutate(
+      across(ends_with("_QA"), as.character)
+    )
+  
+  raw_data.tool1_kdr[[sheet]] <- raw_data.tool1_kdr[[sheet]] |>
+    mutate(
+      across(ends_with("_QA"), as.character)
+    )
+  
+  clean_data.tool1_kdr[[sheet]] <- apply_log(data=raw_data.tool1_kdr[[sheet]], 
+                                           log = photo_status_ready_ps %>% filter(Province == "Kandahar" & Tool == tool_name & Tab_Name == sheet))
+}
 
 # Tool 1
-tool_name <- "Headmaster Interview"
 if (any(photo_status_ready_ps$Tool == tool_name)) {
-  for(sheet in names(clean_data.tool1)){
-    clean_data.tool1[[sheet]] <- apply_log(data=clean_data.tool1[[sheet]], log = filter(photo_status_ready_ps, Tool == tool_name & Tab_Name == sheet))
+  for(sheet in names(raw_data.tool1)){
+    clean_data.tool1[[sheet]] <- clean_data.tool1[[sheet]] |>
+      mutate(
+        across(ends_with("_QA"), as.character)
+      )
+    
+    raw_data.tool1[[sheet]] <- raw_data.tool1[[sheet]] |>
+      mutate(
+        across(ends_with("_QA"), as.character)
+      )
+    
+    clean_data.tool1[[sheet]] <- apply_log(data=raw_data.tool1[[sheet]], 
+                                         log = photo_status_ready_ps %>% filter(Province != "Kandahar" & Tool == tool_name & Tab_Name == sheet))
   }
 }
 
 # Tool 2
 tool_name <- "Light Tool"
 if (any(photo_status_ready_ps$Tool == tool_name)) {
-  for(sheet in names(clean_data.tool2)){
-    clean_data.tool2[[sheet]] <- apply_log(data=clean_data.tool2[[sheet]], log = filter(photo_status_ready_ps, Tool == tool_name & Tab_Name == sheet))
+  for(sheet in names(raw_data.tool2)){
+    clean_data.tool2[[sheet]] <- clean_data.tool2[[sheet]] |>
+      mutate(
+        across(ends_with("_QA"), as.character)
+      )
+    
+    raw_data.tool2[[sheet]] <- raw_data.tool2[[sheet]] |>
+      mutate(
+        across(ends_with("_QA"), as.character)
+      )
+    
+    clean_data.tool2[[sheet]] <- apply_log(data=raw_data.tool2[[sheet]], log = filter(photo_status_ready_ps, Tool == tool_name & Tab_Name == sheet))
   }
 }
 
 # Tool 3
 tool_name <- "Student Document & Headcount"
 if (any(photo_status_ready_ps$Tool == tool_name)) {
-  for(sheet in names(clean_data.tool3)){
-    clean_data.tool3[[sheet]] <- apply_log(data=clean_data.tool3[[sheet]], log = filter(photo_status_ready_ps, Tool == tool_name & Tab_Name == sheet))
+  for(sheet in names(raw_data.tool3)){
+    clean_data.tool3[[sheet]] <- clean_data.tool3[[sheet]] |>
+      mutate(
+        across(ends_with("_QA"), as.character)
+      )
+    
+    raw_data.tool3[[sheet]] <- raw_data.tool3[[sheet]] |>
+      mutate(
+        across(ends_with("_QA"), as.character)
+      )
+    
+    clean_data.tool3[[sheet]] <- apply_log(data=raw_data.tool3[[sheet]], log = filter(photo_status_ready_ps, Tool == tool_name & Tab_Name == sheet))
   }
 }
 
 # Tool 4
 tool_name <- "Teacher Tool"
 if (any(photo_status_ready_ps$Tool == tool_name)) {
-  for(sheet in names(clean_data.tool4)){
-    clean_data.tool4[[sheet]] <- apply_log(data=clean_data.tool4[[sheet]], log = filter(photo_status_ready_ps, Tool == tool_name & Tab_Name == sheet))
+  for(sheet in names(raw_data.tool4)){
+    clean_data.tool4[[sheet]] <- clean_data.tool4[[sheet]] |>
+      mutate(
+        across(ends_with("_QA"), as.character)
+      )
+    
+    raw_data.tool4[[sheet]] <- raw_data.tool4[[sheet]] |>
+      mutate(
+        across(ends_with("_QA"), as.character)
+      )
+    
+    clean_data.tool4[[sheet]] <- apply_log(data=raw_data.tool4[[sheet]], log = filter(photo_status_ready_ps, Tool == tool_name & Tab_Name == sheet))
   }
 }
 
 # Tool 5
 tool_name <- "WASH Tool"
 if (any(photo_status_ready_ps$Tool == tool_name)) {
-  for(sheet in names(clean_data.tool5)){
+  # sheet = "data"
+  for(sheet in names(raw_data.tool5)){
     
     clean_data.tool5[[sheet]] <- clean_data.tool5[[sheet]] |>
       mutate(
-        across(ends_with("_Translation"), as.character)
+        across(ends_with("_QA"), as.character)
       )
     
-    clean_data.tool5[[sheet]] <- apply_log(data=clean_data.tool5[[sheet]], log = filter(photo_status_ready_ps, Tool == tool_name & Tab_Name == sheet))
+    raw_data.tool5[[sheet]] <- raw_data.tool5[[sheet]] |>
+      mutate(
+        across(ends_with("_QA"), as.character)
+      )
+    
+    clean_data.tool5[[sheet]] <- apply_log(data=raw_data.tool5[[sheet]], log = filter(photo_status_ready_ps, Tool == tool_name & Tab_Name == sheet))
   }
 }
 
 # Tool 6
 tool_name <- "Parent Tool"
 if (any(photo_status_ready_ps$Tool == tool_name)) {
-  for(sheet in names(clean_data.tool6)){
-    clean_data.tool6[[sheet]] <- apply_log(data=clean_data.tool6[[sheet]], log = filter(photo_status_ready_ps, Tool == tool_name & Tab_Name == sheet))
+  for(sheet in names(raw_data.tool6)){
+    
+    clean_data.tool6[[sheet]] <- clean_data.tool6[[sheet]] |>
+      mutate(
+        across(ends_with("_QA"), as.character)
+      )
+    
+    raw_data.tool6[[sheet]] <- raw_data.tool6[[sheet]] |>
+      mutate(
+        across(ends_with("_QA"), as.character)
+      )
+    
+    
+    clean_data.tool6[[sheet]] <- apply_log(data=raw_data.tool6[[sheet]], log = filter(photo_status_ready_ps, Tool == tool_name & Tab_Name == sheet))
   }
 }
 
@@ -197,8 +310,18 @@ if (any(photo_status_ready_cbe$Tool == tool_name)) {
 # Tool 7
 tool_name <- "Shura Tool"
 if (any(photo_status_ready_ps$Tool == tool_name)) {
-  for(sheet in names(clean_data.tool7)){
-    clean_data.tool7[[sheet]] <- apply_log(data=clean_data.tool7[[sheet]], log = filter(photo_status_ready_ps, Tool == tool_name & Tab_Name == sheet))
+  for(sheet in names(raw_data.tool7)){
+    clean_data.tool7[[sheet]] <- clean_data.tool7[[sheet]] |>
+      mutate(
+        across(ends_with("_QA"), as.character)
+      )
+    
+    raw_data.tool7[[sheet]] <- raw_data.tool7[[sheet]] |>
+      mutate(
+        across(ends_with("_QA"), as.character)
+      )
+    
+    clean_data.tool7[[sheet]] <- apply_log(data=raw_data.tool7[[sheet]], log = filter(photo_status_ready_ps, Tool == tool_name & Tab_Name == sheet))
   }
 }
 
@@ -209,26 +332,38 @@ if (any(photo_status_ready_cbe$Tool == tool_name)) {
 }
 
 # Tool 8
-tool_name <- "Tool 8 - Class"
+tool_name <- "Class Tool"
 if (any(photo_status_ready_cbe$Tool == tool_name)) {
-  for(sheet in names(clean_data.tool8)){
-    clean_data.tool8[[sheet]] <- apply_log(data=clean_data.tool8[[sheet]], log = filter(photo_status_ready_cbe, Tool == tool_name & Tab_Name == sheet))
+  for(sheet in names(raw_data.tool8)){
+    clean_data.tool8[[sheet]] <- clean_data.tool8[[sheet]] |>
+      mutate(
+        across(ends_with("_QA"), as.character)
+      )
+    
+    raw_data.tool8[[sheet]] <- raw_data.tool8[[sheet]] |>
+      mutate(
+        across(ends_with("_QA"), as.character)
+      )
+    
+    clean_data.tool8[[sheet]] <- apply_log(data=raw_data.tool8[[sheet]], log = filter(photo_status_ready_cbe, Tool == tool_name & Tab_Name == sheet))
   }
 }
 
 # Tool 9
-tool_name <- "Tool 9 - IP"
+tool_name <- "IP Tool"
 if (any(photo_status_ready_cbe$Tool == tool_name)) {
-  for(sheet in names(clean_data.tool9)){
-    
+  for(sheet in names(raw_data.tool9)){
     clean_data.tool9[[sheet]] <- clean_data.tool9[[sheet]] |>
       mutate(
-        across(ends_with("_Translation"), as.character)
+        across(ends_with("_QA"), as.character)
       )
-  }
-  
-  for(sheet in names(clean_data.tool9)){
-    clean_data.tool9[[sheet]] <- apply_log(data=clean_data.tool9[[sheet]], log = filter(photo_status_ready_cbe, Tool == tool_name & Tab_Name == sheet))
+    
+    raw_data.tool9[[sheet]] <- raw_data.tool9[[sheet]] |>
+      mutate(
+        across(ends_with("_QA"), as.character)
+      )
+    
+    clean_data.tool9[[sheet]] <- apply_log(data=raw_data.tool9[[sheet]], log = filter(photo_status_ready_cbe, Tool == tool_name & Tab_Name == sheet))
   }
 }
 
@@ -239,21 +374,21 @@ message("Verifying Correction log, please wait!")
 # Update the compare_df function in atrFunctions
 photo_status_log_discrep <- data.frame()
 
-# Tool 0
-# for(sheet in names(clean_data.tool0)){
-#   # Compare
-#   photo_status_log_discrep <- rbind(
-#     photo_status_log_discrep,
-#     compare_dt(clean_data.tool0[[sheet]], raw_data.tool0[[sheet]]) |>
-#       mutate(tool="Tool 0 - Data Entry", Tab_Name = sheet, KEY_join = paste0(KEY, question, old_value, tool, Tab_Name))
-#   )
-# }
+# Tool 1 KDR
+for(sheet in names(clean_data.tool1_kdr)){
+  # Compare
+  photo_status_log_discrep <- rbind(
+    photo_status_log_discrep,
+    compare_dt(clean_data.tool1_kdr[[sheet]], raw_data.tool1_kdr[[sheet]]) |>
+      mutate(tool="Headmaster Interview", Tab_Name = sheet, KEY_join = paste0(KEY, question, old_value, tool, Tab_Name))
+  )
+}
 
 # Tool 1
 for(sheet in names(clean_data.tool1)){
   photo_status_log_discrep <- rbind(
     photo_status_log_discrep,
-    compare_dt(clean_data.tool1[[sheet]], clean_data.tool1_compare[[sheet]]) |>
+    compare_dt(clean_data.tool1[[sheet]], raw_data.tool1[[sheet]]) |>
       mutate(tool="Headmaster Interview", Tab_Name = sheet, KEY_join = paste0(KEY, question, old_value, tool, Tab_Name))
   )
 }
@@ -262,7 +397,7 @@ for(sheet in names(clean_data.tool1)){
 for(sheet in names(clean_data.tool2)){
   photo_status_log_discrep <- rbind(
     photo_status_log_discrep,
-    compare_dt(clean_data.tool2[[sheet]], clean_data.tool2_compare[[sheet]]) |>
+    compare_dt(clean_data.tool2[[sheet]], raw_data.tool2[[sheet]]) |>
       mutate(tool="Light Tool", Tab_Name = sheet, KEY_join = paste0(KEY, question, old_value, tool, Tab_Name))
   )
 }
@@ -271,7 +406,7 @@ for(sheet in names(clean_data.tool2)){
 for(sheet in names(clean_data.tool3)){
   photo_status_log_discrep <- rbind(
     photo_status_log_discrep,
-    compare_dt(clean_data.tool3[[sheet]], clean_data.tool3_compare[[sheet]]) |>
+    compare_dt(clean_data.tool3[[sheet]], raw_data.tool3[[sheet]]) |>
       mutate(tool="Student Document & Headcount", Tab_Name = sheet, KEY_join = paste0(KEY, question, old_value, tool, Tab_Name))
   )
 }
@@ -281,7 +416,7 @@ for(sheet in names(clean_data.tool3)){
 for(sheet in names(clean_data.tool4)){
   photo_status_log_discrep <- rbind(
     photo_status_log_discrep,
-    compare_dt(clean_data.tool4[[sheet]], clean_data.tool4_compare[[sheet]]) |>
+    compare_dt(clean_data.tool4[[sheet]], raw_data.tool4[[sheet]]) |>
       mutate(tool="Teacher Tool", Tab_Name = sheet, KEY_join = paste0(KEY, question, old_value, tool, Tab_Name))
   )
 }
@@ -290,7 +425,7 @@ for(sheet in names(clean_data.tool4)){
 for(sheet in names(clean_data.tool5)){
   photo_status_log_discrep <- rbind(
     photo_status_log_discrep,
-    compare_dt(clean_data.tool5[[sheet]], clean_data.tool5_compare[[sheet]]) |>
+    compare_dt(clean_data.tool5[[sheet]], raw_data.tool5[[sheet]]) |>
       mutate(tool="WASH Tool", Tab_Name = sheet, KEY_join = paste0(KEY, question, old_value, tool, Tab_Name))
   )
 }
@@ -300,7 +435,7 @@ for(sheet in names(clean_data.tool5)){
 for(sheet in names(clean_data.tool6)){
   photo_status_log_discrep <- rbind(
     photo_status_log_discrep,
-    compare_dt(clean_data.tool6[[sheet]], clean_data.tool6_compare[[sheet]]) |>
+    compare_dt(clean_data.tool6[[sheet]], raw_data.tool6[[sheet]]) |>
       mutate(tool="Parent Tool", Tab_Name = sheet, KEY_join = paste0(KEY, question, old_value, tool, Tab_Name))
   )
 }
@@ -309,7 +444,7 @@ for(sheet in names(clean_data.tool6)){
 for(sheet in names(clean_data.tool7)){
   photo_status_log_discrep <- rbind(
     photo_status_log_discrep,
-    compare_dt(clean_data.tool7[[sheet]], clean_data.tool7_compare[[sheet]]) |>
+    compare_dt(clean_data.tool7[[sheet]], raw_data.tool7[[sheet]]) |>
       mutate(tool="Shura Tool", Tab_Name = sheet, KEY_join = paste0(KEY, question, old_value, tool, Tab_Name))
   )
 }
@@ -318,8 +453,8 @@ for(sheet in names(clean_data.tool7)){
 for(sheet in names(clean_data.tool8)){
   photo_status_log_discrep <- rbind(
     photo_status_log_discrep,
-    compare_dt(clean_data.tool8[[sheet]], clean_data.tool8_compare[[sheet]]) |>
-      mutate(tool="Tool 8 - Class", Tab_Name = sheet, KEY_join = paste0(KEY, question, old_value, tool, Tab_Name))
+    compare_dt(clean_data.tool8[[sheet]], raw_data.tool8[[sheet]]) |>
+      mutate(tool="Class Tool", Tab_Name = sheet, KEY_join = paste0(KEY, question, old_value, tool, Tab_Name))
   )
 }
 
@@ -327,8 +462,8 @@ for(sheet in names(clean_data.tool8)){
 for(sheet in names(clean_data.tool9)){
   photo_status_log_discrep <- rbind(
     photo_status_log_discrep,
-    compare_dt(clean_data.tool9[[sheet]], clean_data.tool9_compare[[sheet]]) |>
-      mutate(tool="Tool 9 - IP", Tab_Name = sheet, KEY_join = paste0(KEY, question, old_value, tool, Tab_Name))
+    compare_dt(clean_data.tool9[[sheet]], raw_data.tool9[[sheet]]) |>
+      mutate(tool="IP Tool", Tab_Name = sheet, KEY_join = paste0(KEY, question, old_value, tool, Tab_Name))
   )
 }
 
@@ -347,12 +482,14 @@ photo_status_log_discrep <- photo_status_log_discrep |>
   select(-KEY_join)
 
 # Join with Correction log issues
-photo_status_log_discrep <- rbind( 
+photo_status_log_discrep <- bind_rows( 
   photo_status_log_discrep,
   photo_status_issues_ps |>
-    select(any_of(required_cols), tool = Tool, KEY = KEY_Unique, Sample_Type, "issue"),
+    rename(old_value = New_Value, question = Question, KEY = KEY_Unique, tool = Tool) %>% 
+    select(any_of(required_cols), tool, KEY, Sample_Type, issue),
   photo_status_issues_cbe |>
-    select(any_of(required_cols), tool = Tool, KEY = KEY_Unique, Sample_Type, "issue")
+    rename(old_value = New_Value,  question = Question, KEY = KEY_Unique, tool = Tool) %>% 
+    select(any_of(required_cols), tool, KEY, Sample_Type, issue)
 )
 
 # Removing extra objects -------------------------------------------------------

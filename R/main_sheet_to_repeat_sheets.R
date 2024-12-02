@@ -19,6 +19,17 @@ for (sheet in names(clean_data.tool0)[c(5, 6, 7, 8)]) {
     select(any_of(meta_cols), everything())
 }
 
+## Tool 1: ----- KDR
+clean_data.tool1_kdr$data <- clean_data.tool1_kdr$data |>
+  left_join(qa_sheet_ps |> select(KEY, qa_log_status = qa_status), by = "KEY")
+
+for(sheet in names(clean_data.tool1_kdr)[-1]){
+  clean_data.tool1_kdr[[sheet]] <- clean_data.tool1_kdr[[sheet]] |>
+    mutate(PARENT_KEY = as.character(PARENT_KEY)) |>
+    left_join(select(clean_data.tool1_kdr$data, any_of(meta_cols), KEY, qa_log_status), by = c("PARENT_KEY" = "KEY")) |>
+    select(any_of(meta_cols), everything())
+}
+
 ## Tool 1: -----
 clean_data.tool1$data <- clean_data.tool1$data |>
   left_join(qa_sheet_ps |> select(KEY, qa_log_status = qa_status), by = "KEY")

@@ -462,8 +462,67 @@ extra_cols.tool0 <- c(
 )
 
 
+extra_cols.tool_kdr <- c(
+  # Meta cols
+  "Passcode", "deviceid", "subscriberid", "simid", "devicephonenum", "username", "duration", "device_info", "comments", "Surveyor_Name", "ID_Check", "Province_filter",
+  "Province_DariPashto", "District_DariPashto", "Village_DariPashto", "Date_And_Time", "School_CBE_Name_DariPashto",
+  "Sector",	"Line_Ministry_Name",	"Line_Ministry_Project_Id",	"Line_Ministry_SubProject_Id",	"Type_Of_Implementing_Partner",	"Type_Of_Site_Visit",	"Type_Of_Visit",
+  "If_not_a_first_Site_Visit_state_Original_Site_Visit_ID",	"tpma_location_id", "Line_Ministry_Sub_Project_Name_And_Description",	
+  "Reporting_Period",	"Class1_N_Sample",	"Class2_N_Sample",	"Class3_N_Sample",	"Class4_N_Sample",	"Class5_N_Sample",	"Class6_N_Sample",	"Class7_N_Sample",	"Class8_N_Sample",
+  "Class9_N_Sample",	"Class10_N_Sample",	"Class11_N_Sample",	"Class12_N_Sample", "Province_Climate", "Survey_Language", "Survey_Language_Other",
+  "Village", "instanceID", "formdef_version", 
+  "Type_Of_School_CBE_Based_On_The_Sample_DariPashto", "TPMA_Location_Name", "Entity_Type", "acknowledge",# New
+  'qa_log_status', 'indx1', 'indx3', 'F1_Value', 'F3_Value', 'subj_index', 'AA_Full', 'Shift_name', 'Sub_name',# NEW
+  
+  # PII
+  "B2", "B5A1", "B5A2","C5", "C6A1", "C6A2", "C12A1", "C12A4", "C15A1", 
+  
+  
+  # GPS
+  "Geopoint1-Latitude",	"Geopoint1-Longitude",	"Geopoint1-Altitude",	"Geopoint1-Accuracy", "Geopoint2-Latitude", "Geopoint2-Longitude", "Geopoint2-Altitude", "Geopoint2-Accuracy",
+  "Geopoint0-Latitude",  "Geopoint0-Longitude" ,"Geopoint0-Altitude",  "Geopoint0-Accuracy",  "Geopoint3-Latitude",  "Geopoint3-Longitude", "Geopoint3-Altitude",  "Geopoint3-Accuracy" ,
+  "Geopoint4-Latitude",  "Geopoint4-Longitude", "Geopoint4-Altitude",  "Geopoint4-Accuracy",  "Geopoint5-Latitude",  "Geopoint5-Longitude", "Geopoint5-Altitude",  "Geopoint5-Accuracy" ,
+  "Geopoint6-Latitude",  "Geopoint6-Longitude", "Geopoint6-Altitude",  "Geopoint6-Accuracy", 
+  
+  
+  # URLs
+  "text_audit_full",
+  
+  # Labels
+  "Grade_Name_Dari",	"Grade_Name_Pashto",'Shift_Name_Dari',"Shift_Name_Pashto", "Sub_name_Dari",	"Sub_name_Pashto", "Feature_Dari",	"Feature_Pashto",
+  
+  
+  # Captions
+  "B19_Caption", "B20_Caption", "F2_Caption", "J24_Caption", "L2_Caption", "Please_Add_Any_Relevant_Photo_caption", "A32_Caption",
+  "F2_2_Caption", "F2_3_Caption", "F4_Caption",	"F4_2_Caption",	"F4_3_Caption", # NEW
+  
+  
+  # Notes and Re-coded
+  "interview_to_be_conducted_with_English", "interview_to_be_conducted_with_Dari", "interview_to_be_conducted_with_Pashto", "Surveyor_Comments",
+  "Surveyor_Comments_Translation",	"join_Grade_Name_Eng",	"join_Shift_Name_Eng", "Sample_Type",  "Count_Weekly_Class_Schedule_Photo.re_calc",
+  
+  # Repeat counter and SET-OFF
+  "Support_Respondents_count", "SET-OF-Support_Respondents", "School_Operationality_count", "SET-OF-School_Operationality", # Do find and search for SET-OF and count
+  "School_Operationality_Other_Grades_count",	"SET-OF-School_Operationality_Other_Grades",	"Shifts_Detail_count",	"SET-OF-Shifts_Detail",
+  "Other_Shifts_Detail_count",	"SET-OF-Other_Shifts_Detail", "Headmasters_count",	"SET-OF-Headmasters", "Curriculum_Changes_count",	"SET-OF-Curriculum_Changes", 
+  "SET-OF-Weekly_Class_Schedule",	"Count_Weekly_Class_Schedule_Photo",	"Grades_Curriculum_count", "SET-OF-Grades_Curriculum",
+  "Subjects_Detail_count", "SET-OF-Subjects_Detail", "Education_Quality_count",	"SET-OF-Education_Quality", "SET-OF-Relevant_photos",
+  "School_indx", "School_rep",
+  "Weekly_Schedule_Old_count",	"SET-OF-Weekly_Schedule_Old", "Weekly_Schedule_New_count",	"SET-OF-Weekly_Schedule_New", # NEW
+  "Additional_Subjects_count",	"SET-OF-Additional_Subjects",	"Count_Additional_Subjects", 'Count_Support_Respondents', 'Type_Of_School_Sample_Value',	'Count_School_Operationality',
+  'Count_Shifts',	'Count_Shifts_Detail', 'Count_Headmasters', 'SET-OF-Weekly_Class_Schedule_New',	'Count_Weekly_Class_Schedule_New', # NEW
+  
+  
+  # FDE Cols
+  "FDE_Dari_Hours", "FDE_Mathematics_Hours", "FDE_Drawing_Hours", "FDE_Life_Skills_Hours", "FDE_Calligraphy_Hours", "FDE_English_Hours", "FDE_Pashto_Hours", "FDE_Social_Studies_Hours", "FDE_Arabic_Hours",
+  "FDE_Civics_Hours", "FDE_Professional_Skills_Hours", "FDE_Biology_Hours", "FDE_Geography_Hours", "FDE_History_Hours", "FDE_Physics_Hours", "FDE_Chemistry_Hours", "FDE_Islamic_Studies_Hours",
+  "FDE_Holy_Quran_Hours", "FDE_Tajweed_Hours", "FDE_Patriotism_Hours", "FDE_Other_Hours"
+)
+
+
 # cloning clean datasets for client version
 clean_data.tool0_for_client_ulabeled <- clean_data.tool0_ulabeled
+clean_data.tool1_kdr_for_client_ulabeled <- clean_data.tool1_kdr_ulabeled
 clean_data.tool1_for_client_ulabeled <- clean_data.tool1_ulabeled
 clean_data.tool2_for_client_ulabeled <- clean_data.tool2_ulabeled
 clean_data.tool3_for_client_ulabeled <- clean_data.tool3_ulabeled
@@ -483,6 +542,15 @@ for (sheet in names(clean_data.tool0_for_client_ulabeled)[-1]) {
   clean_data.tool0_for_client_ulabeled[[sheet]] <- clean_data.tool0_for_client_ulabeled[[sheet]] |> select(-any_of(c(extra_cols.tool0, qa_cols, "starttime"))) |>
     select(Site_Visit_ID, EMIS_School_ID_CBE_KEY, everything())
 }
+
+# Tool 1 KDR -----
+clean_data.tool1_kdr_for_client_ulabeled$data <- clean_data.tool1_kdr_ulabeled$data %>% select(-any_of(c(extra_cols.tool1_kdr, qa_cols)))
+
+for (sheet in names(clean_data.tool1_kdr_for_client_ulabeled)[-1]) {
+  clean_data.tool1_kdr_for_client_ulabeled[[sheet]] <- clean_data.tool1_kdr_for_client_ulabeled[[sheet]] |> select(-any_of(c(extra_cols.tool1_kdr, qa_cols, "starttime"))) |>
+    select(Site_Visit_ID, EMIS_School_ID_CBE_KEY, everything())
+}
+
 
 # Tool 1 -----
 clean_data.tool1_for_client_ulabeled$data <- clean_data.tool1_ulabeled$data %>% select(-any_of(c(extra_cols.tool1, qa_cols)))
@@ -555,3 +623,4 @@ clean_data.tool9_for_client_ulabeled$Relevant_photos <- clean_data.tool9_ulabele
 
 # remove extra objects from environment  
 remove(list = c("qa_cols"))
+

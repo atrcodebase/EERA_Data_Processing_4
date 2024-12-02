@@ -1,5 +1,3 @@
-Coalesce = function(var) ifelse(is.na(var), 0, var)
-
 # create the necessary columns --------------------------------------------
 # Tool 0
 clean_data.tool0$data <- clean_data.tool0$data |>

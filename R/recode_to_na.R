@@ -65,6 +65,24 @@ clean_data.tool2_for_client$Students_Pack_Group <- clean_data.tool2_for_client$S
 #  Tool 3
 clean_data.tool3_for_client$Student_Headcount <- clean_data.tool3_for_client$Student_Headcount |>
   mutate(
+    E3_Total_Students = as.character(E3_Total_Students),
+    E3_Total_Students = case_when(
+      E3_Total_Students == "8888" ~ "I don't know",
+      TRUE ~ E3_Total_Students
+    ),
+    
+    E3_Regularly_Present = as.character(E3_Regularly_Present),
+    E3_Regularly_Present = case_when(
+      E3_Regularly_Present == "8888" ~ "I don't know",
+      TRUE ~ E3_Regularly_Present
+    ),
+    
+    E3_Permanently_Absent = as.character(E3_Permanently_Absent),
+    E3_Permanently_Absent = case_when(
+      E3_Permanently_Absent == "8888" ~ "I don't know",
+      TRUE ~ E3_Permanently_Absent
+    ),
+    
     E5_Male = as.character(E5_Male),
     E5_Male = case_when(
       E5_Male == "9999" ~ "Don't with to respond",
@@ -147,9 +165,26 @@ clean_data.tool3_for_client$Tool3_Grades_Repeat <- clean_data.tool3_for_client$T
     
   )
 
-# # Tool 4
-# 
-# 
+# Tool 4
+clean_data.tool4_for_client$data  <- clean_data.tool4_for_client$data %>% 
+  mutate(
+    D7_Year = as.character(D7_Year),
+    D7_Month = as.character(D7_Month),
+    
+    D7_Year = case_when(
+      D7_Year == "8888" ~ "I don't know",
+      D7_Year == "9999" ~ "Don't with to respond",
+      TRUE ~ D7_Year
+    ),
+    
+    D7_Month = case_when(
+      D7_Month == "8888" ~ "I don't know",
+      D7_Month == "9999" ~ "Don't with to respond",
+      TRUE ~ D7_Month
+    )
+  )
+
+ 
 # Tool 5
 clean_data.tool5_for_client$data <- clean_data.tool5_for_client$data |>
   mutate(
@@ -183,6 +218,20 @@ clean_data.tool6_for_client$data <- clean_data.tool6_for_client$data |>
       TRUE ~ B6
     )
   )
+
+
+
+# FIXME: Check out these integer values for 8888/9999 once data received
+# E2
+# E7
+# E8
+# E12
+# E13
+# E17
+# Headcount_Male_Students
+# Headcount_Female_Students
+# Y4_N
+
 
 # Tool 8
 clean_data.tool8_for_client$data <- clean_data.tool8_for_client$data |>
@@ -288,7 +337,13 @@ clean_data.tool8_for_client$V_list_of_all_members <- clean_data.tool8_for_client
 
 
 # Tool 9
-clean_data.tool9_for_client$data <- clean_data.tool9_for_client$data |>
+
+# FIXME: Check out these integer values for 8888/9999 once data received
+# B6_Days_Ago
+# C2_Days_Ago
+
+
+clean_data.tool9_for_client$Questions_Repeat <- clean_data.tool9_for_client$Questions_Repeat |>
   mutate(
     A12_Female_Numbers = as.character(A12_Female_Numbers),
     A12_Female_Numbers = case_when(
@@ -318,5 +373,4 @@ clean_data.tool9_for_client$data <- clean_data.tool9_for_client$data |>
       TRUE ~ A14_Male_Numbers
     )
   )
-
 

@@ -8,6 +8,7 @@ join_dfs <- function(df1, df2){
 
 # Cloning df
 clean_data.tool0_joined <- clean_data.tool0
+clean_data.tool1_kdr_joined <- clean_data.tool1_kdr
 clean_data.tool1_joined <- clean_data.tool1
 clean_data.tool2_joined <- clean_data.tool2
 clean_data.tool3_joined <- clean_data.tool3
@@ -29,6 +30,12 @@ for(sheet in names(clean_data.tool0_joined)[c(2, 3, 4, 9)]){
 for(sheet in names(clean_data.tool0_joined)[c(5, 6, 7, 8)]){
   # Join
   clean_data.tool0_joined[[sheet]] <- join_dfs(clean_data.tool0_joined[[sheet]], clean_data.tool0$data |> select(!any_of(meta_cols)))
+}
+
+# Tool 1 KDR
+for(sheet in names(clean_data.tool1_kdr_joined)[-1]){
+  # Join
+  clean_data.tool1_kdr_joined[[sheet]] <- join_dfs(clean_data.tool1_kdr_joined[[sheet]], clean_data.tool1_kdr$data |> select(!any_of(meta_cols)))
 }
 
 # Tool 1
@@ -85,6 +92,7 @@ clean_data.tool9_joined$Relevant_photos <- join_dfs(clean_data.tool9$Relevant_ph
 
 # listing the required questions -----------------------------------------------
 tool0.notrequired_questions <- kobo_tool.tool0$survey %>% filter((required %in% c("False", "FALSE", "") | is.na(required)) & !is.na(name)) %>% pull(name)
+tool1_kdr.notrequired_questions <- kobo_tool.tool1_kdr$survey %>% filter((required %in% c("False", "FALSE", "") | is.na(required)) & !is.na(name)) %>% pull(name)
 tool1.notrequired_questions <- kobo_tool.tool1$survey %>% filter((required %in% c("False", "FALSE", "") | is.na(required)) & !is.na(name)) %>% pull(name)
 tool2.notrequired_questions <- kobo_tool.tool2$survey %>% filter((required %in% c("False", "FALSE", "") | is.na(required)) & !is.na(name)) %>% pull(name)
 tool3.notrequired_questions <- kobo_tool.tool3$survey %>% filter((required %in% c("False", "FALSE", "") | is.na(required)) & !is.na(name)) %>% pull(name)
@@ -111,6 +119,25 @@ for (sheet in names(clean_data.tool0_joined)) {
     mutate(tool = "Tool - Data Entry", Sample_Type = "Public School") |>
     filter(!question %in% tool0.notrequired_questions)
 }
+
+# Tool 1 KDR
+for (sheet in names(clean_data.tool1_kdr_joined)[-10]) {
+  
+  temp <- check_relevancy_rules(data = clean_data.tool1_kdr_joined[[sheet]],  
+                                tool_relevancy = relevancy_file.tool1_kdr, 
+                                sheet_name = sheet) |> 
+    mutate(tool = "Tool 1 - Headmaster KDR", Sample_Type = "Public School")
+  
+  if(nrow(temp) > 0){
+    relevancy_issues <- plyr::rbind.fill(
+      relevancy_issues, 
+      temp |>
+        filter(!question %in% tool1_kdr.notrequired_questions)
+    )
+  }
+  temp <- NULL
+}
+
 
 # Tool 1
 for (sheet in names(clean_data.tool1_joined)) {

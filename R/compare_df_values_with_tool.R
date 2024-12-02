@@ -13,6 +13,17 @@ for (sheet in names(clean_data.tool0)) {
                                 ) %>% mutate(Sheet = sheet, tool = "Tool Data Entry", Sample_Type = "Public School")
   )
 }
+
+# Tool 1 KDR
+for (sheet in names(clean_data.tool1_kdr)) {
+  wrong_choices_result <- rbind(wrong_choices_result,
+                                check_so_sm_questions(
+                                  df = clean_data.tool1_kdr[[sheet]] %>% select(!any_of(to_be_excluded_questions)),
+                                  kobotool.survey = kobo_tool.tool1_kdr$survey,
+                                  kobotool.choices = kobo_tool.tool1_kdr$choices
+                                ) %>% mutate(Sheet = sheet, tool = "Tool 1 - Headmaster KDR", Sample_Type = "Public School")
+  )
+}
   
 # Tool 1
 for (sheet in names(clean_data.tool1)) {

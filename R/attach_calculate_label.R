@@ -47,6 +47,17 @@ clean_data.tool0_for_client$Tool1_Timetable3_Repeat <- clean_data.tool0_for_clie
   select(any_of(meta_cols2), Tool1_Timetable3_Field_Label, everything()) |>
   select(-Tool1_Timetable3_Field_Value)
 
+# Tool1 KDR
+clean_data.tool1_kdr_for_client$Shifts_Detail <- clean_data.tool1_kdr_for_client$Shifts_Detail |>
+  select(-Shift_name) |>
+  left_join(
+    kobo_tool.tool1_kdr$choices |>
+      filter(list_name == "shifts") |>
+      mutate(value = as.integer(value)) |>
+      select(value, Shift_name = "label"), by = c("Shift_indx" = "value")) |>
+  select(any_of(meta_cols2), Shift_name, everything()) |>
+  select(-Shift_indx)
+
 # Tool2
 clean_data.tool2_for_client$Shifts_Detail <- clean_data.tool2_for_client$Shifts_Detail |>
   select(-Shift_name) |>

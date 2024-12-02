@@ -10,6 +10,13 @@ for (sheet in names(clean_data.tool0)[c(5,6,7,8)]) {
   clean_data.tool0[[sheet]] <- clean_data.tool0[[sheet]] %>% filter(PARENT_KEY %in% clean_data.tool0$Tool1_Timetable_Year$KEY & !KEY %in% c(deleted_keys_ps, deleted_keys_cbe))
 }
 
+# Tool 1 - Headmaster - KDR
+clean_data.tool1_kdr$data <- clean_data.tool1_kdr$data %>% filter(KEY %in% c(approved_keys_ps) & !KEY %in% deleted_keys_ps)
+for(sheet in names(clean_data.tool1_kdr)[-1]){
+  clean_data.tool1_kdr[[sheet]] <- clean_data.tool1_kdr[[sheet]] %>% filter(PARENT_KEY %in% clean_data.tool1_kdr$data$KEY & !KEY %in% deleted_keys_ps)
+}
+
+
 # Tool 1 - Headmaster
 clean_data.tool1$data <- clean_data.tool1$data %>% filter(KEY %in% c(approved_keys_ps) & !KEY %in% deleted_keys_ps)
 for(sheet in names(clean_data.tool1)[-1]){
@@ -65,3 +72,4 @@ clean_data.tool9$data <- clean_data.tool9$data %>% filter(KEY %in% c(approved_ke
 for(sheet in names(clean_data.tool9)[-1]){
   clean_data.tool9[[sheet]] <- clean_data.tool9[[sheet]] %>% filter(PARENT_KEY %in% clean_data.tool9$data$KEY & !KEY %in% deleted_keys_ps)
 }
+

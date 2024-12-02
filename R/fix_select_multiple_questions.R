@@ -5,6 +5,13 @@ for (sheet in names(clean_data.tool0)) {
                                                   question_separator = "_")
 }
 
+# Tool 1 KDR -------------------------------------------------------------------
+for(sheet in names(clean_data.tool1_kdr)){
+  clean_data.tool1_kdr[[sheet]] <- update_series_cols(data = clean_data.tool1_kdr[[sheet]],
+                                                  tool = kobo_tool.tool1_kdr$survey,
+                                                  question_separator = "_")
+}
+
 
 # Tool 1 ----------------------------------------------------------------------
 for(sheet in names(clean_data.tool1)){
@@ -63,9 +70,11 @@ for(sheet in names(clean_data.tool8)){
 }
 
 # Tool 9 ----------------------------------------------------------------------
-clean_data.tool9$data <- update_series_cols(data = clean_data.tool9$data, 
-                                            tool = kobo_tool.tool9$survey, 
-                                            question_separator = "_")
+for(sheet in names(clean_data.tool9)){
+  clean_data.tool9[[sheet]] <- update_series_cols(data = clean_data.tool9[[sheet]], 
+                                              tool = kobo_tool.tool9$survey, 
+                                              question_separator = "_")
+}
 
 
 # removing extra elements from the environment

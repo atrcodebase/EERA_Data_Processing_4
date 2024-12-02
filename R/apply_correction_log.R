@@ -11,6 +11,8 @@ sm_variables <- bind_rows(
   kobo_tool.tool9$survey |> filter(grepl("select_multiple", type)) |> select(name)
 ) |> pull(name)
 
+sm_variables_kdr <- kobo_tool.tool1_kdr$survey %>% filter(grepl("select_multiple", type)) %>% select(name) %>% pull(name)
+
 options(scipen = 999)
 
 check_logs_for_df <- function(cleaning_log, df, tool_name, deleted_keys) {
@@ -43,7 +45,8 @@ correction_log_issues_ps <- correction_log_ps |>
       is.na(tool) | tool == "" ~ "Tool name can't be null, please provide the correct tool name.",
       is.na(Tab_Name) | Tab_Name == "" ~ "Tab/Sheet name can't be null, please provide the correct Tab name.",
       !tool %in% form_names_ps ~ "Wrong tool name, please provide the correct tool name.", # Not necessary
-      tool == "Tool 1 - Headmaster" & !Tab_Name %in% names(raw_data.tool1) ~ "Wrong Tab/Sheet name, please provide the correct Tab name",
+      tool == "Tool 1 - Headmaster"& Province != "Kandahar" & !Tab_Name %in% names(raw_data.tool1) ~ "Wrong Tab/Sheet name, please provide the correct Tab name",
+      tool == "Tool 1 - Headmaster" & Province == "Kandahar" & !Tab_Name %in% names(raw_data.tool1_kdr) ~ "Wrong Tab/Sheet name, please provide the correct Tab name",
       tool == "Tool 2 - Light" & !Tab_Name %in% names(raw_data.tool2) ~ "Wrong Tab/Sheet name, please provide the correct Tab name",
       tool == "Tool 3 - Headcount" & !Tab_Name %in% names(raw_data.tool3) ~ "Wrong Tab/Sheet name, please provide the correct Tab name",
       tool == "Tool 4 - Teacher" & !Tab_Name %in% names(raw_data.tool4) ~ "Wrong Tab/Sheet name, please provide the correct Tab name",
@@ -55,14 +58,22 @@ correction_log_issues_ps <- correction_log_ps |>
       TRUE ~ NA_character_
     ),
     new_value = case_when(
-      question %in% sm_variables ~ str_replace_all(new_value, "-|,|  | - ", " ") %>% str_squish(), # Unify the separator in SM questions
+      question %in% sm_variables & Province != "Kandahar" ~ str_replace_all(new_value, "-|,|  | - ", " ") %>% str_squish(), # Unify the separator in SM questions,
+      question %in% sm_variables_kdr & Province == "Kandahar" ~ str_replace_all(new_value, "-|,|  | - ", " ") %>% str_squish(), # Unify the separator in SM questions,
       TRUE ~ str_squish(new_value)
     ),
     Sample_Type = "Public School"
   ) |> 
-  select(KEY, question, old_value, new_value, issue, tool, Tab_Name, Sample_Type)
+  select(KEY, question, old_value, new_value, issue, tool, Tab_Name, Sample_Type, Province)
 
 # Log incorrect sheet name and UUIDs
+correction_log_issues_ps_kdr <- correction_log_issues_ps %>% 
+  filter(Province == "Kandahar" & tool == "Tool 1 - Headmaster")
+
+correction_log_issues_ps <- correction_log_issues_ps %>% 
+  filter(!(Province == "Kandahar" & tool == "Tool 1 - Headmaster"))
+
+correction_log_issues_ps_kdr <- correction_log_issues_ps_kdr |> check_logs_for_df(df = raw_data.tool1_kdr, tool_name = "Tool 1 - Headmaster", deleted_keys = deleted_keys_ps)
 correction_log_issues_ps <- correction_log_issues_ps |> check_logs_for_df(df = raw_data.tool0, tool_name = "Tool 0 - Data Entry", deleted_keys = deleted_keys_ps)
 correction_log_issues_ps <- correction_log_issues_ps |> check_logs_for_df(df = raw_data.tool1, tool_name = "Tool 1 - Headmaster", deleted_keys = deleted_keys_ps)
 correction_log_issues_ps <- correction_log_issues_ps |> check_logs_for_df(df = raw_data.tool2, tool_name = "Tool 2 - Light", deleted_keys = deleted_keys_ps)
@@ -73,6 +84,8 @@ correction_log_issues_ps <- correction_log_issues_ps |> check_logs_for_df(df = r
 correction_log_issues_ps <- correction_log_issues_ps |> check_logs_for_df(df = raw_data.tool7, tool_name = "Tool 7 - Shura", deleted_keys = deleted_keys_ps)
 
 ## Correction Log ready to apply
+correction_log_issues_ps <- bind_rows(correction_log_issues_ps, correction_log_issues_ps_kdr)
+
 correction_log_ready_ps <- correction_log_issues_ps |>
   filter(is.na(issue))
 
@@ -125,15 +138,16 @@ correction_log_issues_cbe <- correction_log_issues_cbe |>
 
 # Clone Sheets for log apply verification -------------------------------------
 clean_data.tool0 <- raw_data.tool0
-clean_data.tool1 <- raw_data.tool1
-clean_data.tool2 <- raw_data.tool2
-clean_data.tool3 <- raw_data.tool3
-clean_data.tool4 <- raw_data.tool4
-clean_data.tool5 <- raw_data.tool5
-clean_data.tool6 <- raw_data.tool6
-clean_data.tool7 <- raw_data.tool7
-clean_data.tool8 <- raw_data.tool8
-clean_data.tool9 <- raw_data.tool9
+clean_data.tool1_kdr_compare <- clean_data.tool1_kdr
+clean_data.tool1_compare <- clean_data.tool1
+clean_data.tool2_compare <- clean_data.tool2
+clean_data.tool3_compare <- clean_data.tool3
+clean_data.tool4_compare <- clean_data.tool4
+clean_data.tool5_compare <- clean_data.tool5
+clean_data.tool6_compare <- clean_data.tool6
+clean_data.tool7_compare <- clean_data.tool7
+clean_data.tool8_compare <- clean_data.tool8
+clean_data.tool9_compare <- clean_data.tool9
 
 # Apply logs -------------------------------------------------------------------
 # Tool 0
@@ -144,9 +158,18 @@ for(sheet in names(clean_data.tool0)){
 
 # Tool 1
 tool_name <- "Tool 1 - Headmaster"
-if (any(correction_log_ready_ps$tool == tool_name)) {
+if (any(correction_log_ready_ps$tool == tool_name & correction_log_ready_ps$Province == "Kandahar")) {
+  for(sheet in names(clean_data.tool1_kdr)){
+    clean_data.tool1_kdr[[sheet]] <- apply_log(data=clean_data.tool1_kdr[[sheet]], 
+                                             log = correction_log_ready_ps %>%  filter(Province == "Kandahar" & tool == tool_name & Tab_Name == sheet))
+  }
+}
+
+
+if (any(correction_log_ready_ps$tool == tool_name & correction_log_ready_ps$Province != "Kandahar")) {
   for(sheet in names(clean_data.tool1)){
-    clean_data.tool1[[sheet]] <- apply_log(data=clean_data.tool1[[sheet]], log = filter(correction_log_ready_ps, tool == tool_name & Tab_Name == sheet))
+    clean_data.tool1[[sheet]] <- apply_log(data=clean_data.tool1[[sheet]], 
+                                           log = correction_log_ready_ps %>%  filter(Province != "Kandahar" & tool == tool_name & Tab_Name == sheet))
   }
 }
 
@@ -256,12 +279,21 @@ for(sheet in names(clean_data.tool0)){
       mutate(tool="Tool 0 - Data Entry", Tab_Name = sheet, KEY_join = paste0(KEY, question, old_value, tool, Tab_Name))
   )
 }
+# Tool 1 KDR
+for(sheet in names(clean_data.tool1_kdr)){
+  correction_log_discrep <- rbind(
+    correction_log_discrep,
+    compare_dt(clean_data.tool1_kdr[[sheet]], clean_data.tool1_kdr_compare[[sheet]]) |>
+      mutate(tool="Tool 1 - Headmaster", Tab_Name = sheet, KEY_join = paste0(KEY, question, old_value, tool, Tab_Name))
+  )
+}
+
 
 # Tool 1
 for(sheet in names(clean_data.tool1)){
   correction_log_discrep <- rbind(
     correction_log_discrep,
-    compare_dt(clean_data.tool1[[sheet]], raw_data.tool1[[sheet]]) |>
+    compare_dt(clean_data.tool1[[sheet]], clean_data.tool1_compare[[sheet]]) |>
       mutate(tool="Tool 1 - Headmaster", Tab_Name = sheet, KEY_join = paste0(KEY, question, old_value, tool, Tab_Name))
   )
 }
@@ -270,7 +302,7 @@ for(sheet in names(clean_data.tool1)){
 for(sheet in names(clean_data.tool2)){
   correction_log_discrep <- rbind(
     correction_log_discrep,
-    compare_dt(clean_data.tool2[[sheet]], raw_data.tool2[[sheet]]) |>
+    compare_dt(clean_data.tool2[[sheet]], clean_data.tool2_compare[[sheet]]) |>
       mutate(tool="Tool 2 - Light", Tab_Name = sheet, KEY_join = paste0(KEY, question, old_value, tool, Tab_Name))
   )
 }
@@ -279,7 +311,7 @@ for(sheet in names(clean_data.tool2)){
 for(sheet in names(clean_data.tool3)){
   correction_log_discrep <- rbind(
     correction_log_discrep,
-    compare_dt(clean_data.tool3[[sheet]], raw_data.tool3[[sheet]]) |>
+    compare_dt(clean_data.tool3[[sheet]], clean_data.tool3_compare[[sheet]]) |>
       mutate(tool="Tool 3 - Headcount", Tab_Name = sheet, KEY_join = paste0(KEY, question, old_value, tool, Tab_Name))
   )
 }
@@ -289,7 +321,7 @@ for(sheet in names(clean_data.tool3)){
 for(sheet in names(clean_data.tool4)){
   correction_log_discrep <- rbind(
     correction_log_discrep,
-    compare_dt(clean_data.tool4[[sheet]], raw_data.tool4[[sheet]]) |>
+    compare_dt(clean_data.tool4[[sheet]], clean_data.tool4_compare[[sheet]]) |>
       mutate(tool="Tool 4 - Teacher", Tab_Name = sheet, KEY_join = paste0(KEY, question, old_value, tool, Tab_Name))
   )
 }
@@ -298,7 +330,7 @@ for(sheet in names(clean_data.tool4)){
 for(sheet in names(clean_data.tool5)){
   correction_log_discrep <- rbind(
     correction_log_discrep,
-    compare_dt(clean_data.tool5[[sheet]], raw_data.tool5[[sheet]]) |>
+    compare_dt(clean_data.tool5[[sheet]], clean_data.tool5_compare[[sheet]]) |>
       mutate(tool="Tool 5 - WASH", Tab_Name = sheet, KEY_join = paste0(KEY, question, old_value, tool, Tab_Name))
   )
 }
@@ -308,7 +340,7 @@ for(sheet in names(clean_data.tool5)){
 for(sheet in names(clean_data.tool6)){
   correction_log_discrep <- rbind(
     correction_log_discrep,
-    compare_dt(clean_data.tool6[[sheet]], raw_data.tool6[[sheet]]) |>
+    compare_dt(clean_data.tool6[[sheet]], clean_data.tool6_compare[[sheet]]) |>
       mutate(tool="Tool 6 - Parent", Tab_Name = sheet, KEY_join = paste0(KEY, question, old_value, tool, Tab_Name))
   )
 }
@@ -317,7 +349,7 @@ for(sheet in names(clean_data.tool6)){
 for(sheet in names(clean_data.tool7)){
   correction_log_discrep <- rbind(
     correction_log_discrep,
-    compare_dt(clean_data.tool7[[sheet]], raw_data.tool7[[sheet]]) |>
+    compare_dt(clean_data.tool7[[sheet]], clean_data.tool7_compare[[sheet]]) |>
       mutate(tool="Tool 7 - Shura", Tab_Name = sheet, KEY_join = paste0(KEY, question, old_value, tool, Tab_Name))
   )
 }
@@ -326,7 +358,7 @@ for(sheet in names(clean_data.tool7)){
 for(sheet in names(clean_data.tool8)){
   correction_log_discrep <- rbind(
     correction_log_discrep,
-    compare_dt(clean_data.tool8[[sheet]], raw_data.tool8[[sheet]]) |>
+    compare_dt(clean_data.tool8[[sheet]], clean_data.tool8_compare[[sheet]]) |>
       mutate(tool="Tool 8 - Class", Tab_Name = sheet, KEY_join = paste0(KEY, question, old_value, tool, Tab_Name))
   )
 }
@@ -335,7 +367,7 @@ for(sheet in names(clean_data.tool8)){
 for(sheet in names(clean_data.tool9)){
   correction_log_discrep <- rbind(
     correction_log_discrep,
-    compare_dt(clean_data.tool9[[sheet]], raw_data.tool9[[sheet]]) |>
+    compare_dt(clean_data.tool9[[sheet]], clean_data.tool9_compare[[sheet]]) |>
       mutate(tool="Tool 9 - IP", Tab_Name = sheet, KEY_join = paste0(KEY, question, old_value, tool, Tab_Name))
   )
 }
@@ -365,4 +397,9 @@ correction_log_discrep <- rbind(
 # Removing extra objects -------------------------------------------------------
 rm(list = c("correction_log_issues_ps", "correction_log_issues_cbe",
             "correction_log_ready_ps", "correction_log_ready_cbe", 
-            "tool_name", "form_names_ps", "form_names_cbe", "check_logs_for_df"))
+            "tool_name", "form_names_ps", "form_names_cbe", "check_logs_for_df",
+            "clean_data.tool9_compare", "clean_data.tool8_compare",
+            "clean_data.tool7_compare", "clean_data.tool6_compare",
+            "clean_data.tool5_compare","clean_data.tool4_compare",
+            "clean_data.tool3_compare", "clean_data.tool2_compare",
+            "clean_data.tool1_compare", "clean_data.tool1_kdr_compare"))

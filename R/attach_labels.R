@@ -3,6 +3,7 @@
 
 # Cloning df
 clean_data.tool0_ulabeled <- clean_data.tool0
+clean_data.tool1_kdr_ulabeled <- clean_data.tool1_kdr
 clean_data.tool1_ulabeled <- clean_data.tool1
 clean_data.tool2_ulabeled <- clean_data.tool2
 clean_data.tool3_ulabeled <- clean_data.tool3
@@ -14,6 +15,7 @@ clean_data.tool8_ulabeled <- clean_data.tool8
 clean_data.tool9_ulabeled <- clean_data.tool9
 
 tool0_path = "./input/tools/Tool 0.EERA Public School_CBE - Data Entry Tool - R4.xlsx"
+tool1_kdr_path = "./input/tools/Tool 11.EERA Public School - Headmaster_Principle Interview - V4.xlsx"
 tool1_path = "./input/tools/Tool 1.EERA Public School - Headmaster_Principle Interview - R4.xlsx"
 tool2_path = "./input/tools/Tool 2.EERA Public School - Light Tool - R4.xlsx"
 tool3_path = "./input/tools/Tool 3.EERA Public School - Student Document & Headcount - R4.xlsx"
@@ -25,14 +27,24 @@ tool8_path = "./input/tools/Tool 8.EERA CBE - Class Level Tool - R4.xlsx"
 tool9_path = "./input/tools/Tool 9.EERA CBE - IP Level Tool - R4.xlsx"
 
 # Tool 0 ------------------------------------------------------------------
-# for(sheet in names(clean_data.tool0)){
-#   clean_data.tool0[[sheet]] <- labeler(
-#     data = clean_data.tool0[[sheet]],
-#     tool = tool0_path,
-#     survey_label = "label",
-#     choice_lable = "label"
-#   )
-# }
+for(sheet in names(clean_data.tool0)){
+  clean_data.tool0[[sheet]] <- labeler(
+    data = clean_data.tool0[[sheet]],
+    tool = tool0_path,
+    survey_label = "label",
+    choice_lable = "label"
+  )
+}
+
+# Tool 1 KDR --------------------------------------------------------------
+for(sheet in names(clean_data.tool1_kdr)){
+  clean_data.tool1_kdr[[sheet]] <- labeler(
+    data = clean_data.tool1_kdr[[sheet]],
+    tool = tool1_kdr_path,
+    survey_label = "label",
+    choice_lable = "label"
+  )
+}
 
 # Tool 1 ------------------------------------------------------------------
 for(sheet in names(clean_data.tool1)){
@@ -126,7 +138,8 @@ for(sheet in names(clean_data.tool9)){
 
 # remove extra objects from environment  
 rm(tool0_path,
-   tool1_path, 
+   tool1_path,
+   tool1_kdr_path,
    tool2_path,
    tool3_path,
    tool4_path,
