@@ -29,15 +29,16 @@ source("./R/rename_dfs_tools.R")
 output_data_path = "output/"
 sample_files_path = "input/sample_files/"
 
-raw_data_path = list.files("input/raw_data/", full.names = T) %>% .[!grepl("/\\~\\$", .)] |> as.list() %>% setNames(gsub(".*Tool (\\d).*", "tool\\1", .))
-kobo_tools_path = list.files("input/tools/", full.names = T) %>% .[!grepl("/\\~\\$", .)] |> as.list() %>% setNames(gsub(".*Tool (\\d).*", "tool\\1", .))
-relevancy_files_path = list.files("input/relevancy_files/", full.names = T) %>% .[!grepl("/\\~\\$", .)] |> as.list() %>% setNames(gsub(".*tool(\\d).*", "tool\\1", .))
+raw_data_path = list.files("input/raw_data/", full.names = T) %>% .[!grepl("/\\~\\$", .)] |> as.list() %>% setNames(gsub(".*Tool (\\d+).*", "tool\\1", .))
+kobo_tools_path = list.files("input/tools/", full.names = T) %>% .[!grepl("/\\~\\$", .)] |> as.list() %>% setNames(gsub(".*Tool (\\d+).*", "tool\\1", .))
+relevancy_files_path = list.files("input/relevancy_files/", full.names = T) %>% .[!grepl("/\\~\\$", .)] |> as.list() %>% setNames(gsub(".*tool(\\d+).*", "tool\\1", .))
 meta_cols <- c("Site_Visit_ID", "EMIS_School_ID_CBE_KEY", "School_CBE_Name", "IP_Name", "Region", "Province", "District", "Area_Type", "Type_Of_School_CBE_Based_On_The_Sample", "School_CBE_Gender_Based_On_The_Sample", "School_Type_SV", "School_Gender_SV")
 meta_cols.qa_sheet <- c(Visit_ID = "Site_Visit_ID", "School Code", "Sample_Type", Survey_Date = "SubmissionDate", Region = "Region", "KEY")
 
 # Read inputs --------------------------------------------------------------
 # Data sets
 raw_data.tool0 = read_xlsx_sheets(raw_data_path$tool0)
+raw_data.tool1_kdr = read_xlsx_sheets(raw_data_path$tool11)
 raw_data.tool1 = read_xlsx_sheets(raw_data_path$tool1)
 raw_data.tool2 = read_xlsx_sheets(raw_data_path$tool2)
 raw_data.tool3 = read_xlsx_sheets(raw_data_path$tool3)
@@ -51,6 +52,7 @@ raw_data.tool9 = read_xlsx_sheets(raw_data_path$tool9)
 # Tools
 kobo_tool.tool0 = read_xlsx_sheets(kobo_tools_path$tool0)
 kobo_tool.tool1 = read_xlsx_sheets(kobo_tools_path$tool1)
+kobo_tool.tool1_kdr = read_xlsx_sheets(kobo_tools_path$tool11)
 kobo_tool.tool2 = read_xlsx_sheets(kobo_tools_path$tool2)
 kobo_tool.tool3 = read_xlsx_sheets(kobo_tools_path$tool3)
 kobo_tool.tool4 = read_xlsx_sheets(kobo_tools_path$tool4)
@@ -64,6 +66,7 @@ kobo_tool.tool9 = read_xlsx_sheets(kobo_tools_path$tool9)
 # read the relevancy files
 relevancy_file.tool0 = read_xlsx_sheets(relevancy_files_path$tool0)
 relevancy_file.tool1 = read_xlsx_sheets(relevancy_files_path$tool1)
+relevancy_file.tool1_kdr = read_xlsx_sheets(relevancy_files_path$tool11)
 relevancy_file.tool2 = read_xlsx_sheets(relevancy_files_path$tool2)
 relevancy_file.tool3 = read_xlsx_sheets(relevancy_files_path$tool3)
 relevancy_file.tool4 = read_xlsx_sheets(relevancy_files_path$tool4)
@@ -75,10 +78,11 @@ relevancy_file.tool9 = read_xlsx_sheets(relevancy_files_path$tool9)
 
 
 # Read QA log from Google sheet ------------------------------------------------
-qa_sheet_ps = read_sheet(qa_sheet_url_ps, sheet = "QA_Log") |> filter(Sample_Type == "Public School")
+qa_sheet = read_sheet(qa_sheet_url_ps, sheet = "QA_Log")
 # To select the user to authenticate
 2
-qa_sheet_cbe = read_sheet(qa_sheet_url_ps, sheet = "QA_Log") |> filter(Sample_Type == "CBE")
+qa_sheet_ps = qa_sheet |> filter(Sample_Type == "Public School")
+qa_sheet_cbe = qa_sheet |> filter(Sample_Type == "CBE")
 
 correction_log = plyr::rbind.fill(
   read_sheet(qa_sheet_url_ps, sheet = "Correction_Log Headmaster") |> mutate(Tool = "Tool 1 - Headmaster", Index = as.character(Index), old_value = as.character(old_value), New_Value = as.character(New_Value),
@@ -91,8 +95,7 @@ correction_log = plyr::rbind.fill(
   read_sheet(qa_sheet_url_ps, sheet = "Correction_Log Parent") |> rename(Key = KEY) |> mutate(Tool = "Tool 6 - Parent", Index = as.character(Index), old_value = as.character(old_value), New_Value = as.character(New_Value), Remarks = as.character(Remarks)),
   read_sheet(qa_sheet_url_ps, sheet = "Correction _Log Shura") |> mutate(Tool = "Tool 7 - Shura", Index = as.character(Index), old_value = as.character(old_value), New_Value = as.character(New_Value), Key = as.character(Key)),
   read_sheet(qa_sheet_url_ps, sheet = "Correction_Log Data_Entry") |> mutate(Tool = "Tool 0 - Data Entry", Index = NA_character_,  old_value = as.character(old_value), New_Value = as.character(New_Value), Key = as.character(Key))
-) |>
-  filter(!(Province == "Kandahar" & Tool == "Tool 1 - Headmaster"))
+) # |> filter(!(Province == "Kandahar" & Tool == "Tool 1 - Headmaster")) # Included KDR in the main script
 
 
 # Turn NULL values to NA for old and new value columns
@@ -118,9 +121,7 @@ correction_log_cbe <- plyr::rbind.fill(
   read_sheet(qa_sheet_url_ps, sheet = "Correction _Log Class") |> mutate(Tool = "Tool 8 - Class", Index = as.character(Index), old_value = as.character(old_value), New_Value = as.character(New_Value), Key = as.character(Key)),
   read_sheet(qa_sheet_url_ps, sheet = "Correction _Log IP") |> mutate(Tool = "Tool 9 - IP", Index = as.character(Index), old_value = as.character(old_value), New_Value = as.character(New_Value), KEY_Unique = as.character(KEY_Unique),
                                                                       Key = as.character(Key))
-) |>
-filter(!(Province == "Kandahar" & Tool == "Tool 1 - Headmaster"))
-
+) # |> filter(!(Province == "Kandahar" & Tool == "Tool 1 - Headmaster")) # Adding KDR in the main script
 
 # Turn NULL values to NA for old and new value columns
 correction_log_cbe <- correction_log_cbe %>% 
@@ -161,8 +162,8 @@ table(qa_sheet_ps$qa_status, qa_sheet_ps$tool, useNA = "always") %>%
   addmargins(2)
 
 # Without KDR
-# table(qa_sheet_ps |> filter(Province != "Kandahar") |> pull(qa_status), qa_sheet_ps |> filter(Province != "Kandahar") |> pull(tool), useNA = "always") %>% 
-#   addmargins(2)
+table(qa_sheet_ps |> filter(Province != "Kandahar") |> pull(qa_status), qa_sheet_ps |> filter(Province != "Kandahar") |> pull(tool), useNA = "always") %>%
+  addmargins(2)
 
 # Extract Approved Interviews
 approved_keys_ps = qa_sheet_ps |> 
@@ -250,23 +251,27 @@ correction_log_cbe <- correction_log_cbe %>%
 # Detailed Check log ------------------------------------------------------
 detailed_check_log <- read_sheet(qa_sheet_url_ps, sheet = "Detailed_Check")
 
+# detailed_check_log <- detailed_check_log %>% 
+#   left_join(qa_sheet %>% select(KEY_Unique, Province), by = c("KEY" = "KEY_Unique"))
+
 photo_status_ps <- detailed_check_log %>% 
-  filter(Check_Type == "image" & !is.na(Check_Status) & Sample_Type == "Public School") # `QA Status` == "Approved"
+  filter(Check_Type %in% c("image", "text") & !is.na(Check_Status) & Sample_Type == "Public School") %>% # `QA Status` == "Approved"
+  filter(!(Check_Status == "Verified" & Check_Type == "text"))
 
 photo_status_cbe <- detailed_check_log %>% 
-  filter(Check_Type == "image" & !is.na(Check_Status) & Sample_Type == "CBE") # `QA Status` == "Approved"
-
+  filter(Check_Type %in% c("image", "text") & !is.na(Check_Status) & Sample_Type == "CBE") %>%  # `QA Status` == "Approved"
+  filter(!(Check_Status == "Verified" & Check_Type == "text"))
 
 # convert numeric dates to date and time formats -------------------------- DONE
 source("R/convert_numbers_to_date_time.R")
 
 
-# Apply correction log ---------------------------------------------------- DONE
-if(nrow(correction_log_ps) > 0 | nrow(correction_log_cbe) > 0) { source("R/apply_correction_log.R") }
-
-
 # Apply Photo status log -------------------------------------------------- Done
 if(nrow(photo_status_ps) > 0 | nrow(photo_status_cbe) > 0){ source("R/update_photo_status.R") }
+
+
+# Apply correction log ---------------------------------------------------- DONE
+if(nrow(correction_log_ps) > 0 | nrow(correction_log_cbe) > 0) { source("R/apply_correction_log.R") }
 
 
 # Remove the rejected and pilot interviews -------------------------------- Done
@@ -289,20 +294,20 @@ source("R/check_repeat_sheet_counts.R")
 source("R/create_translation_log.R")
 
 
-# missing qa (for QA)------------------------------------------------------ PENDING
-# source("R/missing_qa.R")
+# missing qa (for QA)------------------------------------------------------ DONE
+source("R/missing_qa.R")
 
 
-# Check select multiple variables ----------------------------------------- DONE
+# Check select multiple variables ----------------------------------------- DONE 
 source("R/check_select_multiple_questions.R")
 
 
-# re-calculate the calculated variables and compare any changes not applied PENDING
-# source("R/calculate_cols_check.R")
+# re-calculate the calculated variables and compare any changes not applied PENDING ALSO KDR is not included
+source("R/calculate_cols_check.R")
 
 
 # Outlier Check ----------------------------------------------------------- PENDING - RUN FOR FINAL TURN
-# source("R/check_outliers.R") 
+# source("R/check_outliers.R")
 
 
 # Relevancy Check --------------------------------------------------------- NOT
@@ -330,7 +335,7 @@ source("R/attach_calculate_label.R")
 
 
 # change 7777, 8888, 9999 to Labels  -------------------------------------- NOT
-# source("R/recode_to_na.R")
+source("R/recode_to_na.R")
 
 
 # export data sets and issues --------------------------------------------- DONE
