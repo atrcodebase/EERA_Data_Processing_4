@@ -49,6 +49,7 @@ raw_data.tool7 = read_xlsx_sheets(raw_data_path$tool7)
 raw_data.tool8 = read_xlsx_sheets(raw_data_path$tool8)
 raw_data.tool9 = read_xlsx_sheets(raw_data_path$tool9)
 
+
 # Tools
 kobo_tool.tool0 = read_xlsx_sheets(kobo_tools_path$tool0)
 kobo_tool.tool1 = read_xlsx_sheets(kobo_tools_path$tool1)
@@ -247,12 +248,14 @@ correction_log_cbe <- correction_log_cbe %>%
     tool = "Tool"
   )
 
+# Tobe Added to Datasets --------------------------------------------------
+tobe_added <- read_sheet(qa_sheet_url_ps, sheet = "To be added to the dataset")
+
+source("tobe_added_to_data.R")
+
 
 # Detailed Check log ------------------------------------------------------
 detailed_check_log <- read_sheet(qa_sheet_url_ps, sheet = "Detailed_Check")
-
-# detailed_check_log <- detailed_check_log %>% 
-#   left_join(qa_sheet %>% select(KEY_Unique, Province), by = c("KEY" = "KEY_Unique"))
 
 photo_status_ps <- detailed_check_log %>% 
   filter(Check_Type %in% c("image", "text") & !is.na(Check_Status) & Sample_Type == "Public School") %>% # `QA Status` == "Approved"
