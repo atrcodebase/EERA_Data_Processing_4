@@ -369,7 +369,7 @@ if (any(photo_status_ready_cbe$Tool == tool_name)) {
 
 
 # Correction Log apply check --------------------------------------------------
-message("Verifying Correction log, please wait!")
+message("Verifying Detailed Check log, please wait!")
 
 # Update the compare_df function in atrFunctions
 photo_status_log_discrep <- data.frame()
