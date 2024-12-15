@@ -23,6 +23,31 @@ clean_data.tool0$Tool3_T2_Classes_VD <- clean_data.tool0$Tool3_T2_Classes_VD |>
     )
   )
 
+# Tool 1 KDR
+clean_data.tool1_kdr$data <- clean_data.tool1_kdr$data %>% 
+  mutate(
+    School_Type_Final.re_calc = case_when(
+      A30 %in% c(1, "1") ~ Type_Of_School_Sample_Value,
+      A30 %in% c(0, "0", 2, "2") ~ as.numeric(School_Type_SV),
+      TRUE ~ 3
+    ), 
+    
+    School_indx.re_calc = case_when(
+      School_Type_Final == 3 ~ "1 2 3 4 5 6 7 8 9 10 11 12",
+      School_Type_Final == 2 ~ "1 2 3 4 5 6 7 8 9",
+      School_Type_Final == 1 ~ "1 2 3 4 5 6",
+      TRUE ~ ""
+    ),
+    
+    Type_Of_School_Sample_Value.re_cal = case_when(
+      Type_Of_School_CBE_Based_On_The_Sample == "Primary" ~ 1,
+      Type_Of_School_CBE_Based_On_The_Sample == "Secondary" ~ 2,
+      Type_Of_School_CBE_Based_On_The_Sample == "Higher Secondary" ~ 3,
+      TRUE ~ NA_real_
+    )
+  )
+
+
 
 # Tool 2 
 clean_data.tool2$data <- clean_data.tool2$data |>
@@ -76,6 +101,42 @@ clean_data.tool8$Student_Kit <- clean_data.tool8$Student_Kit |>
 
 # compare the calculated values before and after logs replaced ----------------
 calculate_issues <- plyr::rbind.fill(
+  # Tool 1 KDR
+  clean_data.tool1_kdr$data |>
+    filter(School_Type_Final != School_Type_Final.re_calc) |>
+    mutate(
+      issue = "The changes in the dataset has affected this value, it should be recalculated.",
+      question ="School_Type_Final",
+      tool = "Headmaster - KDR",
+      sheet = "data"
+    ) |>
+    select(any_of(meta_cols), question, old_value = School_Type_Final,
+           new_value = School_Type_Final.re_calc, issue, tool, sheet, KEY),
+  
+  clean_data.tool1_kdr$data |>
+    filter(School_indx != School_indx.re_calc) |>
+    mutate(
+      issue = "The changes in the dataset has affected this value, it should be recalculated.",
+      question ="School_indx",
+      tool = "Headmaster - KDR",
+      sheet = "data"
+    ) |>
+    select(any_of(meta_cols), question, old_value = School_indx,
+           new_value = School_indx.re_calc, issue, tool, sheet, KEY),
+  
+  clean_data.tool1_kdr$data |>
+    filter(Type_Of_School_Sample_Value != Type_Of_School_Sample_Value.re_cal) |>
+    mutate(
+      issue = "The changes in the dataset has affected this value, it should be recalculated.",
+      question ="Type_Of_School_Sample_Value",
+      tool = "Headmaster - KDR",
+      sheet = "data"
+    ) |>
+    select(any_of(meta_cols), question, old_value = Type_Of_School_Sample_Value,
+           new_value = Type_Of_School_Sample_Value.re_cal, issue, tool, sheet, KEY),
+  
+  
+  
   # Tool 0 
   clean_data.tool0$data |>
     filter(tool2_total_compare != tool2_total_compare.re_calc) |>
