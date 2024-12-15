@@ -160,6 +160,11 @@ for(sheet in names(clean_data.tool0)){
 tool_name <- "Tool 1 - Headmaster"
 if (any(correction_log_ready_ps$tool == tool_name & correction_log_ready_ps$Province == "Kandahar")) {
   for(sheet in names(clean_data.tool1_kdr)){
+    clean_data.tool1_kdr[[sheet]] <- clean_data.tool1_kdr[[sheet]] |>
+      mutate(
+        across(ends_with("_Translation"), as.character)
+      )
+    
     clean_data.tool1_kdr[[sheet]] <- apply_log(data=clean_data.tool1_kdr[[sheet]], 
                                              log = correction_log_ready_ps %>%  filter(Province == "Kandahar" & tool == tool_name & Tab_Name == sheet))
   }
@@ -185,6 +190,12 @@ if (any(correction_log_ready_ps$tool == tool_name)) {
 tool_name <- "Tool 3 - Headcount"
 if (any(correction_log_ready_ps$tool == tool_name)) {
   for(sheet in names(clean_data.tool3)){
+    clean_data.tool3[[sheet]] <- clean_data.tool3[[sheet]] |>
+      mutate(
+        across(ends_with("_Translation"), as.character)
+      )
+    
+    
     clean_data.tool3[[sheet]] <- apply_log(data=clean_data.tool3[[sheet]], log = filter(correction_log_ready_ps, tool == tool_name & Tab_Name == sheet))
   }
 }
