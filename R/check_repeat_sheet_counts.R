@@ -139,7 +139,7 @@ repeat_sheet_issues <- rbind(
     
     # 6
     compare_row_counts(
-      supposed_count_df = select(clean_data.tool1_kdr$data |> mutate(subject_detail_counter = 29), supposed_row_count = subject_detail_counter, KEY),
+      supposed_count_df = select(clean_data.tool1_kdr$data %>% filter(A34 != 4) |> mutate(subject_detail_counter = 29), supposed_row_count = subject_detail_counter, KEY),
       child_df = clean_data.tool1_kdr$Subjects_Detail,
       child_sheet_name = "Subjects_Detail"
     ) |> mutate(Row_count_from_tab = "data", Row_count_column_name = "subject_detail_counter"),
@@ -153,7 +153,7 @@ repeat_sheet_issues <- rbind(
     
     # 8
     compare_row_counts(
-      supposed_count_df = select(clean_data.tool1_kdr$data |> mutate(education_quality_counter = 9), supposed_row_count = education_quality_counter, KEY),
+      supposed_count_df = select(clean_data.tool1_kdr$data %>% filter(A34 != 4) |> mutate(education_quality_counter = 9), supposed_row_count = education_quality_counter, KEY),
       child_df = clean_data.tool1_kdr$Education_Quality,
       child_sheet_name = "Education_Quality"
     ) |> mutate(Row_count_from_tab = "data", Row_count_column_name = "education_quality_counter")
@@ -175,7 +175,7 @@ repeat_sheet_issues <- rbind(
   
     # 4
     compare_row_counts(
-      supposed_count_df = select(clean_data.tool1$data |> mutate(subject_detail_counter = 29), supposed_row_count = subject_detail_counter, KEY),
+      supposed_count_df = select(clean_data.tool1$data %>% filter(A34 != 6) |> mutate(subject_detail_counter = 29), supposed_row_count = subject_detail_counter, KEY),
       child_df = clean_data.tool1$Subjects_Detail,
       child_sheet_name = "Subjects_Detail"
     ) |> mutate(Row_count_from_tab = "data", Row_count_column_name = "subject_detail_counter"),
@@ -189,7 +189,7 @@ repeat_sheet_issues <- rbind(
     
     # 6
     compare_row_counts(
-      supposed_count_df = select(clean_data.tool1$data |> mutate(education_quality_counter = 10), supposed_row_count = education_quality_counter, KEY),
+      supposed_count_df = select(clean_data.tool1$data %>% filter(A34 != 6) |> mutate(education_quality_counter = 10), supposed_row_count = education_quality_counter, KEY),
       child_df = clean_data.tool1$Education_Quality,
       child_sheet_name = "Education_Quality"
     ) |> mutate(Row_count_from_tab = "data", Row_count_column_name = "education_quality_counter")
@@ -271,7 +271,7 @@ repeat_sheet_issues <- rbind(
     
     # 7
     compare_row_counts(
-      supposed_count_df = select(clean_data.tool2$data |> filter(i1 == 1) |> mutate(i5_value_count = case_when(
+      supposed_count_df = select(clean_data.tool2$data |> filter(i1 == 1 & i5_8888 == 0) |> mutate(i5_value_count = case_when(
         is.na(i5) | str_trim(i5) == "" ~ 0,
         TRUE ~ (str_count(i5, " ")+1)
       )), supposed_row_count = i5_value_count, KEY),
@@ -482,7 +482,7 @@ repeat_sheet_issues <- rbind(
     
     # 2
     compare_row_counts(
-      supposed_count_df = select(clean_data.tool7$data |> filter(E2 == 2), KEY, supposed_row_count = E4_N),
+      supposed_count_df = select(clean_data.tool7$data, KEY, supposed_row_count = E4_N),
       child_df = clean_data.tool7$Subjects_Added,
       child_sheet_name = "Subjects_Added"
     ) |> mutate(Row_count_from_tab = "data", Row_count_column_name = "E4_N")
