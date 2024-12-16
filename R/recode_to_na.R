@@ -7,7 +7,9 @@ clean_data.tool2_for_client$data <- clean_data.tool2_for_client$data |>
       E6 == "9999" ~ "Don't wish to respond",
       E6 == "8888" ~ "I don't know",
       TRUE ~ E6
-    )
+    ),
+    
+    
   )
 
 clean_data.tool2_for_client$Public_Stationary_Kit_Group <- clean_data.tool2_for_client$Public_Stationary_Kit_Group |>
@@ -27,7 +29,14 @@ clean_data.tool2_for_client$data <- clean_data.tool2_for_client$data |>
       i4_Yes == "9999" ~ "Don't wish to respond",
       i4_Yes == "8888" ~ "I don't know",
       TRUE ~ i4_Yes
-    )
+    ),
+    
+    H4 = as.character(H4),
+    H4 = case_when(
+      H4 == "9999" ~ "Don't wish to respond",
+      H4 == "8888" ~ "I don't know",
+      TRUE ~ H4
+    ),
   )
 
 
