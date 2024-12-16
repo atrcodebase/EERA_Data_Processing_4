@@ -364,6 +364,7 @@ extra_cols.tool1 <- c(
   "Village", "instanceID", "formdef_version", 
   "Type_Of_School_CBE_Based_On_The_Sample_DariPashto", "TPMA_Location_Name", "Entity_Type", "acknowledge", # New
   'qa_log_status', 'indx1', 'indx3', 'F1_Value', 'F3_Value', 'Sub_indx', 'subj_index', 'AA_Full', 'AA_Closure_Interview', 'AA_Curriculum', 'AA_SMS',# NEW
+  'IP_Name', # NEW
   
   # PII
   "B2", "B5A1", "B5A2","C5", "C6A1", "C6A2", "C12A1", "C12A4", 
