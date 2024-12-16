@@ -245,4 +245,7 @@ for(sheet in names(clean_data.tool9)){
 missing_qa_log <- rbind(
   missing_qa_log, 
   missing_qa_log_img
-)
+) %>% 
+  filter(!question %in% c("Please_Add_Any_Relevant_Photo_QA", "Surveyor_Comments_Translation"))
+
+
