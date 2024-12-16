@@ -413,7 +413,3 @@ rm(list = c(
   objects(pattern = "\\.numeric_vars$"),
   objects(pattern = "^meta_cols_tool.*")
   ))
-
-
-detach("package:cleaninginspectoR", unload=TRUE)
-library(dplyr)
