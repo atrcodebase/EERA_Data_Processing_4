@@ -325,6 +325,10 @@ source("R/compare_df_values_with_tool.R")
 source("R/attach_labels.R")
 
 
+detach("package:cleaninginspectoR", unload=TRUE)
+detach("package:dplyr", unload=TRUE)
+library(dplyr)
+
 # Logical inconsistencies ------------------------------------------------- Done
 source("R/logical_checks.R")
 
