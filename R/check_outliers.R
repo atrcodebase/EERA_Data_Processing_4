@@ -1,4 +1,5 @@
-if(!require(cleaninginspectoR)) devtools::install_github("ellieallien/cleaninginspectoR", dependencies = T)
+if(!require(tidyverse)) install.packages("remotes")
+if(!require(cleaninginspectoR)) remotes::install_github("ellieallien/cleaninginspectoR", dependencies = T)
 
 # to_be_ignored_vars <- c("D7_Year", "G4_Minutes")
 to_be_ignored_vars <- c("D2_Years", "D2_Months", "D7_Year", "D7_Month", "G4_Minutes")
