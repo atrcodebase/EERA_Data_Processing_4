@@ -229,6 +229,17 @@ clean_data.tool6_for_client$data <- clean_data.tool6_for_client$data |>
   )
 
 
+# Tool 7
+clean_data.tool7_for_client$C6_list_members <- clean_data.tool7_for_client$C6_list_members %>% 
+  mutate(
+    C6_Number_Male = as.character(C6_Number_Male),
+    C6_Number_Male = case_when(
+      C6_Number_Male == "9999" ~ "Don't wish to respond",
+      C6_Number_Male == "8888" ~ "I don't know",
+      TRUE ~ C6_Number_Male
+    )
+  )
+
 
 # FIXME: Check out these integer values for 8888/9999 once data received
 # E2
