@@ -106,6 +106,7 @@ extra_cols.tool7 <- c(
   "Reporting_Period", "tpma_location_id",  "Province_Climate", "Survey_Language", "Survey_Language_Other",  "Sample_info_correct", "Village",
   "instanceID", "formdef_version",
   "ID_Check",'Type_of_CBE',	'TPMA_Location_Name',	'Entity_Type',	'acknowledge', 'indx1', 'qa_log_status', 'AA_Full',# NEW
+  'B2', 
   
   
   # PII 
@@ -145,6 +146,7 @@ extra_cols.tool6 <- c(
   "instanceID", "formdef_version",
   "ID_Check", 'Type_of_CBE',	'TPMA_Location_Name',	'Entity_Type', 'acknowledge',# NEW
   "indx1", 'qa_log_status', 'AA_Full',# NEW
+  'A2', 
   
   
   # PII 
@@ -182,6 +184,7 @@ extra_cols.tool5 <- c(
   "instanceID", "formdef_version",
   "ID_Check",	"Sample_info_correct",	"acknowledge", 'TPMA_Location_Name',	'Entity_Type',# NEW
   'qa_log_status', 'AA_Full',# NEW
+  'B2', 'IP_Name',
   
   # PII 
   "Respondent_Full_Name", "Respondent1_Phone_Number", "Respondent2_Phone_Number",
@@ -222,6 +225,7 @@ extra_cols.tool4 <- c(
   "ID_Check",  'TPMA_Location_Name',	"Entity_Type", "acknowledge",# NEW
   'G8_Translation', "H3_Translation",# NEW
   'qa_log_status', 'AA_Full', 'indx1',# NEW
+  'IP_Name', 'B2',
   
   # PII 
   "Respondent_Full_Name", "Respondent1_Phone_Number", "Respondent2_Phone_Number",
@@ -264,6 +268,7 @@ extra_cols.tool3 <- c(
   "Grade_Class_1",	"Grade_Class_2",	"Grade_Class_3",	"Grade_Class_4",	"Grade_Class_5",	"Grade_Class_6", #NEW
   "Grade_Class_7", "Grade_Class_8",	"Grade_Class_9",	"Grade_Class_10",	"join_indx2", # NEW
   'qa_log_status', 'indx1', 'indx2',  'E1_Field_Value', 'AA_Full', 'Response_Code',# NEW
+  'IP_Name',
   
   
   # PII 
@@ -312,6 +317,7 @@ extra_cols.tool2 <- c(
   "Village", "instanceID", "formdef_version",
   "ID_Check", "TPMA_Location_Name","Entity_Type",	"acknowledge", #NEW
   'qa_log_status', 'AA_Full', 'AA_Closure_Interview', 'indx3', 'AA_TLM',# NEW
+  'IP_Name', 'B2', 'District_SV',
   
   
   # PII 
@@ -331,6 +337,8 @@ extra_cols.tool2 <- c(
   "B5_Caption", "Photo_closure_1_Caption", "Photo_closure_2_Caption", "G6_Caption", "H12_Caption", "H15_Caption", "i12_Caption", "i15_Caption", "J12_Caption", "J15_Caption" ,
   "Please_Add_Any_Relevant_Photo_caption",
   "H15_Not_In_Use_Caption", "i15_Not_In_Use_Caption", "J15_Not_In_Use_Caption", 'L2_Caption', #NEW
+  'Kitab_Jinsi_Or_Distribution_Ticket_Photo1_Caption', 'Kitab_Jinsi_Or_Distribution_Ticket_Photo2_Caption', 'TLM_Distribution_List_Photo1_Caption', 'TLM_Distribution_List_Photo2_Caption',
+  'TLM_Distribution_List_Photo3_Caption', 'M13_Form_Photo1_Caption', 'M13_Form_Photo2_Caption', 'M13_Form_Photo3_Caption', 'Stock_Card_Photo1_Caption', 'Stock_Card_Photo2_Caption', 'Stock_Card_Photo3_Caption',
   
   # Notes and Re-coded
   "Sample_Type",
@@ -364,7 +372,7 @@ extra_cols.tool1 <- c(
   "Village", "instanceID", "formdef_version", 
   "Type_Of_School_CBE_Based_On_The_Sample_DariPashto", "TPMA_Location_Name", "Entity_Type", "acknowledge", # New
   'qa_log_status', 'indx1', 'indx3', 'F1_Value', 'F3_Value', 'Sub_indx', 'subj_index', 'AA_Full', 'AA_Closure_Interview', 'AA_Curriculum', 'AA_SMS',# NEW
-  'IP_Name', # NEW
+  'IP_Name', 'A28',# NEW
   
   # PII
   "B2", "B5A1", "B5A2","C5", "C6A1", "C6A2", "C12A1", "C12A4", 
@@ -423,6 +431,7 @@ extra_cols.tool0 <- c(
   'indx1', 'indx2', 'qa_log_status', 'indx4', 'Tool1_Timetable_Field_Value', 'Tool1_Timetable_Year_Value',# NEW
   'Tool1_Timetable4_Field_Value', 'tool3_t3_matching_flag', 'tool3_headcount_conducted', 'tool2_total_compare', 'tool3_t2_variance_calculate',# NEW
   "tool3_t2_variance_calculate.re_calc", "Tool3_Headcount_Conducted.re_calc",
+  "IP_Name", 'Type_of_CBE', 'Tool1_Enter_School_Name',
   
   # PII 
   "Data_Entry_Clerk_Name",
@@ -473,6 +482,8 @@ extra_cols.tool1_kdr <- c(
   "Village", "instanceID", "formdef_version", 
   "Type_Of_School_CBE_Based_On_The_Sample_DariPashto", "TPMA_Location_Name", "Entity_Type", "acknowledge",# New
   'qa_log_status', 'indx1', 'indx3', 'F1_Value', 'F3_Value', 'Sub_indx', 'subj_index', 'AA_Full',# NEW
+  'IP_Name', 'Type_Of_School_Sample_Value.re_cal', 'School_Type_Final.re_calc',	'School_indx.re_calc',	
+  
   
   # PII
   "B2", "B5A1", "B5A2","C5", "C6A1", "C6A2", "C12A1", "C12A4", "C15A1", 
