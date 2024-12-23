@@ -1413,8 +1413,8 @@ lc_tool2 <- plyr::rbind.fill(
       Issue
     ),
 
-  # 24 -  Flagging if the school shift in question D1 is reported Single but later in shift details and shift details others reported more than one shift
-  dd <- clean_data.tool2$data |>
+  # 24 -  Flagging if the school shift in question D1 is reported Single but later in shift details and shift details others reported more than one shift # HERE
+  clean_data.tool2$data |>
     left_join(
       clean_data.tool2$Shifts_Detail |> select(Site_Visit_ID,Shift_name) |> # Removed  |> filter(!is.na(Shift_name))
         group_by(Site_Visit_ID) |>
