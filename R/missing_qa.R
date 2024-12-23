@@ -249,3 +249,4 @@ missing_qa_log <- rbind(
   filter(!question %in% c("Please_Add_Any_Relevant_Photo_QA", "Surveyor_Comments_Translation"))
 
 
+rm(missing_qa_log_img)
