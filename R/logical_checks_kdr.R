@@ -514,24 +514,25 @@ lc_tool1_kdr <- plyr::rbind.fill(
       Issue
     ), 
   
-  clean_data.tool1_kdr$data |>
-    filter(C1 == "Single" & C15 > 2) |>
-    mutate(
-      Issue = "Can you please confirm the number of headmasters in this school - This flag is only for school with Single shift",
-      Question = "C15",
-      Old_value = C15,
-      Related_question = "C1",
-      Related_value = C1
-    ) |>
-    select(
-      all_of(meta_cols),
-      Question,
-      Old_value,
-      Related_question,
-      Related_value,
-      KEY,
-      Issue
-    ),
+  # REmoved for CBE DC
+  # clean_data.tool1_kdr$data |>
+  #   filter(C1 == "Single" & C15 > 2) |>
+  #   mutate(
+  #     Issue = "Can you please confirm the number of headmasters in this school - This flag is only for school with Single shift",
+  #     Question = "C15",
+  #     Old_value = C15,
+  #     Related_question = "C1",
+  #     Related_value = C1
+  #   ) |>
+  #   select(
+  #     all_of(meta_cols),
+  #     Question,
+  #     Old_value,
+  #     Related_question,
+  #     Related_value,
+  #     KEY,
+  #     Issue
+  #   ),
   
   # Headmasters
   clean_data.tool1_kdr$data |>
