@@ -1544,68 +1544,69 @@ lc_tool2 <- plyr::rbind.fill(
       KEY,
       Issue
     ),
+  # Removed for CBE DC
+  # clean_data.tool2$data |>
+  #   filter(D1 == "Single" & C15A > 1) |>
+  #   mutate(
+  #     Issue = "Can you please confirm the number of headmasters in this school (More than 1 headmasters for single shift) - This flag is only for school with Single shift",
+  #     Question = "C15A",
+  #     Old_value = C15A,
+  #     Related_question = "D1",
+  #     Related_value = D1
+  #   ) |>
+  #   select(
+  #     all_of(meta_cols),
+  #     Question,
+  #     Old_value,
+  #     Related_question,
+  #     Related_value,
+  #     KEY,
+  #     Issue
+  #   ),
   
-  clean_data.tool2$data |>
-    filter(D1 == "Single" & C15A > 1) |>
-    mutate(
-      Issue = "Can you please confirm the number of headmasters in this school (More than 1 headmasters for single shift) - This flag is only for school with Single shift",
-      Question = "C15A",
-      Old_value = C15A,
-      Related_question = "D1",
-      Related_value = D1
-    ) |>
-    select(
-      all_of(meta_cols),
-      Question,
-      Old_value,
-      Related_question,
-      Related_value,
-      KEY,
-      Issue
-    ),
+  # Headmasters # Removed for CBE DC
+  # clean_data.tool2$data |>
+  #   filter(D1 == "Multiple" & C15A == 1) |>
+  #   mutate(
+  #     Issue = "Can you please confirm the number of headmasters in this school (One headmaster for multiple shifts) - This flag is only for school with Multiple shift",
+  #     Question = "C15A",
+  #     Old_value = C15A,
+  #     Related_question = "D1",
+  #     Related_value = D1
+  #   ) |>
+  #   select(
+  #     all_of(meta_cols),
+  #     Question,
+  #     Old_value,
+  #     Related_question,
+  #     Related_value,
+  #     KEY,
+  #     Issue
+  #   ),
   
-  # Headmasters
-  clean_data.tool2$data |>
-    filter(D1 == "Multiple" & C15A == 1) |>
-    mutate(
-      Issue = "Can you please confirm the number of headmasters in this school (One headmaster for multiple shifts) - This flag is only for school with Multiple shift",
-      Question = "C15A",
-      Old_value = C15A,
-      Related_question = "D1",
-      Related_value = D1
-    ) |>
-    select(
-      all_of(meta_cols),
-      Question,
-      Old_value,
-      Related_question,
-      Related_value,
-      KEY,
-      Issue
-    ),
-  
-  # This check will automatically solve the C2 question in tool 1 if the D2 and C2 are equally same across both tools
-  clean_data.tool2$data |>
-    filter(D2 %in% c("The school has a deputy teaching manager and headmaster(s) but not a principal",
-                     "The school has a principal and headmaster(s) but not a deputy teaching manager",
-                     "The school has a principal, deputy teaching manager, and headmaster(s)",
-                     "The school has only headmaster(s)") & C15A == 0) |>
-    mutate(
-      Issue = "In question D2 it is reported that school has headmaster but the number of headmaster/s for this school is reported 0 in question C15A",
-      Question = "C15A",
-      Old_value = C15A,
-      Related_question = "D2",
-      Related_value = D2
-    ) |>
-    select(
-      all_of(meta_cols),
-      Question,
-      Old_value,
-      Related_question,
-      Related_value,
-      KEY,
-      Issue
-    ),
+  # This check will automatically solve the C2 question in tool 1 if the D2 and C2 are equally same across both tools 
+  # Removed for CBE DC
+  # clean_data.tool2$data |>
+  #   filter(D2 %in% c("The school has a deputy teaching manager and headmaster(s) but not a principal",
+  #                    "The school has a principal and headmaster(s) but not a deputy teaching manager",
+  #                    "The school has a principal, deputy teaching manager, and headmaster(s)",
+  #                    "The school has only headmaster(s)") & C15A == 0) |>
+  #   mutate(
+  #     Issue = "In question D2 it is reported that school has headmaster but the number of headmaster/s for this school is reported 0 in question C15A",
+  #     Question = "C15A",
+  #     Old_value = C15A,
+  #     Related_question = "D2",
+  #     Related_value = D2
+  #   ) |>
+  #   select(
+  #     all_of(meta_cols),
+  #     Question,
+  #     Old_value,
+  #     Related_question,
+  #     Related_value,
+  #     KEY,
+  #     Issue
+  #   ),
   
   # New for R4
   clean_data.tool2$data %>%
@@ -3412,30 +3413,31 @@ lc_tool3 <- plyr::rbind.fill(
   
   # NEW: ARTF comments
   # Flagging if headcounts do not match with Data Entry Tool
-  dd <- clean_data.tool3$Student_Headcount |>
-    mutate(key_join = paste0(EMIS_School_ID_CBE_KEY, E1_Field_Label)) |>
-    left_join(clean_data.tool0$Tool3_T2_Classes_VD |> mutate( key_join = paste0(EMIS_School_ID_CBE_KEY, Tool3_Class_Name_VD)) |>
-                select(Tool3_Headcount_Conducted_Class, Tool3_Headcount_Male, Tool3_Headcount_Female, Tool3_Class_Name_VD, key_join),
-              by = "key_join") |> 
-  filter(is.na(Tool3_Headcount_Male) | is.na(Tool3_Headcount_Female)) |>
-    mutate(
-      Issue = "The school/class is missing in Data Entry VD sheet",
-      Question = "E3A1",
-      Old_value = E3A1,
-      Related_question = "Tool3_Headcount_Male + Tool3_Headcount_Female (Data Entry)",
-      Related_value = paste0(Tool3_Headcount_Male, " + ", Tool3_Headcount_Female), 
-      sheet = "Student_Headcount"
-    ) |> 
-    select(
-      any_of(meta_cols),
-      Question,
-      Old_value,
-      Related_question,
-      Related_value,
-      KEY,
-      Issue,
-      sheet
-    ),
+  # Removed for CBE DC
+  # dd <- clean_data.tool3$Student_Headcount |>
+  #   mutate(key_join = paste0(EMIS_School_ID_CBE_KEY, E1_Field_Label)) |>
+  #   left_join(clean_data.tool0$Tool3_T2_Classes_VD |> mutate( key_join = paste0(EMIS_School_ID_CBE_KEY, Tool3_Class_Name_VD)) |>
+  #               select(Tool3_Headcount_Conducted_Class, Tool3_Headcount_Male, Tool3_Headcount_Female, Tool3_Class_Name_VD, key_join),
+  #             by = "key_join") |> 
+  # filter(is.na(Tool3_Headcount_Male) | is.na(Tool3_Headcount_Female)) |>
+  #   mutate(
+  #     Issue = "The school/class is missing in Data Entry VD sheet",
+  #     Question = "E3A1",
+  #     Old_value = E3A1,
+  #     Related_question = "Tool3_Headcount_Male + Tool3_Headcount_Female (Data Entry)",
+  #     Related_value = paste0(Tool3_Headcount_Male, " + ", Tool3_Headcount_Female), 
+  #     sheet = "Student_Headcount"
+  #   ) |> 
+  #   select(
+  #     any_of(meta_cols),
+  #     Question,
+  #     Old_value,
+  #     Related_question,
+  #     Related_value,
+  #     KEY,
+  #     Issue,
+  #     sheet
+  #   ),
   
   clean_data.tool3$Student_Headcount |>
     mutate(key_join = paste0(EMIS_School_ID_CBE_KEY, E1_Field_Label)) |>
@@ -3835,24 +3837,25 @@ lc_tool4 <- plyr::rbind.fill(
       Issue
     ),
   
-  clean_data.tool4$data |>
-    filter(G4_Minutes >= 120) |>
-    mutate(
-      Issue = "Please confirm the duration it takes to get to school!",
-      Question = "G4_Minutes",
-      Old_value = G4_Minutes,
-      Related_question = "",
-      Related_value = ""
-    ) |>
-    select(
-      any_of(meta_cols),
-      Question,
-      Old_value,
-      Related_question,
-      Related_value,
-      KEY,
-      Issue
-    ),
+  # Removed for CBE DC
+  # clean_data.tool4$data |>
+  #   filter(G4_Minutes >= 120) |>
+  #   mutate(
+  #     Issue = "Please confirm the duration it takes to get to school!",
+  #     Question = "G4_Minutes",
+  #     Old_value = G4_Minutes,
+  #     Related_question = "",
+  #     Related_value = ""
+  #   ) |>
+  #   select(
+  #     any_of(meta_cols),
+  #     Question,
+  #     Old_value,
+  #     Related_question,
+  #     Related_value,
+  #     KEY,
+  #     Issue
+  #   ),
   
   clean_data.tool4$data |>
     filter(F2_N >= 6) |>
@@ -3875,30 +3878,31 @@ lc_tool4 <- plyr::rbind.fill(
 ) |> 
   mutate(tool = "Tool 4 - Teacher", sheet = "data", Old_value = as.character(Old_value))
 
-lc_tool4.add_subj <- plyr::rbind.fill(
-  clean_data.tool4$Additional_Subjects |>
-    mutate(
-      key_for_dup = paste0(EMIS_School_ID_CBE_KEY, F2_Subject_Name)
-    ) |>
-    filter(duplicated(key_for_dup, fromLast = T) | duplicated(key_for_dup, fromLast = F)) |>
-    mutate(
-      Issue = "The subject name is reported more than once for same school!",
-      Question = "F2_Subject_Name",
-      Old_value = F2_Subject_Name,
-      Related_question = "EMIS_School_ID_CBE_KEY",
-      Related_value = EMIS_School_ID_CBE_KEY
-    ) |>
-    select(
-      any_of(meta_cols),
-      Question,
-      Old_value,
-      Related_question,
-      Related_value,
-      KEY,
-      Issue
-    )
-) |> 
-  mutate(tool = "Tool 4 - Teacher", sheet = "Additional_Subjects", Old_value = as.character(Old_value))
+# Removed for CBE DC
+# lc_tool4.add_subj <- plyr::rbind.fill(
+#   clean_data.tool4$Additional_Subjects |>
+#     mutate(
+#       key_for_dup = paste0(EMIS_School_ID_CBE_KEY, F2_Subject_Name)
+#     ) |>
+#     filter(duplicated(key_for_dup, fromLast = T) | duplicated(key_for_dup, fromLast = F)) |>
+#     mutate(
+#       Issue = "The subject name is reported more than once for same school!",
+#       Question = "F2_Subject_Name",
+#       Old_value = F2_Subject_Name,
+#       Related_question = "EMIS_School_ID_CBE_KEY",
+#       Related_value = EMIS_School_ID_CBE_KEY
+#     ) |>
+#     select(
+#       any_of(meta_cols),
+#       Question,
+#       Old_value,
+#       Related_question,
+#       Related_value,
+#       KEY,
+#       Issue
+#     )
+# ) |> 
+#   mutate(tool = "Tool 4 - Teacher", sheet = "Additional_Subjects", Old_value = as.character(Old_value))
 
 
 # Logging issues in Tool 5 ------------------------------------------------
@@ -4173,13 +4177,13 @@ lc_tool5 <- plyr::rbind.fill(
   # End
   # Flagging interview conducted before the first day of data collection
   clean_data.tool5$data |>
-    filter(starttime < janitor::convert_to_date(data_collection_start_date_cbe)) |> 
+    filter(starttime < janitor::convert_to_date(data_collection_start_date_ps)) |> 
     mutate(
       Issue = "The interview is conducted before first day of data collection!",
       Question = "starttime",
       Old_value = as.character(starttime),
-      Related_question = "data_collection_start_date_cbe",
-      Related_value = as.character(janitor::convert_to_date(data_collection_start_date_cbe))
+      Related_question = "data_collection_start_date_ps",
+      Related_value = as.character(janitor::convert_to_date(data_collection_start_date_ps))
     ) |> 
     select(
       any_of(meta_cols),
@@ -4652,24 +4656,25 @@ lc_tool6 <- plyr::rbind.fill(
       Issue
     ),
   
-  clean_data.tool6$data |>
-    filter(B3 >= 40) |>
-    mutate(
-      Issue = "The Household size is reported a bit large - please confirm the value!",
-      Question = "B3",
-      Old_value = B3,
-      Related_question = "",
-      Related_value = ""
-    ) |> 
-    select(
-      any_of(meta_cols),
-      Question,
-      Old_value,
-      Related_question,
-      Related_value,
-      KEY,
-      Issue
-    ),
+  # Removed for CBE DC
+  # clean_data.tool6$data |>
+  #   filter(B3 >= 40) |>
+  #   mutate(
+  #     Issue = "The Household size is reported a bit large - please confirm the value!",
+  #     Question = "B3",
+  #     Old_value = B3,
+  #     Related_question = "",
+  #     Related_value = ""
+  #   ) |> 
+  #   select(
+  #     any_of(meta_cols),
+  #     Question,
+  #     Old_value,
+  #     Related_question,
+  #     Related_value,
+  #     KEY,
+  #     Issue
+  #   ),
   
   # Flagging if the HH members involved in income earning is reported more than HH members
   clean_data.tool6$data |>
@@ -5430,28 +5435,29 @@ lc_tool7 <- plyr::rbind.fill(
     ),
   
   # New for R4
-  clean_data.tool7$data %>%
-    filter(Sample_Type == "Public School") %>% 
-    left_join(
-      clean_data.tool1$data %>% select(EMIS_School_ID_CBE_KEY, J1.tool1 =  J1), by = "EMIS_School_ID_CBE_KEY"
-    ) %>% 
-    filter(C1 != J1.tool1) %>% 
-    mutate(
-      Issue = "The response to whether the school has an active shura or not is inconsistent across tool 7(C1) and tool 1(J1)",
-      Question = "C1",
-      Old_value = as.character(C1),
-      Related_question = "J1(Tool1)",
-      Related_value = J1.tool1
-    ) |> 
-    select(
-      any_of(meta_cols),
-      Question,
-      Old_value,
-      Related_question,
-      Related_value,
-      KEY,
-      Issue
-    ), 
+  # REmoved for CBE DC
+  # clean_data.tool7$data %>%
+  #   filter(Sample_Type == "Public School") %>% 
+  #   left_join(
+  #     clean_data.tool1$data %>% select(EMIS_School_ID_CBE_KEY, J1.tool1 =  J1), by = "EMIS_School_ID_CBE_KEY"
+  #   ) %>% 
+  #   filter(C1 != J1.tool1) %>% 
+  #   mutate(
+  #     Issue = "The response to whether the school has an active shura or not is inconsistent across tool 7(C1) and tool 1(J1)",
+  #     Question = "C1",
+  #     Old_value = as.character(C1),
+  #     Related_question = "J1(Tool1)",
+  #     Related_value = J1.tool1
+  #   ) |> 
+  #   select(
+  #     any_of(meta_cols),
+  #     Question,
+  #     Old_value,
+  #     Related_question,
+  #     Related_value,
+  #     KEY,
+  #     Issue
+  #   ), 
   
   clean_data.tool7$data %>%
     filter(Sample_Type == "CBE") %>% 
@@ -6722,7 +6728,7 @@ lc_tool9 <- plyr::rbind.fill(
   mutate(Old_value = as.character(Old_value))
 
 # Logic Check KDR ------------------------------------------------------------
-source("R/logical_checks_kdr.R")
+# source("R/logical_checks_kdr.R")
 
 # Combination of all tools logic checks --------------------------------------
 Logic_check_result <- plyr::rbind.fill(
@@ -6735,7 +6741,7 @@ Logic_check_result <- plyr::rbind.fill(
   lc_tool2,
   lc_tool3,
   lc_tool4,
-  lc_tool4.add_subj,
+  # lc_tool4.add_subj, # Removed for CBE DC
   lc_tool5,
   lc_tool6,
   lc_tool7,
@@ -6745,10 +6751,12 @@ Logic_check_result <- plyr::rbind.fill(
   lc_tool8.attendance_record,
   lc_tool8.headcount,
   lc_tool8.v_list_member,
-  lc_tool9,
-  Logic_check_result_kdr
+  lc_tool9
+  # Logic_check_result_kdr # Removed for CBE DC
 )
 
 rm(list = ls(pattern = "lc_tool.*"))
 
 source("R/data_entry_logic_checks.R")
+
+# rm(Logic_check_result_kdr)
