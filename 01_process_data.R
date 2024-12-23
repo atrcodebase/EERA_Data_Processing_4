@@ -18,9 +18,10 @@ Coalesce = function(var) ifelse(is.na(var), 0, var)
 
 # Declaring Global Variables ---------------------------------------------------
 data_collection_start_date_ps = as.Date("23.11.2024", format("%d.%m.%Y")) # Confirm with QAT
-data_collection_start_date_cbe = as.Date("23.11.2024", format("%d.%m.%Y")) # Confirm with QAT
+data_collection_start_date_cbe = as.Date("16.12.2024", format("%d.%m.%Y")) # Confirm with QAT
 # data_collection_end_date = as.Date("16.05.2024",  format("%d.%m.%Y"))
 qa_sheet_url_ps = "https://docs.google.com/spreadsheets/d/1H-LSP9goLg7tlLTOpzrIht_r87sr-b6GF2i2ObBoo2k/edit?gid=1005923888#gid=1005923888"
+qa_remarks_url = "https://docs.google.com/spreadsheets/d/1aCjwYFRctOIbgfCLrf2cFXXYmCd_JhSaGmajl5srcz8/edit?gid=1487655797#gid=1487655797"
 
 
 # Rename DFs and Tools ------------------------------------------------------
