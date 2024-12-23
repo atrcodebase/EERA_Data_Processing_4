@@ -1,6 +1,20 @@
 # Exporting unsterilized version of clean datasets -----------------------------
+# Removing redundant repeat sheet from KDR data ---------------------
+clean_data.tool1_kdr$School_Operationality <- NULL
+clean_data.tool1_kdr$Shifts_Detail <- NULL
+clean_data.tool1_kdr$Headmasters <- NULL
+
+clean_data.tool1_kdr_for_client_ulabeled$School_Operationality <- NULL
+clean_data.tool1_kdr_for_client_ulabeled$Shifts_Detail <- NULL
+clean_data.tool1_kdr_for_client_ulabeled$Headmasters <- NULL
+
+clean_data.tool1_kdr_for_client$School_Operationality <- NULL
+clean_data.tool1_kdr_for_client$Shifts_Detail <- NULL
+clean_data.tool1_kdr_for_client$Headmasters <- NULL
+
 # file.edit("./R/add_qa_status.R")
 write.xlsx(clean_data.tool0, paste0(output_data_path, "cleaned_dfs/unsterilized/Tool0_EERA_R4_Public_SchoolCBE_Data_Entry_Tool_", Sys.Date(),".xlsx"))
+
 write.xlsx(clean_data.tool1_kdr, paste0(output_data_path, "cleaned_dfs/unsterilized/Tool1_KDR_EERA_R4_PS_Headmaster_Interview_cleaned_", Sys.Date(),".xlsx"))
 write.xlsx(clean_data.tool1, paste0(output_data_path, "cleaned_dfs/unsterilized/Tool1_EERA_R4_PS_Headmaster_Interview_cleaned_", Sys.Date(),".xlsx"))
 write.xlsx(clean_data.tool2, paste0(output_data_path, "cleaned_dfs/unsterilized/Tool2_EERA_R4_PS_Light_Tool_", Sys.Date(),".xlsx"))
