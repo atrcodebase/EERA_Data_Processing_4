@@ -50,26 +50,26 @@ for(sheet in names(clean_data.tool5)[-1]){
 # Tool 6 - Parent
 clean_data.tool6$data <- clean_data.tool6$data %>% filter((KEY %in% c(approved_keys_ps) | KEY %in% c(approved_keys_cbe)) & !KEY %in% c(deleted_keys_ps,deleted_keys_cbe))
 for(sheet in names(clean_data.tool6)[-1]){
-  clean_data.tool6[[sheet]] <- clean_data.tool6[[sheet]] %>% filter(PARENT_KEY %in% clean_data.tool6$data$KEY & !KEY %in% deleted_keys_ps)
+  clean_data.tool6[[sheet]] <- clean_data.tool6[[sheet]] %>% filter(PARENT_KEY %in% clean_data.tool6$data$KEY & !KEY %in% c(deleted_keys_ps, deleted_keys_cbe))
 }
 
 # Tool 7 - SHURA
 clean_data.tool7$data <- clean_data.tool7$data %>% filter((KEY %in% c(approved_keys_ps) | KEY %in% c(approved_keys_cbe)) & !KEY %in% c(deleted_keys_ps,deleted_keys_cbe))
 for(sheet in names(clean_data.tool7)[-1]){
-  clean_data.tool7[[sheet]] <- clean_data.tool7[[sheet]] %>% filter(PARENT_KEY %in% clean_data.tool7$data$KEY & !KEY %in% deleted_keys_ps)
+  clean_data.tool7[[sheet]] <- clean_data.tool7[[sheet]] %>% filter(PARENT_KEY %in% clean_data.tool7$data$KEY & !KEY %in% c(deleted_keys_ps, deleted_keys_cbe))
 }
 
 
 # Tool 8 - Class
 clean_data.tool8$data <- clean_data.tool8$data %>% filter(KEY %in% c(approved_keys_cbe) & !KEY %in% deleted_keys_cbe)
 for(sheet in names(clean_data.tool8)[-1]){
-  clean_data.tool8[[sheet]] <- clean_data.tool8[[sheet]] %>% filter(PARENT_KEY %in% clean_data.tool8$data$KEY & !KEY %in% deleted_keys_ps)
+  clean_data.tool8[[sheet]] <- clean_data.tool8[[sheet]] %>% filter(PARENT_KEY %in% clean_data.tool8$data$KEY & !KEY %in% deleted_keys_cbe)
 }
 
 
 # Tool 9 - IP
 clean_data.tool9$data <- clean_data.tool9$data %>% filter(KEY %in% c(approved_keys_cbe) & !KEY %in% deleted_keys_cbe)
 for(sheet in names(clean_data.tool9)[-1]){
-  clean_data.tool9[[sheet]] <- clean_data.tool9[[sheet]] %>% filter(PARENT_KEY %in% clean_data.tool9$data$KEY & !KEY %in% deleted_keys_ps)
+  clean_data.tool9[[sheet]] <- clean_data.tool9[[sheet]] %>% filter(PARENT_KEY %in% clean_data.tool9$data$KEY & !KEY %in% deleted_keys_cbe)
 }
 
