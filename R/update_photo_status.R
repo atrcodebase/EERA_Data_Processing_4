@@ -118,8 +118,8 @@ photo_status_issues_cbe <- photo_status_cbe |>
       !Tool %in% form_names_cbe ~ "Wrong tool name, please provide the correct tool name.", # Not necessary
       Tool == "Parent Tool" & !Tab_Name %in% names(raw_data.tool6) ~ "Wrong Tab/Sheet name, please provide the correct Tab name",
       Tool == "Shura Tool" & !Tab_Name %in% names(raw_data.tool7) ~ "Wrong Tab/Sheet name, please provide the correct Tab name",
-      Tool == "Class Tool" & !Tab_Name %in% names(raw_data.tool8) ~ "Wrong Tab/Sheet name, please provide the correct Tab name",
-      Tool == "IP Tool" & !Tab_Name %in% names(raw_data.tool9) ~ "Wrong Tab/Sheet name, please provide the correct Tab name",
+      Tool == "Class Level" & !Tab_Name %in% names(raw_data.tool8) ~ "Wrong Tab/Sheet name, please provide the correct Tab name",
+      Tool == "IP Level" & !Tab_Name %in% names(raw_data.tool9) ~ "Wrong Tab/Sheet name, please provide the correct Tab name",
       duplicated(paste0(KEY_Unique, Question), fromLast = T) | duplicated(paste0(KEY_Unique, Question), fromLast = F) ~ "Duplicate log records, please solve the duplication.",
       TRUE ~ NA_character_
     ),
@@ -130,8 +130,8 @@ photo_status_issues_cbe <- photo_status_cbe |>
 # Log incorrect sheet name and UUIDs
 photo_status_issues_cbe <- photo_status_issues_cbe |> check_logs_for_df(df = raw_data.tool6, tool_name = "Parent Tool", deleted_keys = deleted_keys_cbe)
 photo_status_issues_cbe <- photo_status_issues_cbe |> check_logs_for_df(df = raw_data.tool7, tool_name = "Shura Tool", deleted_keys = deleted_keys_cbe)
-photo_status_issues_cbe <- photo_status_issues_cbe |> check_logs_for_df(df = raw_data.tool8, tool_name = "Class Tool", deleted_keys = deleted_keys_cbe)
-photo_status_issues_cbe <- photo_status_issues_cbe |> check_logs_for_df(df = raw_data.tool9, tool_name = "IP Tool", deleted_keys = deleted_keys_cbe)
+photo_status_issues_cbe <- photo_status_issues_cbe |> check_logs_for_df(df = raw_data.tool8, tool_name = "Class Level", deleted_keys = deleted_keys_cbe)
+photo_status_issues_cbe <- photo_status_issues_cbe |> check_logs_for_df(df = raw_data.tool9, tool_name = "IP Level", deleted_keys = deleted_keys_cbe)
 
 ## Correction Log ready to apply
 photo_status_ready_cbe <- photo_status_issues_cbe |>
@@ -302,7 +302,7 @@ if (any(photo_status_ready_ps$Tool == tool_name)) {
 }
 
 if (any(photo_status_ready_cbe$Tool == tool_name)) {
-  for(sheet in names(clean_data.tool6)){
+  for(sheet in names(raw_data.tool6)){
     clean_data.tool6[[sheet]] <- apply_log(data=clean_data.tool6[[sheet]], log = filter(photo_status_ready_cbe, Tool == tool_name & Tab_Name == sheet))
   }
 }
@@ -332,7 +332,7 @@ if (any(photo_status_ready_cbe$Tool == tool_name)) {
 }
 
 # Tool 8
-tool_name <- "Class Tool"
+tool_name <- "Class Level"
 if (any(photo_status_ready_cbe$Tool == tool_name)) {
   for(sheet in names(raw_data.tool8)){
     clean_data.tool8[[sheet]] <- clean_data.tool8[[sheet]] |>
@@ -350,7 +350,7 @@ if (any(photo_status_ready_cbe$Tool == tool_name)) {
 }
 
 # Tool 9
-tool_name <- "IP Tool"
+tool_name <- "IP Level"
 if (any(photo_status_ready_cbe$Tool == tool_name)) {
   for(sheet in names(raw_data.tool9)){
     clean_data.tool9[[sheet]] <- clean_data.tool9[[sheet]] |>
@@ -454,7 +454,7 @@ for(sheet in names(clean_data.tool8)){
   photo_status_log_discrep <- rbind(
     photo_status_log_discrep,
     compare_dt(clean_data.tool8[[sheet]], raw_data.tool8[[sheet]]) |>
-      mutate(tool="Class Tool", Tab_Name = sheet, KEY_join = paste0(KEY, question, old_value, tool, Tab_Name))
+      mutate(tool="Class Level", Tab_Name = sheet, KEY_join = paste0(KEY, question, old_value, tool, Tab_Name))
   )
 }
 
@@ -463,7 +463,7 @@ for(sheet in names(clean_data.tool9)){
   photo_status_log_discrep <- rbind(
     photo_status_log_discrep,
     compare_dt(clean_data.tool9[[sheet]], raw_data.tool9[[sheet]]) |>
-      mutate(tool="IP Tool", Tab_Name = sheet, KEY_join = paste0(KEY, question, old_value, tool, Tab_Name))
+      mutate(tool="IP Level", Tab_Name = sheet, KEY_join = paste0(KEY, question, old_value, tool, Tab_Name))
   )
 }
 
