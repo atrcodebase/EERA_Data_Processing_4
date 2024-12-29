@@ -608,7 +608,7 @@ repeat_sheet_issues <- rbind(
       supposed_count_df = select(clean_data.tool9$data, KEY, supposed_row_count = n_cbes),
       child_df = clean_data.tool9$Questions_Repeat,
       child_sheet_name =  "Questions_Repeat"
-    ) %>% mutate(Row_count_from_tab = "data", Row_count_column_name = "n_cbes")
+    ) %>% mutate(Row_count_from_tab = "data", Row_count_column_name = "n_cbes", tool = "Tool 9 - IP", Sample_Type = "CBE")
 )
 
 
