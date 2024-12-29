@@ -4530,7 +4530,7 @@ lc_tool6 <- plyr::rbind.fill(
     ),
   
   clean_data.tool6$data |>
-    filter(is.na(Visit_Type)) |>
+    filter(is.na(Visit_Type)  & Sample_Type == "Public School") |>
     mutate(
       Issue = "Blank value!",
       Question = "Visit_Type",
@@ -4588,29 +4588,29 @@ lc_tool6 <- plyr::rbind.fill(
       Issue
     ),
 
-  # Duplicated combination of Respondent Name and both Phone Numbers for a Site Visit ID
-  clean_data.tool6$data |>
-    mutate(
-      parent_id = paste(Sample_Type, Site_Visit_ID, Respondent_Name, Respondent1_Phone_Number, Respondent2_Phone_Number, sep = "-")
-    ) |>
-    filter(duplicated(parent_id, fromLast = T) | duplicated(parent_id, fromLast = F)) |>
-    mutate(
-      Issue = "The combination of Respondent Name and his/her phone numbers are duplicated for the Site Visit ID and sample type",
-      Question = "",
-      Old_value = "",
-      Related_question = "",
-      Related_value = ""
-    ) |> 
-    select(
-      any_of(meta_cols),
-      Question,
-      Old_value,
-      Related_question,
-      Related_value,
-      KEY,
-      Issue
-    ) |>
-    arrange(Old_value),
+  # Duplicated combination of Respondent Name and both Phone Numbers for a Site Visit ID - Removed by QA request
+  # clean_data.tool6$data |>
+  #   mutate(
+  #     parent_id = paste(Sample_Type, Site_Visit_ID, Respondent_Name, Respondent1_Phone_Number, Respondent2_Phone_Number, sep = "-")
+  #   ) |>
+  #   filter(duplicated(parent_id, fromLast = T) | duplicated(parent_id, fromLast = F)) |>
+  #   mutate(
+  #     Issue = "The combination of Respondent Name and his/her phone numbers are duplicated for the Site Visit ID and sample type",
+  #     Question = "",
+  #     Old_value = "",
+  #     Related_question = "",
+  #     Related_value = ""
+  #   ) |> 
+  #   select(
+  #     any_of(meta_cols),
+  #     Question,
+  #     Old_value,
+  #     Related_question,
+  #     Related_value,
+  #     KEY,
+  #     Issue
+  #   ) |>
+  #   arrange(Old_value),
   
   # Duplicated combination of Respondent Name and first Phone Number for a Site Visit ID
   clean_data.tool6$data |>
@@ -5209,7 +5209,7 @@ lc_tool7 <- plyr::rbind.fill(
     ),
   
   clean_data.tool7$data |>
-    filter(is.na(Visit_Type)) |>
+    filter(is.na(Visit_Type) & Sample_Type == "Public School") |>
     mutate(
       Issue = "Blank value!",
       Question = "Visit_Type",
@@ -5267,29 +5267,29 @@ lc_tool7 <- plyr::rbind.fill(
       Issue
     ),
   
-  # Duplicated combination of Respondent Name and both Phone Numbers for a Site Visit ID
-  clean_data.tool7$data |>
-    mutate(
-      shura_mem_id = paste(Sample_Type, Site_Visit_ID, B5, Respondent1_Phone_Number, Respondent2_Phone_Number, sep = "-")
-    ) |>
-    filter(duplicated(shura_mem_id, fromLast = T) | duplicated(shura_mem_id, fromLast = F)) |>
-    mutate(
-      Issue = "The combination of Respondent Name and his/her phone numbers are duplicated for the Site Visit ID and sample type",
-      Question = "",
-      Old_value = "",
-      Related_question = "",
-      Related_value = ""
-    ) |> 
-    select(
-      any_of(meta_cols),
-      Question,
-      Old_value,
-      Related_question,
-      Related_value,
-      KEY,
-      Issue
-    ) |>
-    arrange(Old_value),
+  # Duplicated combination of Respondent Name and both Phone Numbers for a Site Visit ID - Removed by QA request
+  # clean_data.tool7$data |>
+  #   mutate(
+  #     shura_mem_id = paste(Sample_Type, Site_Visit_ID, B5, Respondent1_Phone_Number, Respondent2_Phone_Number, sep = "-")
+  #   ) |>
+  #   filter(duplicated(shura_mem_id, fromLast = T) | duplicated(shura_mem_id, fromLast = F)) |>
+  #   mutate(
+  #     Issue = "The combination of Respondent Name and his/her phone numbers are duplicated for the Site Visit ID and sample type",
+  #     Question = "",
+  #     Old_value = "",
+  #     Related_question = "",
+  #     Related_value = ""
+  #   ) |> 
+  #   select(
+  #     any_of(meta_cols),
+  #     Question,
+  #     Old_value,
+  #     Related_question,
+  #     Related_value,
+  #     KEY,
+  #     Issue
+  #   ) |>
+  #   arrange(Old_value),
   
   # Duplicated combination of Respondent Name and first Phone Number for a Site Visit ID
   clean_data.tool7$data |>
